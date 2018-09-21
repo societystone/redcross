@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.app.dao.SysLogDAO">
+    <!-- 字段映射 -->
+    <resultMap id="BaseResultMap" type="SysLogEntity">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="username" property="username" jdbcType="VARCHAR"/>
+        <result column="operation" property="operation" jdbcType="VARCHAR"/>
+        <result column="method" property="method" jdbcType="VARCHAR"/>
+        <result column="params" property="params" jdbcType="VARCHAR"/>
+        <result column="time" property="time" jdbcType="BIGINT"/>
+        <result column="ip" property="ip" jdbcType="VARCHAR"/>
+        <!-- 返回时间戳对应mysql字段类型为datetime -->
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP"/>
+        <!-- <result column="create_date" property="createDate" jdbcType="DATE" /> -->
+    </resultMap>
+    <!-- 数据库列列表 -->
+    <sql id="Base_Column_List">
+		id, username, operation, method, params, time, ip, create_date
+	</sql>
+
+    <!-- 插入SysLog到数据库 -->
+    <insert id="insertSysLog" parameterType="SysLogEntity" keyProperty="id">
+		insert into sys_log(username, operation, method, params, time, ip, create_date)
+		values(#{username}, #{operation}, #{method}, #{params}, #{time}, #{ip}, now())
+	</insert>
+
+    <!-- 获得SysLog数据集合 -->
+    <!-- <select id="selectSysLog" parameterType="com.app.common.dto.SysLogDTO" resultType="com.app.entity.SysLogEntity"> -->
+    <select id="selectSysLog" parameterType="SysLogDTO" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_log
+        <where>
+            <if test="operation != null">operation like "%"#{operation}"%"</if>
+            <if test="username != null">and username like "%"#{username}"%"</if>
+        </where>
+    </select>
+
+</mapper>

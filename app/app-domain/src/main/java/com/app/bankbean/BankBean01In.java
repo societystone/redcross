@@ -29,6 +29,10 @@ public class BankBean01In {
 	@XmlElement(name="ReqReserved1")
 	private String reqReserved1;//请求包备用字段1
 	@XmlElement(name="ReqReserved2")
-	private String reqReserved2;//请求包备用字段2
+	private String reqReserved2;//请求包备用字段2      
+	@XmlElement(name="CurrType")       
+	private String currType;//币种 
+	@XmlElement(name="AcctSeq")   
+	private String acctSeq  ;//查询账号序号
 
 }

@@ -30,6 +30,8 @@ public class BankBean01Out {
 	private String repReserved1  ;//响应备用字段1
 	@XmlElement(name="RepReserved2")   
 	private String repReserved2  ;//响应备用字段2
+	@XmlElement(name="AcctSeq")   
+	private String acctSeq  ;//账号序号
 
 	@XmlElement(name="rd") 
 	private List<BankBean01OutRd> rds;

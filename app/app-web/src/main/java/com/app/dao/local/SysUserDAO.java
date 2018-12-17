@@ -1,5 +1,6 @@
-package com.app.dao;
+package com.app.dao.local;
 
+import com.app.dao.BaseDAO;
 import com.app.entity.SysUser;
 
 /**

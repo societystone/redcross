@@ -10,8 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.app.bean.PageResultBean;
 import com.app.common.Constants;
-import com.app.dao.SysRelationDAO;
-import com.app.dao.SysRoleDAO;
+import com.app.dao.local.SysRelationDAO;
+import com.app.dao.local.SysRoleDAO;
 import com.app.entity.SysRelation;
 import com.app.entity.SysRole;
 import com.app.service.SysRoleService;

@@ -20,6 +20,12 @@
 			<artifactId>app-common</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		
+		<!-- mysql数据库 -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+		</dependency>
 
 		<!-- web项目必要的依赖 -->
 		<dependency>
@@ -45,6 +51,12 @@
 			<artifactId>shiro-core</artifactId>
 			<version>1.4.0</version>
 		</dependency>
+
+		<dependency>
+			<groupId>org.apache.shiro</groupId>
+			<artifactId>shiro-spring</artifactId>
+			<version>1.4.0</version>
+		</dependency>
 		
 		<!--pagehelper自动依赖mybatis -->
 		<dependency>
@@ -57,11 +69,12 @@
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 		</dependency>
-
+			
+		<!-- alibaba druid -->
 		<dependency>
-			<groupId>org.apache.shiro</groupId>
-			<artifactId>shiro-spring</artifactId>
-			<version>1.4.0</version>
+			<groupId>com.alibaba</groupId>
+			<artifactId>druid-spring-boot-starter</artifactId>
+			<version>1.1.9</version>
 		</dependency>
 
 		<!-- 单元测试 -->

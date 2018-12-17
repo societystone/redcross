@@ -1,9 +1,10 @@
-package com.app.dao;
+package com.app.dao.local;
 
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.app.dao.BaseDAO;
 import com.app.entity.SysRefDef;
 
 /**

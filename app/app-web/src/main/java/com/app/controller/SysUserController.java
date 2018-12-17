@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.app.aspect.annotation.Log;
 import com.app.bean.PageResultBean;
 import com.app.bean.ResultBean;
 import com.app.dto.SysUserDTO;
@@ -47,6 +48,7 @@ public class SysUserController {
      * @param sysUser
      * @return
      */
+    @Log("登录系统")
     @PostMapping("/sys/login")
     public ResultBean<SysUser> login(@RequestBody SysUserDTO sysUser) {
     	String username = sysUser.getUsername();

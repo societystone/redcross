@@ -1,4 +1,4 @@
-package com.app.dao;
+package com.app.dao.local;
 
 import java.util.List;
 

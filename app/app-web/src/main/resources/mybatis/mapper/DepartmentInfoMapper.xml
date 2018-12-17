@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.app.dao.DepartmentInfoDAO">
+    <resultMap id="BaseResultMap" type="DepartmentInfo">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+		<result column="rank" property="rank" jdbcType="INTEGER"/>
+		<result column="remark" property="remark" jdbcType="VARCHAR"/>
+		<result column="status" property="status" jdbcType="VARCHAR"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP"/>
+        <result column="modify_date" property="modifyDate" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <!-- 数据库列列表 -->
+    <sql id="Base_Column_List">
+		id, name, rank, remark, status, create_date, modify_date
+	</sql>
+
+    <!-- 插入DepartmentInfo到数据库 -->
+    <insert id="insert" parameterType="DepartmentInfo" keyProperty="id">
+		insert 
+		into department_info(name, rank, remark, status, create_date)
+		values(#{name,jdbcType=VARCHAR}, #{rank,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP})
+	</insert>
+	
+    <!-- 通过DepartmentInfo的id更新DepartmentInfo中的数据 -->
+    <update id="update" parameterType="DepartmentInfo">
+        update department_info
+        <set>
+        	modify_date=#{modifyDate}
+            <if test="name != null and name != ''">,name=#{name}</if>
+            <if test="rank != null">,rank=#{rank}</if>
+            <if test="remark != null and remark != ''">,remark=#{remark}</if>
+            <if test="status != null and status != ''">,status=#{status}</if>
+        </set>
+        where id=#{id,jdbcType=BIGINT}
+    </update>
+
+    <!-- 通过DepartmentInfo的id获得DepartmentInfo对象 -->
+    <select id="selectByPrimaryKey" parameterType="long" resultType="DepartmentInfo">
+        select
+        <include refid="Base_Column_List"/>
+        from department_info 
+        where id=#{id,jdbcType=BIGINT}
+    </select>
+
+    <!-- 获得DepartmentInfo数据集合 -->
+    <select id="selectList" parameterType="DepartmentInfo" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from department_info
+        where 1=1
+       	<if test="name != null and name != ''">
+       		and name like concat('%', #{name},'%')
+       	</if>
+       	<if test="status != null and status != ''">
+       		and status = #{status}
+       	</if>
+    </select>
+</mapper>

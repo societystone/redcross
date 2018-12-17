@@ -1,0 +1,45 @@
+ 
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<title>登录页</title>
+
+<link rel="stylesheet" href="../src/layui/css/layui.css">
+  <link rel="stylesheet" href="../src/css/login.css">
+
+</head>
+<body>
+
+  <div class="layui-user-login layui-user-display-show" id="LAY-user-login" >
+
+    <div class="layui-user-login-main">
+      <div class="layui-user-login-box layui-user-login-header">
+        <h2>管理系统</h2>
+      </div>
+      <div class="layui-user-login-box layui-user-login-body layui-form">
+        <div class="layui-form-item">
+          <label class="layui-user-login-icon layui-icon layui-icon-username" for="LAY-user-login-username"></label>
+          <input type="text" name="username" lay-verify="required" placeholder="用户名" class="layui-input" value="admin">
+        </div>
+        <div class="layui-form-item">
+          <label class="layui-user-login-icon layui-icon layui-icon-password" for="LAY-user-login-password"></label>
+          <input type="password" name="password" lay-verify="required" placeholder="密码" class="layui-input" value="admin">
+        </div>
+        <div class="layui-form-item">
+          <button class="layui-btn layui-btn-fluid" lay-submit lay-filter="LAY-user-login-submit">登 入</button>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+<script src="../src/layui/layui.js" charset="utf-8"></script>
+<script>
+layui.config({
+    base: '../src/js/'
+  }).use('login');
+</script>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.app.dao.SysRoleDAO">
+    <resultMap id="BaseResultMap" type="SysRole">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+		<result column="rank" property="rank" jdbcType="INTEGER"/>
+		<result column="remark" property="remark" jdbcType="VARCHAR"/>
+		<result column="status" property="status" jdbcType="VARCHAR"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP"/>
+        <result column="modify_date" property="modifyDate" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <!-- 数据库列列表 -->
+    <sql id="Base_Column_List">
+		id, name, rank, remark, status, create_date, modify_date
+	</sql>
+
+    <!-- 插入SysRole到数据库 -->
+    <insert id="insert" parameterType="SysRole" keyProperty="id">
+		insert 
+		into sys_role(name, rank, remark, status, create_date)
+		values(#{name,jdbcType=VARCHAR}, #{rank,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP})
+	</insert>
+	
+    <!-- 通过SysRole的id更新SysRole中的数据 -->
+    <update id="update" parameterType="SysRole">
+        update sys_role
+        <set>
+        	modify_date=#{modifyDate}
+            <if test="name != null and name != ''">,name=#{name}</if>
+            <if test="rank != null">,rank=#{rank}</if>
+            <if test="remark != null and remark != ''">,remark=#{remark}</if>
+            <if test="status != null and status != ''">,status=#{status}</if>
+        </set>
+        where id=#{id,jdbcType=BIGINT}
+    </update>
+
+    <!-- 通过SysRole的id获得SysRole对象 -->
+    <select id="selectByPrimaryKey" parameterType="long" resultType="SysRole">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_role 
+        where id=#{id,jdbcType=BIGINT}
+    </select>
+
+    <!-- 获得SysRole数据集合 -->
+    <select id="selectList" parameterType="SysRole" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_role
+        where 1=1
+       	<if test="name != null and name != ''">
+       		and name like concat('%', #{name},'%')
+       	</if>
+       	<if test="status != null and status != ''">
+       		and status = #{status}
+       	</if>
+    </select>
+</mapper>

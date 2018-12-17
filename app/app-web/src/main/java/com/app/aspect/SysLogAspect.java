@@ -2,6 +2,8 @@ package com.app.aspect;
 
 import java.lang.reflect.Method;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.shiro.SecurityUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
@@ -10,6 +12,9 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.alibaba.fastjson.JSON;
 import com.app.aspect.annotation.Log;
@@ -70,8 +75,10 @@ public class SysLogAspect {
 		SysUser sysUser = (SysUser) SecurityUtils.getSubject().getPrincipal();
 		sysLog.setUsername(sysUser.getUsername());
 		// 获取用户ip地址
-//        HttpServletRequest request = HttpContextUtils.getHttpServletRequest();
-//        sysLog.setIp(IPUtils.getIpAddr(request));
+		RequestAttributes ra = RequestContextHolder.getRequestAttributes();
+		ServletRequestAttributes sra = (ServletRequestAttributes) ra;
+		HttpServletRequest request = sra.getRequest();
+		sysLog.setIp(request.getRemoteHost());
 
 		// 调用service保存SysLog实体类到数据库
 		sysLogService.insertSysLog(sysLog);

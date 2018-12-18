@@ -3,12 +3,14 @@
  * @param exports
  * @returns
  */
-layui.define(['common'], function(exports){
+layui.define(['common','laydate'], function(exports){
   var $ = layui.jquery;
   var config = layui.config;
   var table = layui.table;
   var form = layui.form;
   var common = layui.common;
+  var laydate = layui.laydate;
+  
   ////////////start
   //计算表格高度
   var bodyHeight = $(document).height();
@@ -20,14 +22,24 @@ layui.define(['common'], function(exports){
   ////////////end
 
   var searchFormObj = $(".layui-form");
+  //执行一个laydate实例
+  laydate.render({
+	  elem: '#beginDate', //指定元素
+	  format: 'yyyy-MM-dd'
+  });
+  laydate.render({
+	  elem: '#endDate', //指定元素
+	  format: 'yyyy-MM-dd'
+  });
 //  common.initSelect(searchFormObj.find("select[name='departmentId']"),common.getSysRefDef(common.Constants.Department,'1'));
 //  common.initSelect(searchFormObj.find("select[name='status']"),common.getSysRefDef(common.Constants.Status,'1'));
 //  form.render("select"); //更新
 //  form.val("layui-form-search",{status:"1"});
 
   var searchData = {
-//		  "realName":searchFormObj.find("input[name='realName']").val(),
-//		  "status":searchFormObj.find("select[name='status']").val()
+		  "username":searchFormObj.find("input[name='username']").val(),
+		  "beginDate":searchFormObj.find("select[name='beginDate']").val(),
+		  "endDate":searchFormObj.find("select[name='endDate']").val()
   };
   //监听搜索
   form.on('submit(LAY-btn-search)', function(data){

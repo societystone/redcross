@@ -17,25 +17,21 @@ body{padding: 10px; /*overflow-y: scroll;*/}
       <div class="layui-form layui-card-header" style="padding:0px;" lay-filter="layui-form-search">
         <div class="layui-form-item">
           <div class="layui-inline">
-            <label class="layui-form-label">姓名</label>
+            <label class="layui-form-label">用户名</label>
             <div class="layui-input-block">
-              <input type="text" name="realName" placeholder="请输入姓名" autocomplete="off" class="layui-input">
+              <input type="text" name="username" placeholder="请输入用户名" autocomplete="off" class="layui-input">
             </div>
           </div>
           <div class="layui-inline">
-            <label class="layui-form-label">部门</label>
+            <label class="layui-form-label">开始时间</label>
             <div class="layui-input-block">
-              <select name="departmentId">
-                <option value="">不限</option>
-              </select>
+            	<input name="beginDate" type="text" class="layui-input" id="beginDate" placeholder="请输入开始时间" >
             </div>
           </div>
           <div class="layui-inline">
-            <label class="layui-form-label">状态</label>
+            <label class="layui-form-label">结束时间</label>
             <div class="layui-input-block">
-              <select name="status">
-                <option value="">不限</option>
-              </select>
+            	<input name="endDate" type="text" class="layui-input" id="endDate" placeholder="请输入结束时间" >
             </div>
           </div>
           <div class="layui-inline">

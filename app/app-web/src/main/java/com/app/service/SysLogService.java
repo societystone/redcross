@@ -1,6 +1,7 @@
 package com.app.service;
 
 import com.app.bean.PageResultBean;
+import com.app.dto.SysLogDTO;
 import com.app.entity.SysLog;
 
 /**
@@ -29,8 +30,8 @@ public interface SysLogService {
 	/**
 	 * 分页查询日志
 	 * 
-	 * @param sysLog
+	 * @param sysLogDTO
 	 * @return
 	 */
-	PageResultBean<SysLog> selectSysLogByPage(SysLog sysLog);
+	PageResultBean<SysLog> selectSysLogByPage(SysLogDTO sysLogDTO);
 }

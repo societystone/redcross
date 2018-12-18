@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.app.bean.PageResultBean;
 import com.app.dao.local.SysLogDAO;
+import com.app.dto.SysLogDTO;
 import com.app.entity.SysLog;
 import com.app.service.SysLogService;
 import com.app.util.PageUtils;
@@ -42,10 +43,10 @@ public class SysLogServiceImpl implements SysLogService {
 	}
 
 	@Override
-	public PageResultBean<SysLog> selectSysLogByPage(SysLog sysLog) {
+	public PageResultBean<SysLog> selectSysLogByPage(SysLogDTO sysLogDTO) {
 		// TODO Auto-generated method stub
 		PageHelper.startPage(PageUtils.getPageNum(), PageUtils.getPageSize());
-		return new PageResultBean<SysLog>(sysLogDAO.selectList(sysLog));
+		return new PageResultBean<SysLog>(sysLogDAO.selectAll(sysLogDTO));
 	}
 
 }

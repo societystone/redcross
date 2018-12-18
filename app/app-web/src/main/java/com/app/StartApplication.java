@@ -1,6 +1,5 @@
 package com.app;
 
-import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -23,21 +22,21 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 @SpringBootApplication
 @ServletComponentScan
-@EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class})
+@EnableAutoConfiguration(exclude = { DataSourceAutoConfiguration.class })
 public class StartApplication extends SpringBootServletInitializer {
 
-    @Override
-    protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
-        return builder.sources(StartApplication.class);
-    }
+	@Override
+	protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
+		return builder.sources(StartApplication.class);
+	}
 
-    /**
-     * 启动入口
-     * 
-     * @param args
-     */
-    public static void main(String[] args) {
-        SpringApplication.run(StartApplication.class, args);
-    }
+	/**
+	 * 启动入口
+	 * 
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		SpringApplication.run(StartApplication.class, args);
+	}
 
 }

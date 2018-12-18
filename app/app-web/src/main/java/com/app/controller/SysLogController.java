@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.app.bean.PageResultBean;
 import com.app.bean.ResultBean;
+import com.app.dto.SysLogDTO;
 import com.app.entity.SysLog;
 import com.app.service.SysLogService;
 
@@ -44,8 +45,8 @@ public class SysLogController {
 	 * @return
 	 */
 	@PostMapping("/sys/log/list")
-	public ResultBean<PageResultBean<SysLog>> selectSysLogByPage(@RequestBody SysLog sysLog) {
-		return new ResultBean<PageResultBean<SysLog>>(sysLogService.selectSysLogByPage(sysLog));
+	public ResultBean<PageResultBean<SysLog>> selectSysLogByPage(@RequestBody SysLogDTO sysLogDTO) {
+		return new ResultBean<PageResultBean<SysLog>>(sysLogService.selectSysLogByPage(sysLogDTO));
 	}
 
 }

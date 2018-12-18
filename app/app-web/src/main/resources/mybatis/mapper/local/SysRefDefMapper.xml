@@ -16,7 +16,7 @@
 	</sql>
 
     <!-- 获得数据集合 -->
-    <select id="selectList" parameterType="SysRefDef" resultMap="BaseResultMap">
+    <select id="selectList" parameterType="java.util.HashMap" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from sys_ref_def

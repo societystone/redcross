@@ -2,6 +2,7 @@ package com.app.service.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -103,16 +104,18 @@ public class SysUserServiceImpl implements SysUserService {
 	public SysUser selectUsername(SysUser sysUser) {
 		String username = sysUser.getUsername();
 		ExceptionUtil.throwEmptyCheckException(username, "用户名不能为空");
-		return sysUserDAO.selectUsername(sysUser);
+		HashMap<String, Object> queryMap = new HashMap<String, Object>();
+		queryMap.put("username", username);
+		return sysUserDAO.selectUsername(queryMap);
 	}
 
 	@Override
 	public SysUser selectSysUserById(Long id) {
 		SysUser su = sysUserDAO.selectByPrimaryKey(id);
-		SysRelation sysRelation = new SysRelation();
-		sysRelation.setRelationType(Constants.SYS_RELATION_TYPE.A.toString());
-		sysRelation.setMainPrimaryId(id);
-		List<SysRelation> srs = sysRelationDAO.selectList(sysRelation);
+		HashMap<String, Object> queryMap = new HashMap<String, Object>();
+		queryMap.put("relationType", Constants.SYS_RELATION_TYPE.A.toString());
+		queryMap.put("mainPrimaryId", id);
+		List<SysRelation> srs = sysRelationDAO.selectList(queryMap);
 		if (Emptys.isNotEmpty(srs)) {
 			List<Long> roles = new ArrayList<Long>();
 			for (SysRelation sr : srs) {
@@ -127,15 +130,15 @@ public class SysUserServiceImpl implements SysUserService {
 	public PageResultBean<SysUser> selectSysUserByPage(SysUser sysUser) {
 		// TODO Auto-generated method stub
 		PageHelper.startPage(PageUtils.getPageNum(), PageUtils.getPageSize());
-		PageResultBean<SysUser> pages = new PageResultBean<SysUser>(sysUserDAO.selectList(sysUser));
+		PageResultBean<SysUser> pages = new PageResultBean<SysUser>(selectSysUserList(sysUser));
 		List<SysUser> sysUsers = pages.getRows();
 		if (Emptys.isNotEmpty(sysUsers)) {
 			List<SysUser> sus = new ArrayList<SysUser>();
 			for (SysUser su : sysUsers) {
-				SysRelation sysRelation = new SysRelation();
-				sysRelation.setRelationType(Constants.SYS_RELATION_TYPE.A.toString());
-				sysRelation.setMainPrimaryId(su.getId());
-				List<SysRelation> srs = sysRelationDAO.selectList(sysRelation);
+				HashMap<String, Object> queryMap = new HashMap<String, Object>();
+				queryMap.put("relationType", Constants.SYS_RELATION_TYPE.A.toString());
+				queryMap.put("mainPrimaryId", su.getId());
+				List<SysRelation> srs = sysRelationDAO.selectList(queryMap);
 				if (Emptys.isNotEmpty(srs)) {
 					List<Long> roles = new ArrayList<Long>();
 					for (SysRelation sr : srs) {
@@ -153,7 +156,14 @@ public class SysUserServiceImpl implements SysUserService {
 	@Override
 	public List<SysUser> selectSysUserList(SysUser sysUser) {
 		// TODO Auto-generated method stub
-		return sysUserDAO.selectList(sysUser);
+		HashMap<String, Object> queryMap = new HashMap<String, Object>();
+		queryMap.put("username", sysUser.getUsername());
+		queryMap.put("realName", sysUser.getRealName());
+		queryMap.put("sex", sysUser.getSex());
+		queryMap.put("phone", sysUser.getPhone());
+		queryMap.put("departmentId", sysUser.getDepartmentId());
+		queryMap.put("status", sysUser.getStatus());
+		return sysUserDAO.selectList(queryMap);
 	}
 
 	@Override

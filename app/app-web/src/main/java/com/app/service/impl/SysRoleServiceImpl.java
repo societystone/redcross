@@ -2,6 +2,7 @@ package com.app.service.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,12 +72,15 @@ public class SysRoleServiceImpl implements SysRoleService {
 	@Override
 	public PageResultBean<SysRole> selectSysRoleByPage(SysRole sysRole) {
 		PageHelper.startPage(PageUtils.getPageNum(), PageUtils.getPageSize());
-		return new PageResultBean<SysRole>(sysRoleDAO.selectList(sysRole));
+		return new PageResultBean<SysRole>(selectSysRoleList(sysRole));
 	}
 
 	@Override
 	public List<SysRole> selectSysRoleList(SysRole sysRole) {
-		return sysRoleDAO.selectList(sysRole);
+		HashMap<String, Object> queryMap = new HashMap<String, Object>();
+		queryMap.put("name", sysRole.getName());
+		queryMap.put("status", sysRole.getStatus());
+		return sysRoleDAO.selectList(queryMap);
 	}
 
 	@Override
@@ -86,7 +90,10 @@ public class SysRoleServiceImpl implements SysRoleService {
 		SysRelation sysRelation = new SysRelation();
 		sysRelation.setRelationType(Constants.SYS_RELATION_TYPE.B.toString());
 		sysRelation.setMainPrimaryId(roleId);
-		List<SysRelation> sysRelations = sysRelationDAO.selectList(sysRelation);
+		HashMap<String, Object> queryMap = new HashMap<String, Object>();
+		queryMap.put("relationType", Constants.SYS_RELATION_TYPE.B.toString());
+		queryMap.put("mainPrimaryId", roleId);
+		List<SysRelation> sysRelations = sysRelationDAO.selectList(queryMap);
 		if (Emptys.isNotEmpty(sysRelations)) {
 			menuIds = new ArrayList<Long>();
 			for (SysRelation sr : sysRelations) {

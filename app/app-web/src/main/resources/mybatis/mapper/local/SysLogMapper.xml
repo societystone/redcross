@@ -37,7 +37,7 @@
 	</select>
 
 	<!-- 获得SysLog数据集合 -->
-	<select id="selectList" parameterType="SysLog"
+	<select id="selectList" parameterType="java.util.HashMap"
 		resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List" />
@@ -50,7 +50,7 @@
 	</select>
 
 	<!-- 获得SysLog数据集合 -->
-	<select id="selectAll" parameterType="SysLogDTO"
+	<select id="selectAll" parameterType="java.util.HashMap"
 		resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List" />

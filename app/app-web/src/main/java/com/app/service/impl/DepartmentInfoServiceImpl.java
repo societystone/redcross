@@ -2,6 +2,7 @@ package com.app.service.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -90,10 +91,10 @@ public class DepartmentInfoServiceImpl implements DepartmentInfoService {
 	public DepartmentInfo selectDepartmentInfoById(Long id) {
 		// TODO Auto-generated method stub
 		DepartmentInfo departmentInfo = departmentInfoDAO.selectByPrimaryKey(id);
-		SysRelation sysRelation = new SysRelation();
-		sysRelation.setRelationType(Constants.SYS_RELATION_TYPE.C.toString());
-		sysRelation.setMainPrimaryId(id);
-		List<SysRelation> srs = sysRelationDAO.selectList(sysRelation);
+		HashMap<String, Object> queryMap = new HashMap<String, Object>();
+		queryMap.put("relationType", Constants.SYS_RELATION_TYPE.C.toString());
+		queryMap.put("mainPrimaryId", id);
+		List<SysRelation> srs = sysRelationDAO.selectList(queryMap);
 		if (Emptys.isNotEmpty(srs)) {
 			List<Long> roles = new ArrayList<Long>();
 			for (SysRelation sr : srs) {
@@ -108,15 +109,15 @@ public class DepartmentInfoServiceImpl implements DepartmentInfoService {
 	public PageResultBean<DepartmentInfo> selectDepartmentInfoByPage(DepartmentInfo departmentInfo) {
 		PageHelper.startPage(PageUtils.getPageNum(), PageUtils.getPageSize());
 		PageResultBean<DepartmentInfo> pages = new PageResultBean<DepartmentInfo>(
-				departmentInfoDAO.selectList(departmentInfo));
+				selectDepartmentInfoList(departmentInfo));
 		List<DepartmentInfo> departmentInfos = pages.getRows();
 		if (Emptys.isNotEmpty(departmentInfos)) {
 			List<DepartmentInfo> departments = new ArrayList<DepartmentInfo>();
 			for (DepartmentInfo department : departmentInfos) {
-				SysRelation sysRelation = new SysRelation();
-				sysRelation.setRelationType(Constants.SYS_RELATION_TYPE.C.toString());
-				sysRelation.setMainPrimaryId(department.getId());
-				List<SysRelation> srs = sysRelationDAO.selectList(sysRelation);
+				HashMap<String, Object> queryMap = new HashMap<String, Object>();
+				queryMap.put("relationType", Constants.SYS_RELATION_TYPE.C.toString());
+				queryMap.put("mainPrimaryId", department.getId());
+				List<SysRelation> srs = sysRelationDAO.selectList(queryMap);
 				if (Emptys.isNotEmpty(srs)) {
 					List<Long> roles = new ArrayList<Long>();
 					for (SysRelation sr : srs) {
@@ -134,7 +135,10 @@ public class DepartmentInfoServiceImpl implements DepartmentInfoService {
 	@Override
 	public List<DepartmentInfo> selectDepartmentInfoList(DepartmentInfo departmentInfo) {
 		// TODO Auto-generated method stub
-		return departmentInfoDAO.selectList(departmentInfo);
+		HashMap<String, Object> queryMap = new HashMap<String, Object>();
+		queryMap.put("name", departmentInfo.getName());
+		queryMap.put("status", departmentInfo.getStatus());
+		return departmentInfoDAO.selectList(queryMap);
 	}
 
 }

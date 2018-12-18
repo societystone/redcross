@@ -1,6 +1,7 @@
 package com.app.service.impl;
 
 import java.util.Date;
+import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -46,7 +47,11 @@ public class SysLogServiceImpl implements SysLogService {
 	public PageResultBean<SysLog> selectSysLogByPage(SysLogDTO sysLogDTO) {
 		// TODO Auto-generated method stub
 		PageHelper.startPage(PageUtils.getPageNum(), PageUtils.getPageSize());
-		return new PageResultBean<SysLog>(sysLogDAO.selectAll(sysLogDTO));
+		HashMap<String, Object> queryMap = new HashMap<String, Object>();
+		queryMap.put("username", sysLogDTO.getUsername());
+		queryMap.put("beginDate", sysLogDTO.getBeginDate());
+		queryMap.put("endDate", sysLogDTO.getEndDate());
+		return new PageResultBean<SysLog>(sysLogDAO.selectAll(queryMap));
 	}
 
 }

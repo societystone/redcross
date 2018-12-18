@@ -43,7 +43,7 @@
     </update>
 
     <!-- 通过username和id查询用户名是否存在 -->
-    <select id="selectUsername" parameterType="SysUser" resultType="SysUser">
+    <select id="selectUsername" parameterType="java.util.HashMap" resultType="SysUser">
         select 
         <include refid="Base_Column_List"/>
         from sys_user
@@ -62,7 +62,7 @@
     </select>
 
     <!-- 获得SysUser数据集合 -->
-    <select id="selectList" parameterType="SysUserDTO" resultMap="BaseResultMap">
+    <select id="selectList" parameterType="java.util.HashMap" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from sys_user

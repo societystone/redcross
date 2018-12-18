@@ -1,9 +1,9 @@
 package com.app.dao.local;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.app.dao.BaseDAO;
-import com.app.dto.SysLogDTO;
 import com.app.entity.SysLog;
 
 /**
@@ -16,8 +16,8 @@ public interface SysLogDAO extends BaseDAO<SysLog, Long> {
 	/**
 	 * 查询数据集合
 	 * 
-	 * @param sysLogDTO
+	 * @param map
 	 * @return
 	 */
-	List<SysLog> selectAll(SysLogDTO sysLogDTO);
+	List<SysLog> selectAll(HashMap<String, Object> map);
 }

@@ -44,7 +44,7 @@
     </select>
 
     <!-- 获得DepartmentInfo数据集合 -->
-    <select id="selectList" parameterType="DepartmentInfo" resultMap="BaseResultMap">
+    <select id="selectList" parameterType="java.util.HashMap" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from department_info

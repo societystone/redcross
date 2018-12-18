@@ -15,7 +15,7 @@ import com.app.dao.local.SysRoleDAO;
 import com.app.entity.SysRelation;
 import com.app.entity.SysRole;
 import com.app.service.SysRoleService;
-import com.app.util.CollectionUtils;
+import com.app.util.Emptys;
 import com.app.util.PageUtils;
 import com.github.pagehelper.PageHelper;
 
@@ -27,15 +27,14 @@ import com.github.pagehelper.PageHelper;
 @Service
 public class SysRoleServiceImpl implements SysRoleService {
 
-    /**
-     * 注入角色dao
-     */
-    @Autowired
-    private SysRoleDAO sysRoleDAO;
-    
+	/**
+	 * 注入角色dao
+	 */
+	@Autowired
+	private SysRoleDAO sysRoleDAO;
 
-    @Autowired
-    private SysRelationDAO sysRelationDAO;
+	@Autowired
+	private SysRelationDAO sysRelationDAO;
 
 	@Override
 	public Long insertSysRole(SysRole sysRole) {
@@ -60,7 +59,7 @@ public class SysRoleServiceImpl implements SysRoleService {
 		sysRole.setStatus(Constants.DISABLE_VALUE);
 		sysRole.setModifyDate(new Date());
 		long result = sysRoleDAO.update(sysRole);
-        return result > 0 ? true : false;
+		return result > 0 ? true : false;
 	}
 
 	@Override
@@ -72,12 +71,12 @@ public class SysRoleServiceImpl implements SysRoleService {
 	@Override
 	public PageResultBean<SysRole> selectSysRoleByPage(SysRole sysRole) {
 		PageHelper.startPage(PageUtils.getPageNum(), PageUtils.getPageSize());
-        return new PageResultBean<SysRole>(sysRoleDAO.selectList(sysRole));
+		return new PageResultBean<SysRole>(sysRoleDAO.selectList(sysRole));
 	}
 
 	@Override
 	public List<SysRole> selectSysRoleList(SysRole sysRole) {
-        return sysRoleDAO.selectList(sysRole);
+		return sysRoleDAO.selectList(sysRole);
 	}
 
 	@Override
@@ -88,16 +87,16 @@ public class SysRoleServiceImpl implements SysRoleService {
 		sysRelation.setRelationType(Constants.SYS_RELATION_TYPE.B.toString());
 		sysRelation.setMainPrimaryId(roleId);
 		List<SysRelation> sysRelations = sysRelationDAO.selectList(sysRelation);
-		if(CollectionUtils.isNotEmpty(sysRelations)) {
+		if (Emptys.isNotEmpty(sysRelations)) {
 			menuIds = new ArrayList<Long>();
-			for(SysRelation sr : sysRelations) {
+			for (SysRelation sr : sysRelations) {
 				menuIds.add(sr.getRelPrimaryId());
 			}
 		}
 		return menuIds;
 	}
 
-    @Transactional(rollbackFor = Exception.class)
+	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public Long updateMenuIdByRoleId(Long roleId, List<Long> menuIds) {
 		// TODO Auto-generated method stub
@@ -105,13 +104,11 @@ public class SysRoleServiceImpl implements SysRoleService {
 		sysRelation.setRelationType(Constants.SYS_RELATION_TYPE.B.toString());
 		sysRelation.setMainPrimaryId(roleId);
 		sysRelationDAO.delete(sysRelation);
-		for(Long menuId : menuIds) {
+		for (Long menuId : menuIds) {
 			sysRelation.setRelPrimaryId(menuId);
 			sysRelationDAO.insert(sysRelation);
 		}
 		return Long.valueOf(1);
 	}
-
-    
 
 }

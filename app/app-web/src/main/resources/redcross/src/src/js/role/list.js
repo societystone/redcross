@@ -99,7 +99,7 @@ layui.define(['common'], function(exports){
 		            iframeWindow.layui.form.on('submit('+ submitID +')', function(data){
 		            	common.disabledButton(submit,true);
 		              var field = data.field; //获取提交的字段
-		              $.post({
+		              $.ajax({
 		              	  type: "POST",
 		              	  contentType: 'application/json',
 		              	  url: config.appBase+'/sys/role', 

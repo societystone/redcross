@@ -117,7 +117,7 @@ layui.define(['common'], function(exports){
 		            	  }
 		              }
 		              field["roles"] = roleIdArr;
-		              $.post({
+		              $.ajax({
 		              	  type: "POST",
 		              	  contentType: 'application/json',
 		              	  url: config.appBase+'/sys/department', //实际使用请改成服务端真实接口

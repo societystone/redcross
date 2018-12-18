@@ -16,7 +16,7 @@ import com.app.dto.SysUserDTO;
 import com.app.entity.SysRelation;
 import com.app.entity.SysUser;
 import com.app.service.SysUserService;
-import com.app.util.CollectionUtils;
+import com.app.util.Emptys;
 import com.app.util.ExceptionUtil;
 import com.app.util.MD5Utils;
 import com.app.util.PageUtils;
@@ -30,98 +30,98 @@ import com.github.pagehelper.PageHelper;
 @Service
 public class SysUserServiceImpl implements SysUserService {
 
-    /**
-     * 注入系统用户dao
-     */
-    @Autowired
-    private SysUserDAO sysUserDAO;
-    
-    /**
-     * 注入系统关联dao
-     */
-    @Autowired
-    private SysRelationDAO sysRelationDAO;
+	/**
+	 * 注入系统用户dao
+	 */
+	@Autowired
+	private SysUserDAO sysUserDAO;
 
-    @Transactional(rollbackFor = Exception.class)
-    @Override
-    public Long insertSysUser(SysUser sysUser) {
-    	SysUser sue = selectUsername(sysUser);
-        if (sue != null) {
-            ExceptionUtil.throwCheckException("用户名已存在");
-        }
-        //默认密码和用户名一样
-        sysUser.setPassword(MD5Utils.MD5(sysUser.getUsername()));
-        sysUser.setCreateDate(new Date());
-        sysUser.setStatus(Constants.ENABLE_VALUE);//启用
-        sysUserDAO.insert(sysUser);
-        Long userId = sysUser.getId();
-    	SysRelation sysRelation = new SysRelation();
-    	sysRelation.setRelationType(Constants.SYS_RELATION_TYPE.A.toString());
-    	sysRelation.setMainPrimaryId(userId);
-        for(Long roleId : sysUser.getRoles()) {
-        	sysRelation.setRelPrimaryId(roleId);
-        	sysRelationDAO.insert(sysRelation);
-        }
-        return userId;
-    }
+	/**
+	 * 注入系统关联dao
+	 */
+	@Autowired
+	private SysRelationDAO sysRelationDAO;
 
-    @Transactional(rollbackFor = Exception.class)
-    @Override
-    public Long updateSysUserById(SysUser sysUser) {
-        ExceptionUtil.throwEmptyCheckException(sysUser.getId(), "id不能为空");
-        // 数据库是否已有这个用户名
-        SysUser sue = selectUsername(sysUser);
-        if (sue != null) {
-            ExceptionUtil.throwCheckException("用户名已存在");
-        }
-        sysUser.setModifyDate(new Date());
-        sysUserDAO.update(sysUser);
-        Long userId = sysUser.getId();
-    	SysRelation sysRelation = new SysRelation();
-    	sysRelation.setRelationType(Constants.SYS_RELATION_TYPE.A.toString());
-    	sysRelation.setMainPrimaryId(userId);
-    	sysRelationDAO.delete(sysRelation);
-        for(Long roleId : sysUser.getRoles()) {
-        	sysRelation.setRelPrimaryId(roleId);
-        	sysRelationDAO.insert(sysRelation);
-        }
-        return userId;
-    }
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public Long insertSysUser(SysUser sysUser) {
+		SysUser sue = selectUsername(sysUser);
+		if (sue != null) {
+			ExceptionUtil.throwCheckException("用户名已存在");
+		}
+		// 默认密码和用户名一样
+		sysUser.setPassword(MD5Utils.MD5(sysUser.getUsername()));
+		sysUser.setCreateDate(new Date());
+		sysUser.setStatus(Constants.ENABLE_VALUE);// 启用
+		sysUserDAO.insert(sysUser);
+		Long userId = sysUser.getId();
+		SysRelation sysRelation = new SysRelation();
+		sysRelation.setRelationType(Constants.SYS_RELATION_TYPE.A.toString());
+		sysRelation.setMainPrimaryId(userId);
+		for (Long roleId : sysUser.getRoles()) {
+			sysRelation.setRelPrimaryId(roleId);
+			sysRelationDAO.insert(sysRelation);
+		}
+		return userId;
+	}
 
-    @Transactional(rollbackFor = Exception.class)
-    @Override
-    public Boolean deleteSysUserById(Long id) {
-        SysUser sysUser = new SysUser();
-        sysUser.setId(id);
-        sysUser.setStatus(Constants.DISABLE_VALUE);//禁用
-        sysUser.setModifyDate(new Date());
-        long result = sysUserDAO.update(sysUser);
-        return result > 0 ? true : false;
-    }
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public Long updateSysUserById(SysUser sysUser) {
+		ExceptionUtil.throwEmptyCheckException(sysUser.getId(), "id不能为空");
+		// 数据库是否已有这个用户名
+		SysUser sue = selectUsername(sysUser);
+		if (sue != null) {
+			ExceptionUtil.throwCheckException("用户名已存在");
+		}
+		sysUser.setModifyDate(new Date());
+		sysUserDAO.update(sysUser);
+		Long userId = sysUser.getId();
+		SysRelation sysRelation = new SysRelation();
+		sysRelation.setRelationType(Constants.SYS_RELATION_TYPE.A.toString());
+		sysRelation.setMainPrimaryId(userId);
+		sysRelationDAO.delete(sysRelation);
+		for (Long roleId : sysUser.getRoles()) {
+			sysRelation.setRelPrimaryId(roleId);
+			sysRelationDAO.insert(sysRelation);
+		}
+		return userId;
+	}
 
-    @Override
-    public SysUser selectUsername(SysUser sysUser) {
-        String username = sysUser.getUsername();
-        ExceptionUtil.throwEmptyCheckException(username, "用户名不能为空");
-        return sysUserDAO.selectUsername(sysUser);
-    }
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public Boolean deleteSysUserById(Long id) {
+		SysUser sysUser = new SysUser();
+		sysUser.setId(id);
+		sysUser.setStatus(Constants.DISABLE_VALUE);// 禁用
+		sysUser.setModifyDate(new Date());
+		long result = sysUserDAO.update(sysUser);
+		return result > 0 ? true : false;
+	}
 
-    @Override
-    public SysUser selectSysUserById(Long id) {
-    	SysUser su = sysUserDAO.selectByPrimaryKey(id);
-    	SysRelation sysRelation = new SysRelation();
+	@Override
+	public SysUser selectUsername(SysUser sysUser) {
+		String username = sysUser.getUsername();
+		ExceptionUtil.throwEmptyCheckException(username, "用户名不能为空");
+		return sysUserDAO.selectUsername(sysUser);
+	}
+
+	@Override
+	public SysUser selectSysUserById(Long id) {
+		SysUser su = sysUserDAO.selectByPrimaryKey(id);
+		SysRelation sysRelation = new SysRelation();
 		sysRelation.setRelationType(Constants.SYS_RELATION_TYPE.A.toString());
 		sysRelation.setMainPrimaryId(id);
 		List<SysRelation> srs = sysRelationDAO.selectList(sysRelation);
-		if(CollectionUtils.isNotEmpty(srs)) {
+		if (Emptys.isNotEmpty(srs)) {
 			List<Long> roles = new ArrayList<Long>();
-			for(SysRelation sr : srs) {
+			for (SysRelation sr : srs) {
 				roles.add(sr.getRelPrimaryId());
 			}
 			su.setRoles(roles);
 		}
-        return su;
-    }
+		return su;
+	}
 
 	@Override
 	public PageResultBean<SysUser> selectSysUserByPage(SysUser sysUser) {
@@ -129,16 +129,16 @@ public class SysUserServiceImpl implements SysUserService {
 		PageHelper.startPage(PageUtils.getPageNum(), PageUtils.getPageSize());
 		PageResultBean<SysUser> pages = new PageResultBean<SysUser>(sysUserDAO.selectList(sysUser));
 		List<SysUser> sysUsers = pages.getRows();
-		if(CollectionUtils.isNotEmpty(sysUsers)) {
+		if (Emptys.isNotEmpty(sysUsers)) {
 			List<SysUser> sus = new ArrayList<SysUser>();
-			for(SysUser su : sysUsers) {
+			for (SysUser su : sysUsers) {
 				SysRelation sysRelation = new SysRelation();
 				sysRelation.setRelationType(Constants.SYS_RELATION_TYPE.A.toString());
 				sysRelation.setMainPrimaryId(su.getId());
 				List<SysRelation> srs = sysRelationDAO.selectList(sysRelation);
-				if(CollectionUtils.isNotEmpty(srs)) {
+				if (Emptys.isNotEmpty(srs)) {
 					List<Long> roles = new ArrayList<Long>();
-					for(SysRelation sr : srs) {
+					for (SysRelation sr : srs) {
 						roles.add(sr.getRelPrimaryId());
 					}
 					su.setRoles(roles);
@@ -165,10 +165,10 @@ public class SysUserServiceImpl implements SysUserService {
 		ExceptionUtil.throwEmptyCheckException(password, "用户当前密码不能为空");
 		SysUser su = sysUserDAO.selectByPrimaryKey(sysUser.getId());
 		ExceptionUtil.throwEmptyCheckException(su, "用户不存在");
-		if(!MD5Utils.MD5(password).equals(su.getPassword())) {
+		if (!MD5Utils.MD5(password).equals(su.getPassword())) {
 			ExceptionUtil.throwCheckException("用户当前密码不正确");
 		}
-    	return true;
+		return true;
 	}
 
 	@Override
@@ -182,13 +182,13 @@ public class SysUserServiceImpl implements SysUserService {
 		sysUser.setPassword(oldPassword);
 		checkSysUserPwd(sysUser);
 		ExceptionUtil.throwEmptyCheckException(password, "用户新密码不能为空");
-		if(password.equals(oldPassword)) {
+		if (password.equals(oldPassword)) {
 			ExceptionUtil.throwCheckException("新密码不能和当前密码相同");
 		}
 		sysUser.setPassword(MD5Utils.MD5(password));
-        sysUser.setModifyDate(new Date());
-        long result = sysUserDAO.update(sysUser);
-        return result > 0 ? true : false;
+		sysUser.setModifyDate(new Date());
+		long result = sysUserDAO.update(sysUser);
+		return result > 0 ? true : false;
 	}
 
 }

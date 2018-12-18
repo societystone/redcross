@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" style="height:100%">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<title>日志管理</title>
+
+<link rel="stylesheet" href="../../src/layui/css/layui.css">
+
+<style>
+body{padding: 10px; /*overflow-y: scroll;*/}
+</style>
+</head>
+<body>
+<div class="layui-fluid">
+    <div class="layui-card">
+      <div class="layui-form layui-card-header" style="padding:0px;" lay-filter="layui-form-search">
+        <div class="layui-form-item">
+          <div class="layui-inline">
+            <label class="layui-form-label">姓名</label>
+            <div class="layui-input-block">
+              <input type="text" name="realName" placeholder="请输入姓名" autocomplete="off" class="layui-input">
+            </div>
+          </div>
+          <div class="layui-inline">
+            <label class="layui-form-label">部门</label>
+            <div class="layui-input-block">
+              <select name="departmentId">
+                <option value="">不限</option>
+              </select>
+            </div>
+          </div>
+          <div class="layui-inline">
+            <label class="layui-form-label">状态</label>
+            <div class="layui-input-block">
+              <select name="status">
+                <option value="">不限</option>
+              </select>
+            </div>
+          </div>
+          <div class="layui-inline">
+            <button class="layui-btn" lay-submit lay-filter="LAY-btn-search">
+              <i class="layui-icon layui-icon-search"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <div class="layui-card-body">
+
+		<table id="table-data" lay-filter="table-data"></table>
+
+        <script type="text/html" id="table-operate">
+          <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="detail"><i class="layui-icon layui-icon-form"></i>详情</a>
+		</script>
+	  </div>
+	</div>
+</div>
+<script src="../../src/layui/layui.js"></script>
+<script>
+layui.config({
+    base: '../../src/js/'
+  }).use('sys_log/list');
+</script>
+</body>
+</html>

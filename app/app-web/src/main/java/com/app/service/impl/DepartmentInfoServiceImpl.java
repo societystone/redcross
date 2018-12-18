@@ -15,7 +15,7 @@ import com.app.dao.local.SysRelationDAO;
 import com.app.entity.DepartmentInfo;
 import com.app.entity.SysRelation;
 import com.app.service.DepartmentInfoService;
-import com.app.util.CollectionUtils;
+import com.app.util.Emptys;
 import com.app.util.PageUtils;
 import com.github.pagehelper.PageHelper;
 
@@ -27,52 +27,52 @@ import com.github.pagehelper.PageHelper;
 @Service
 public class DepartmentInfoServiceImpl implements DepartmentInfoService {
 
-    /**
-     * 注入角色dao
-     */
-    @Autowired
-    private DepartmentInfoDAO departmentInfoDAO;
-    
-    /**
-     * 注入系统关联dao
-     */
-    @Autowired
-    private SysRelationDAO sysRelationDAO;
+	/**
+	 * 注入角色dao
+	 */
+	@Autowired
+	private DepartmentInfoDAO departmentInfoDAO;
 
-    @Transactional(rollbackFor = Exception.class)
+	/**
+	 * 注入系统关联dao
+	 */
+	@Autowired
+	private SysRelationDAO sysRelationDAO;
+
+	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public Long insertDepartmentInfo(DepartmentInfo departmentInfo) {
 		// TODO Auto-generated method stub
 		departmentInfo.setStatus(Constants.ENABLE_VALUE);
 		departmentInfo.setCreateDate(new Date());
 		departmentInfoDAO.insert(departmentInfo);
-        Long departmentId = departmentInfo.getId();
-    	SysRelation sysRelation = new SysRelation();
-    	sysRelation.setRelationType(Constants.SYS_RELATION_TYPE.C.toString());
-    	sysRelation.setMainPrimaryId(departmentId);
-        for(Long roleId : departmentInfo.getRoles()) {
-        	sysRelation.setRelPrimaryId(roleId);
-        	sysRelationDAO.insert(sysRelation);
-        }
-        return departmentId;
+		Long departmentId = departmentInfo.getId();
+		SysRelation sysRelation = new SysRelation();
+		sysRelation.setRelationType(Constants.SYS_RELATION_TYPE.C.toString());
+		sysRelation.setMainPrimaryId(departmentId);
+		for (Long roleId : departmentInfo.getRoles()) {
+			sysRelation.setRelPrimaryId(roleId);
+			sysRelationDAO.insert(sysRelation);
+		}
+		return departmentId;
 	}
 
-    @Transactional(rollbackFor = Exception.class)
+	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public Long updateDepartmentInfoById(DepartmentInfo departmentInfo) {
 		// TODO Auto-generated method stub
 		departmentInfo.setModifyDate(new Date());
 		departmentInfoDAO.update(departmentInfo);
-        Long departmentId = departmentInfo.getId();
-    	SysRelation sysRelation = new SysRelation();
-    	sysRelation.setRelationType(Constants.SYS_RELATION_TYPE.C.toString());
-    	sysRelation.setMainPrimaryId(departmentId);
-    	sysRelationDAO.delete(sysRelation);
-        for(Long roleId : departmentInfo.getRoles()) {
-        	sysRelation.setRelPrimaryId(roleId);
-        	sysRelationDAO.insert(sysRelation);
-        }
-        return departmentId;
+		Long departmentId = departmentInfo.getId();
+		SysRelation sysRelation = new SysRelation();
+		sysRelation.setRelationType(Constants.SYS_RELATION_TYPE.C.toString());
+		sysRelation.setMainPrimaryId(departmentId);
+		sysRelationDAO.delete(sysRelation);
+		for (Long roleId : departmentInfo.getRoles()) {
+			sysRelation.setRelPrimaryId(roleId);
+			sysRelationDAO.insert(sysRelation);
+		}
+		return departmentId;
 	}
 
 	@Override
@@ -83,20 +83,20 @@ public class DepartmentInfoServiceImpl implements DepartmentInfoService {
 		departmentInfo.setStatus(Constants.DISABLE_VALUE);
 		departmentInfo.setModifyDate(new Date());
 		long result = departmentInfoDAO.update(departmentInfo);
-        return result > 0 ? true : false;
+		return result > 0 ? true : false;
 	}
 
 	@Override
 	public DepartmentInfo selectDepartmentInfoById(Long id) {
 		// TODO Auto-generated method stub
 		DepartmentInfo departmentInfo = departmentInfoDAO.selectByPrimaryKey(id);
-    	SysRelation sysRelation = new SysRelation();
+		SysRelation sysRelation = new SysRelation();
 		sysRelation.setRelationType(Constants.SYS_RELATION_TYPE.C.toString());
 		sysRelation.setMainPrimaryId(id);
 		List<SysRelation> srs = sysRelationDAO.selectList(sysRelation);
-		if(CollectionUtils.isNotEmpty(srs)) {
+		if (Emptys.isNotEmpty(srs)) {
 			List<Long> roles = new ArrayList<Long>();
-			for(SysRelation sr : srs) {
+			for (SysRelation sr : srs) {
 				roles.add(sr.getRelPrimaryId());
 			}
 			departmentInfo.setRoles(roles);
@@ -107,18 +107,19 @@ public class DepartmentInfoServiceImpl implements DepartmentInfoService {
 	@Override
 	public PageResultBean<DepartmentInfo> selectDepartmentInfoByPage(DepartmentInfo departmentInfo) {
 		PageHelper.startPage(PageUtils.getPageNum(), PageUtils.getPageSize());
-		PageResultBean<DepartmentInfo> pages = new PageResultBean<DepartmentInfo>(departmentInfoDAO.selectList(departmentInfo));
+		PageResultBean<DepartmentInfo> pages = new PageResultBean<DepartmentInfo>(
+				departmentInfoDAO.selectList(departmentInfo));
 		List<DepartmentInfo> departmentInfos = pages.getRows();
-		if(CollectionUtils.isNotEmpty(departmentInfos)) {
+		if (Emptys.isNotEmpty(departmentInfos)) {
 			List<DepartmentInfo> departments = new ArrayList<DepartmentInfo>();
-			for(DepartmentInfo department : departmentInfos) {
+			for (DepartmentInfo department : departmentInfos) {
 				SysRelation sysRelation = new SysRelation();
 				sysRelation.setRelationType(Constants.SYS_RELATION_TYPE.C.toString());
 				sysRelation.setMainPrimaryId(department.getId());
 				List<SysRelation> srs = sysRelationDAO.selectList(sysRelation);
-				if(CollectionUtils.isNotEmpty(srs)) {
+				if (Emptys.isNotEmpty(srs)) {
 					List<Long> roles = new ArrayList<Long>();
-					for(SysRelation sr : srs) {
+					for (SysRelation sr : srs) {
 						roles.add(sr.getRelPrimaryId());
 					}
 					department.setRoles(roles);
@@ -135,7 +136,5 @@ public class DepartmentInfoServiceImpl implements DepartmentInfoService {
 		// TODO Auto-generated method stub
 		return departmentInfoDAO.selectList(departmentInfo);
 	}
-
-    
 
 }

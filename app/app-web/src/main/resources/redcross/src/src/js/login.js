@@ -15,7 +15,6 @@ layui.define(['config','form'], function(exports){
 		  config.appBase+'/sys/login',
 		  JSON.stringify(data.field),
 		  function(result){
-		        result = JSON.parse(result);
 		        if(result.code==0){
 			        layui.data(config.tableName, {
 			            key: config.loginUser,

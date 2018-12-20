@@ -13,4 +13,12 @@ public class DatabaseContextHolder {
 	public static DatabaseType getDatabaseType() {
 		return contextHolder.get();
 	}
+
+	/**
+	 * 清除当前数据源
+	 */
+	public static void clear() {
+		contextHolder.remove();
+	}
+
 }

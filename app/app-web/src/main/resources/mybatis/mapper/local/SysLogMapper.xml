@@ -24,16 +24,17 @@
 		into sys_log(username, operation, method, params, ip, create_date)
 		values(#{username,jdbcType=VARCHAR}, #{operation,jdbcType=VARCHAR},
 		#{method,jdbcType=VARCHAR},
-		#{params,jdbcType=VARCHAR}, #{ip,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP})
+		#{params,jdbcType=VARCHAR},
+		#{ip,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP})
 	</insert>
 
 	<!-- 通过SysLog的id获得SysLog对象 -->
 	<select id="selectByPrimaryKey" parameterType="long"
-		resultType="SysLog">
+		resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List" />
 		from sys_log
-		where id=#{id,jdbcType=BIGINT}
+		where id=#{id}
 	</select>
 
 	<!-- 获得SysLog数据集合 -->

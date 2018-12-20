@@ -20,13 +20,9 @@ layui.define(['common'], function(exports){
   ////////////end
 
   var searchFormObj = $(".layui-form");
-  common.initSelect(searchFormObj.find("select[name='status']"),common.getSysRefDef(common.Constants.Status,'1'));
-  form.render("select"); //更新
-  form.val("layui-form-search",{status:"1"});
 
   var searchData = {
-		  "name":searchFormObj.find("input[name='name']").val(),
-		  "status":searchFormObj.find("select[name='status']").val()
+		  "name":searchFormObj.find("input[name='name']").val()
   };
   //监听搜索
   form.on('submit(LAY-btn-search)', function(data){
@@ -47,15 +43,28 @@ layui.define(['common'], function(exports){
     url: config.appBase+'/sys/role/list',
     where: searchData,
     cols: [[
-    	{type: 'checkbox', fixed: 'left'},
     	{type:'id', title: '角色id', hide:true},
-    	{field: 'name', title: '角色名', minWidth: 100},
-    	{field: 'rank', title: '排序', width: 60},
-    	{field: 'status', title: '状态', width: 60, templet: function(d) {
-    		return common.getRefDesc(common.Constants.Status,d.status);
+    	{field: 'code', title: '角色代码', width: 100},
+    	{field: 'name', title: '角色名', width: 150},
+    	{field: 'permissions', title: '数据权限', width: 200, templet: function(d) {
+    		var str = "";
+    		var permissions = d.permissions;
+    		if(permissions && permissions.length>0){
+    			for(var i in permissions){
+    				str += str ? "," : str;
+    				str += common.getRefDesc(common.Constants.Permission,permissions[i].id);
+    			}
+    		}
+    		return str;
     	}},
-    	{field: 'remark', title: '备注', minWidth: 100},
-    	{title: '操作', width: 220, align: 'center', fixed: 'right', toolbar: '#table-operate'}
+    	{title: '操作', width: 150, align: 'center', fixed: 'right', templet: function(){
+    		var str = '<div>';
+    		if(common.isHasPermission(common.Constants.PermissionType1)){
+    			str += '<a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="auz"><i class="layui-icon layui-icon-auz"></i>设置权限</a>';
+    		}
+    		str += '</div>';
+    		return str;
+    	}}
     ]],
     parseData: function(res){ //res 即为原始返回的数据
     	var dataList = res.data;
@@ -75,127 +84,11 @@ layui.define(['common'], function(exports){
     page: true, //是否显示分页
     limits:config.tableLimits,
     limit: config.tableDefaultLimit,
-    toolbar: '#table-toolbar',
     defaultToolbar: ['filter']
   });
 
   //事件
   var active = {
-		  add: function(){
-		      layer.open({
-		          type: 2,
-		          title: '添加角色',
-		          content: 'form.html',
-		          maxmin: true,
-		          area: ['500px', '450px'],
-		          btn: ['确定', '取消'],
-		          yes: function(index, layero){
-		            var iframeWindow = window['layui-layer-iframe'+ index];
-		            var submitID = 'layui-submit-btn';
-		            var iframeContent = layero.find('iframe').contents();
-		            var submit = iframeContent.find('#'+ submitID);
-		
-		            //监听提交
-		            iframeWindow.layui.form.on('submit('+ submitID +')', function(data){
-		            	common.disabledButton(submit,true);
-		              var field = data.field; //获取提交的字段
-		              $.ajax({
-		              	  type: "POST",
-		              	  contentType: 'application/json',
-		              	  url: config.appBase+'/sys/role', 
-		              	  data: JSON.stringify(field),
-		              	  dataType : 'json',
-		              	  success: function(res){
-		              		  if(res.code==0){
-		              			  common.loadLoaclData(common.Constants.Role);
-		              			  layer.msg("添加角色成功！");
-		    		              table.reload('table-data'); //数据刷新
-		    		              layer.close(index); //关闭弹层
-		              		  }else{
-		              			  layer.msg(res.msg);
-		              			  common.disabledButton(submit,false);
-		              		  }
-		                  }
-		                });
-		            });
-		            submit.trigger('click');
-		          }
-		       }); 
-		  },
-		  edit:function(id){
-		      layer.open({
-		          type: 2,
-		          title: '编辑角色',
-		          content: 'form.html',
-		          maxmin: true,
-		          area: ['500px', '450px'],
-		          success: function(layero, index){
-		        	  var iframeContent = layero.find('iframe').contents();
-		        	  iframeContent.find("input[name='id']").val(id);
-		          },
-		          btn: ['确定', '取消'],
-		          yes: function(index, layero){
-		            var iframeWindow = window['layui-layer-iframe'+ index];
-		            var submitID = 'layui-submit-btn';
-		            var submit = layero.find('iframe').contents().find('#'+ submitID);
-		
-		            //监听提交
-		            iframeWindow.layui.form.on('submit('+ submitID +')', function(data){
-		            	common.disabledButton(submit,true);
-		            	var field = data.field; //获取提交的字段
-		              $.ajax({
-		              	  type: "PUT",
-		              	  contentType: 'application/json',
-		              	  url: config.appBase+'/sys/role', 
-		              	  data: JSON.stringify(field),
-		              	  dataType:'json',
-		              	  success: function(res){
-		              		  if(res.code==0){
-		              			  common.loadLoaclData(common.Constants.Role);
-		              			  layer.msg("编辑角色成功！");
-		    		              table.reload('table-data'); //数据刷新
-		    		              layer.close(index); //关闭弹层
-		              		  }else{
-		              			  layer.msg(res.msg);
-		              			  common.disabledButton(submit,false);
-		              		  }
-		                  }
-		                });
-		            });  
-		            submit.trigger('click');
-		          }
-		       }); 
-		  },
-		  del: function(id){
-			  layer.confirm('确定删除此角色？', function(index){
-				  $.ajax({
-	              	  type: "DELETE",
-	              	  contentType: 'application/json',
-	              	  url: config.appBase+'/sys/role/'+id, 
-	              	  dataType:'json',
-	              	  success: function(res){
-	              		  if(res.code==0){
-	              			  common.loadLoaclData(common.Constants.Role);
-	              			  layer.msg("删除角色成功！");
-	    		              table.reload('table-data'); //数据刷新
-	              		  }else{
-	              			layer.msg(ret.msg);
-	              		  }
-	    				  layer.close(index);
-	                  }
-	              });
-			  });
-		  },
-		  batchdel: function(checkData){
-		      if(checkData.length === 0){
-		    	  return layer.msg('请选择数据');
-		      }
-		      layer.confirm('确定删除吗？', function(index) {
-      			  common.loadLoaclData(common.Constants.Role);
-		          table.reload('table-data');
-		          layer.msg('已删除');
-		      });
-		  },
 		  auz:function(id){
 		      layer.open({
 		          type: 2,
@@ -217,23 +110,34 @@ layui.define(['common'], function(exports){
 		            iframeWindow.layui.form.on('submit('+ submitID +')', function(data){
 		            	common.disabledButton(submit,true);
 		            	var field = data.field; //获取提交的字段
-		            	var menuIdArr = new Array();
-		            	for(var i in field){
-		            		if(i.indexOf("menuId[")!=-1){
-		            			menuIdArr.push(field[i]);
+			            var permissionArr = new Array();
+			            for(var i in field){
+			            	if(i.indexOf("permissionId[")!=-1){
+			            		permissionArr.push({
+			            			"id":field[i]
+			            		});
 			            	}
 			            }
-		            	field["menus"] = menuIdArr;
+			            field["permissions"] = permissionArr;
+		            	var menuArr = new Array();
+		            	for(var i in field){
+		            		if(i.indexOf("menuId[")!=-1){
+		            			menuArr.push({
+			            			"id":field[i]
+		            			});
+			            	}
+			            }
+		            	field["menus"] = menuArr;
 		              $.ajax({
 		              	  type: "POST",
 		              	  contentType: 'application/json',
-		              	  url: config.appBase+'/sys/role/menu', 
+		              	  url: config.appBase+'/sys/role/permission', 
 		              	  data: JSON.stringify(field),
 		              	  dataType:'json',
 		              	  success: function(res){
 		              		  if(res.code==0){
 		              			  layer.msg("设置权限成功！");
-//		    		              table.reload('table-data'); //数据刷新
+		    		              table.reload('table-data'); //数据刷新
 		    		              layer.close(index); //关闭弹层
 		              		  }else{
 		              			  layer.msg(res.msg);
@@ -247,19 +151,6 @@ layui.define(['common'], function(exports){
 		       }); 
 		  }
     };
-  
-  //工具栏事件
-  table.on('toolbar(table-data)', function(obj){
-    switch(obj.event){
-      case 'add':
-    	  active.add();
-    	  break;
-      case 'batchdel':
-    	  var checkData = table.checkStatus(obj.config.id);
-    	  active.batchdel(checkData);
-    	  break;
-    };
-  });
   
   //监听行工具事件
   table.on('tool(table-data)', function(obj){

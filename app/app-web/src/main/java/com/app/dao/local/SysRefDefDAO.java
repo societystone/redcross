@@ -14,12 +14,11 @@ import com.app.entity.SysRefDef;
  */
 public interface SysRefDefDAO extends BaseDAO<SysRefDef, Long> {
 
-    /**
-     * 查询关联数据集合
-     * @param relationType
-     * @param mainPrimaryId
-     * @param refType
-     * @return
-     */
-    List<SysRefDef> selectListByRelation(@Param("relationType")String relationType,@Param("mainPrimaryId")Long mainPrimaryId,@Param("refType")String refType);
+	/**
+	 * 查询权限集合
+	 * 
+	 * @param roleId
+	 * @return
+	 */
+	List<SysRefDef> selectPermissionByRoleId(@Param("roleId") Long roleId);
 }

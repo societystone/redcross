@@ -1,29 +1,31 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.app.dao.local.SysRefDefDAO">
-    <resultMap id="BaseResultMap" type="SysRefDef">
-        <id column="id" property="id" jdbcType="BIGINT"/>
-        <result column="ref_type" property="refType" jdbcType="VARCHAR"/>
-        <result column="ref_code" property="refCode" jdbcType="VARCHAR"/>
-        <result column="ref_desc" property="refDesc" jdbcType="VARCHAR"/>
-        <result column="rank" property="rank" jdbcType="INTEGER"/>
-        <result column="status" property="status" jdbcType="VARCHAR"/>
-        <result column="remark" property="remark" jdbcType="VARCHAR"/>
-    </resultMap>
-    <!-- 数据库列列表 -->
-    <sql id="Base_Column_List">
-		id, ref_type, ref_code, ref_desc, rank, status, remark
+	<resultMap id="BaseResultMap" type="SysRefDef">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="ref_type" property="refType" jdbcType="VARCHAR" />
+		<result column="ref_code" property="refCode" jdbcType="VARCHAR" />
+		<result column="ref_desc" property="refDesc" jdbcType="VARCHAR" />
+		<result column="rank" property="rank" jdbcType="INTEGER" />
+		<result column="status" property="status" jdbcType="VARCHAR" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+	</resultMap>
+	<!-- 数据库列列表 -->
+	<sql id="Base_Column_List">
+		srd.id, srd.ref_type, srd.ref_code, srd.ref_desc, srd.rank,
+		srd.status, srd.remark
 	</sql>
 
-    <!-- 获得数据集合 -->
-    <select id="selectList" parameterType="java.util.HashMap" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
-        from sys_ref_def
-        where 1=1
-        <if test="refType != null and refType != ''">
-        	and ref_type=#{refType,jdbcType=VARCHAR}
-        </if>
+	<!-- 获得数据集合 -->
+	<select id="selectList" parameterType="java.util.HashMap"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from sys_ref_def srd
+		where 1=1
+		<if test="refType != null and refType != ''">
+			and ref_type=#{refType,jdbcType=VARCHAR}
+		</if>
 		<if test="refCode != null and refCode != ''">
 			and ref_code=#{refCode,jdbcType=VARCHAR}
 		</if>
@@ -31,17 +33,18 @@
 			and status=#{status,jdbcType=VARCHAR}
 		</if>
 		order by ref_type,rank,ref_code
-    </select>
-    
-    <!-- 获得关联数据集合 -->
-    <select id="selectListByRelation" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
-        from sys_ref_def srd,sys_relation sr
-        where srd.status='1' 
-        	and srd.id=sr.rel_primary_id
-        	and sr.relation_type=#{relationType}
-        	and sr.main_primary_id=#{mainPrimaryId}
-        	and srd.ref_type=#{refType}
-    </select>
+	</select>
+
+	<!-- 获得SysPermission数据集合 -->
+	<select id="selectPermissionByRoleId"
+		parameterType="java.util.HashMap" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from sys_role_relation srr, sys_ref_def srd
+		where
+		srr.relation_id=srd.id
+		and srd.ref_type='P'
+		and srr.type='RP' and
+		srr.role_id=#{roleId}
+	</select>
 </mapper>

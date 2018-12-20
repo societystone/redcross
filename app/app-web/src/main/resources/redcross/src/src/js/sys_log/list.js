@@ -3,7 +3,7 @@
  * @param exports
  * @returns
  */
-layui.define(['common','laydate'], function(exports){
+layui.define(['common'], function(exports){
   var $ = layui.jquery;
   var config = layui.config;
   var table = layui.table;
@@ -63,8 +63,8 @@ layui.define(['common','laydate'], function(exports){
     	{type:'id', title: '日志id', hide:true},
     	{field: 'username', title: '用户名', width: 100},
     	{field: 'operation', title: '操作', width: 250},
-    	{field: 'ip', title: 'IP', width: 140},
-    	{field: 'createDate', title: '时间', width: 200},
+    	{field: 'ip', title: '客户端IP', width: 140},
+    	{field: 'createDate', title: '操作时间', width: 200},
     	{title: '操作', width: 100, align: 'center', fixed: 'right', toolbar: '#table-operate'}
     ]],
     parseData: function(res){ //res 即为原始返回的数据
@@ -94,7 +94,7 @@ layui.define(['common','laydate'], function(exports){
 		      layer.open({
 		          type: 2,
 		          title: '日志详情',
-		          content: 'form.html',
+		          content: 'detail.html',
 		          maxmin: true,
 		          area: ['500px', '450px'],
 		          success: function(layero, index){

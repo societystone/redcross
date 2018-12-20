@@ -26,11 +26,11 @@ public class Constants {
 	/**
 	 * 关联类型
 	 * @author wangtw
-	 * A-用户角色关联
-	 * Y-角色菜单关联
+	 * RM-角色菜单关联
+	 * RP-角色权限关联
 	 */
 	public static enum SYS_RELATION_TYPE{
-		A("用户角色关联"), B("角色菜单关联"), C("部门角色关联");
+		RM("角色菜单关联"), RP("角色权限关联");
 
 		private String desc;
 		private SYS_RELATION_TYPE(String desc) {

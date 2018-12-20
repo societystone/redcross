@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.app.dao.local.SysRoleRelationDAO">
+	<resultMap id="BaseResultMap" type="SysRoleRelation">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="type" property="type" jdbcType="VARCHAR" />
+		<result column="role_id" property="roleId" jdbcType="BIGINT" />
+		<result column="relation_id" property="relationId"
+			jdbcType="BIGINT" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, type, role_id, relation_id
+	</sql>
+
+	<!-- 插入SysRoleRelation到数据库 -->
+	<insert id="insert" parameterType="SysRoleRelation"
+		keyProperty="id">
+		insert
+		into sys_role_relation(type, role_id, relation_id)
+		values(#{type},
+		#{roleId,jdbcType=BIGINT},
+		#{relationId,jdbcType=BIGINT})
+	</insert>
+
+	<!-- 删除SysRoleRelation中的数据 -->
+	<delete id="delete" parameterType="java.util.HashMap">
+		delete from sys_role_relation
+		where type=#{type}
+		and role_id=#{roleId}
+	</delete>
+</mapper>

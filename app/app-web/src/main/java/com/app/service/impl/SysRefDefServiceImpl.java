@@ -35,10 +35,4 @@ public class SysRefDefServiceImpl implements SysRefDefService {
 		return sysRefDefDAO.selectList(queryMap);
 	}
 
-	@Override
-	public List<SysRefDef> selectListByRelation(String relationType, Long mainPrimaryId, String refType) {
-		// TODO Auto-generated method stub
-		return sysRefDefDAO.selectListByRelation(relationType, mainPrimaryId, refType);
-	}
-
 }

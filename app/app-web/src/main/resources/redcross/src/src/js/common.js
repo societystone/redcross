@@ -5,7 +5,7 @@
     
  */
  
-layui.define(['laytpl', 'layer', 'element', 'util', 'form', 'table', 'config'],function(exports){
+layui.define(['laytpl', 'layer', 'element', 'util', 'form', 'table', 'config', 'laydate'],function(exports){
   var $ = layui.jquery
   ,config = layui.config;
 
@@ -18,8 +18,9 @@ layui.define(['laytpl', 'layer', 'element', 'util', 'form', 'table', 'config'],f
 			  Status : 'Z',//状态
 			  YNFlag : 'Y',//是否标识
 			  User : 'User',//部门
-			  Department : 'Department',//部门
-			  Role : 'Role'//角色
+			  Permission : 'P',//权限
+			  Role : 'Role',//角色
+			  PermissionType1 : '1'//权限类型1
 		  },
 		  /**
 		   * 加载本地码值存储
@@ -54,11 +55,11 @@ layui.define(['laytpl', 'layer', 'element', 'util', 'form', 'table', 'config'],f
 				  		  }
 				      }
 				  });
-			  }else if(refType == this.Constants.Department){
+			  }else if(refType == this.Constants.Role){
 				  $.ajax({
-				  	  type: "POST",
+				  	  method: "POST",
 				  	  contentType: 'application/json',
-				  	  url: config.appBase+'/sys/department/noPageList', 
+				  	  url: config.appBase+'/sys/role/noPageList', 
 				  	  async : false,
 				  	  data: JSON.stringify({}),
 				  	  dataType:"json",
@@ -80,13 +81,13 @@ layui.define(['laytpl', 'layer', 'element', 'util', 'form', 'table', 'config'],f
 				  		  }
 				      }
 				  });
-			  }else if(refType == this.Constants.Role){
+			  }else if(refType == this.Constants.Permission){
 				  $.ajax({
 				  	  method: "POST",
 				  	  contentType: 'application/json',
-				  	  url: config.appBase+'/sys/role/noPageList', 
+				  	  url: config.appBase+'/sys/refDef/list', 
 				  	  async : false,
-				  	  data: JSON.stringify({}),
+				  	  data: JSON.stringify({"refType":refType}),
 				  	  dataType:"json",
 				  	  success: function(res){
 				  		  if(res.code==0 && res.data!=null && res.data.length>0){
@@ -95,7 +96,7 @@ layui.define(['laytpl', 'layer', 'element', 'util', 'form', 'table', 'config'],f
 				  				  var r = res.data[i];
 				  				  sysRefData.push({
 				  					  value : r.id,
-				  					  title : r.name,
+				  					  title : r.refDesc,
 				  					  status : r.status
 				  				  });
 				  			  }
@@ -237,6 +238,30 @@ layui.define(['laytpl', 'layer', 'element', 'util', 'form', 'table', 'config'],f
 				  obj.removeAttr("disabled");
 				  obj.removeClass("layui-btn-disabled");
 			  }
+		  },
+		  /**
+		   * 是否拥有权限
+		   */
+		  isHasPermission : function(type){
+			  if(type==null || type==""){
+				  return false;
+			  }
+			  var typeArr = type.split(",");
+			  var loginUser = layui.data(config.tableName)[config.loginUser];
+			  if(loginUser){
+				  var permissions = loginUser.permissions;
+				  if(permissions!=null && permissions.length>0){
+					  for(var i=0;i<permissions.length;i++){
+						  var permission = permissions[i];
+						  for(var j=0;j<typeArr.length;j++){
+							  if(typeArr[j]==permission){
+								  return true;
+							  }
+						  }
+					  }
+				  }
+			  }
+			  return false;
 		  }
   };
   

@@ -41,14 +41,8 @@ public class MyBatisConfig {
 	}
 
 	@Bean
-	@ConfigurationProperties("spring.datasource.remote1")
-	public DataSource appRemoteDb1DataSource() throws Exception {
-		return DruidDataSourceBuilder.create().build();
-	}
-
-	@Bean
-	@ConfigurationProperties("spring.datasource.remote2")
-	public DataSource appRemoteDb2DataSource() throws Exception {
+	@ConfigurationProperties("spring.datasource.remote")
+	public DataSource appRemoteDbDataSource() throws Exception {
 		return DruidDataSourceBuilder.create().build();
 	}
 
@@ -59,16 +53,14 @@ public class MyBatisConfig {
 	@Bean
 	@Primary
 	public DynamicDataSource dataSource(@Qualifier("appLocalDbDataSource") DataSource appLocalDbDataSource,
-			@Qualifier("appRemoteDb1DataSource") DataSource appRemoteDb1DataSource,
-			@Qualifier("appRemoteDb2DataSource") DataSource appRemoteDb2DataSource) {
+			@Qualifier("appRemoteDbDataSource") DataSource appRemoteDbDataSource) {
 		Map<Object, Object> targetDataSources = new HashMap<>();
 		targetDataSources.put(DatabaseType.applocaldb, appLocalDbDataSource);
-		targetDataSources.put(DatabaseType.appremotedb1, appRemoteDb1DataSource);
-		targetDataSources.put(DatabaseType.appremotedb2, appRemoteDb2DataSource);
+		targetDataSources.put(DatabaseType.appremotedb, appRemoteDbDataSource);
 
 		DynamicDataSource dataSource = new DynamicDataSource();
 		dataSource.setTargetDataSources(targetDataSources);// 该方法是AbstractRoutingDataSource的方法
-		dataSource.setDefaultTargetDataSource(appLocalDbDataSource);// 默认的datasource设置为myAppDbDataSource
+		dataSource.setDefaultTargetDataSource(appLocalDbDataSource);// 默认的datasource设置为appLocalDbDataSource
 
 		return dataSource;
 	}

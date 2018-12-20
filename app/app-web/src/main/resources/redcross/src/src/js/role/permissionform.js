@@ -10,6 +10,8 @@ layui.define(['common','authtree'], function(exports){
   var common = layui.common;
   var authtree = layui.authtree;
   var formObj = $(".layui-form");
+  common.initCheckbox(formObj.find("div[name='permissionItem']"),common.getSysRefDef(common.Constants.Permission,'1'),'permissionId');
+  form.render(); //更新
   
   //加载所有菜单
   $.ajax({
@@ -35,14 +37,22 @@ layui.define(['common','authtree'], function(exports){
 		  			  $.ajax({
 		  			  	  type: "GET",
 		  			  	  contentType: 'application/json',
-		  			  	  url: config.appBase+'/sys/role/menu/'+id,
+		  			  	  url: config.appBase+'/sys/role/permission/'+id,
 		  			  	  dataType : 'json',
 		  			  	  success: function(res){
 		  			  		  if(res.code==0){
 		  			  			  if(res.data!=null){
 		  				  			  var data = res.data;
-		  				  			  for(var i in data){
-		  				  				  authtree.setChecked('#layui-auth-tree-index', data[i]);
+		  				  			  var permissions = data.permissions;
+		  				  			  var setData = {};
+		  				  			  for(var i in permissions){
+		  				  				  var permissionId = permissions[i].id;
+		  				  				  setData["permissionId["+permissionId+"]"] = permissionId;
+		  				  			  }
+		  			      			  form.val("layui-form",setData);
+		  				  			  var menus = data.menus;
+		  				  			  for(var i in menus){
+		  				  				  authtree.setChecked('#layui-auth-tree-index', menus[i].id);
 		  				  			  }
 		  			  			  }
 		  			  		  }else{

@@ -38,7 +38,7 @@ public class SysMenuController {
 	@GetMapping("/sys/menu/all")
 	public ResultBean<List<SysMenuDTO>> selectAllList() {
 		List<SysMenuDTO> sysMenuDtos = null;
-		List<SysMenu> sysMenus = sysMenuService.selectListByParentIdAndUserId(null, null);
+		List<SysMenu> sysMenus = sysMenuService.selectAllSysMenu();
 		if (Emptys.isNotEmpty(sysMenus)) {
 			sysMenuDtos = getSysMenuDTOs(sysMenus, Long.valueOf(-1));
 		}

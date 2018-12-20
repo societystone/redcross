@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.app.dao.remote.RemoteDataDAO">
+
+	<!-- 插入数据 -->
+	<insert id="insert" statementType="PREPARED">
+		insert
+		into remote_data_tbl
+		<foreach collection="insertColumns" index="index" item="item"
+			open="(" separator="," close=")">
+			${item}
+		</foreach>
+		values
+		<foreach collection="insertValues" index="index" item="item"
+			open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</insert>
+
+	<!-- 插入数据 -->
+	<insert id="insertBatch" statementType="PREPARED">
+		insert
+		into remote_data_tbl
+		<foreach collection="insertColumns" index="index" item="item"
+			open="(" separator="," close=")">
+			${item}
+		</foreach>
+		values
+		<foreach collection="insertValues" index="index" item="item"
+			separator=",">
+			<foreach collection="item" index="index" item="item1"
+				open="(" separator="," close=")">
+				#{item1}
+			</foreach>
+		</foreach>
+	</insert>
+
+</mapper>

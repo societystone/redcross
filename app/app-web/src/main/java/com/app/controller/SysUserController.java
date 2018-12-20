@@ -49,7 +49,6 @@ public class SysUserController {
 	 * @param sysUser
 	 * @return
 	 */
-	@Log("登录系统")
 	@PostMapping("/sys/login")
 	public ResultBean<SysUser> login(@RequestBody SysUserDTO sysUser) {
 		String username = sysUser.getUsername();

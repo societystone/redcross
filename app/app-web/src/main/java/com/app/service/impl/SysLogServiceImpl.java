@@ -5,7 +5,6 @@ import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.app.bean.PageResultBean;
 import com.app.dao.local.SysLogDAO;
@@ -29,7 +28,6 @@ public class SysLogServiceImpl implements SysLogService {
 	@Autowired
 	private SysLogDAO sysLogDAO;
 
-	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public Long insertSysLog(SysLog sysLog) {
 		sysLog.setCreateDate(new Date());

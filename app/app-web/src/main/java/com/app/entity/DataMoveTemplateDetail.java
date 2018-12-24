@@ -12,14 +12,15 @@ import lombok.Setter;
  */
 @Setter
 @Getter
-public class DataMoveTempletDetail extends BaseEntity implements Serializable {
+public class DataMoveTemplateDetail extends BaseEntity implements Serializable {
 
 	/**
 	 * 序列化id
 	 */
 	private static final long serialVersionUID = -1705182797058431420L;
-	private Long templetId; // 模板ID
-	private String localColumn; // 本地字段
-	private String remoteColumn; // 远程字段
+	private Long templateId; // 模板ID
+	private String dataType; // 本地数据类型
+	private String remoteTable; // 远程表
+	private String remoteColumn; // 远程表字段
 
 }

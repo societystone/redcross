@@ -14,12 +14,15 @@ layui.define(['laytpl', 'layer', 'element', 'util', 'form', 'table', 'config', '
 		   * 常量
 		   */
 		  Constants : {
-			  Sex : 'S',//性别
-			  Status : 'Z',//状态
+			  Status : 'S',//状态
 			  YNFlag : 'Y',//是否标识
-			  User : 'User',//部门
+			  User : 'User',//用户
 			  Permission : 'P',//权限
 			  Role : 'Role',//角色
+			  DataMoveType : 'D',//数据迁移模板类型
+			  VoucherType : 'V',//凭证模板类型
+			  RemoteTable : 'RT',//远程表
+			  RemoteTableColumn : 'RTC_',//远程表字段
 			  PermissionType1 : '1'//权限类型1
 		  },
 		  /**
@@ -70,7 +73,7 @@ layui.define(['laytpl', 'layer', 'element', 'util', 'form', 'table', 'config', '
 				  				  var r = res.data[i];
 				  				  sysRefData.push({
 				  					  value : r.id,
-				  					  title : r.name,
+				  					  title : r.name + (r.name ? ' '+r.name : ''),
 				  					  status : r.status
 				  				  });
 				  			  }
@@ -98,6 +101,32 @@ layui.define(['laytpl', 'layer', 'element', 'util', 'form', 'table', 'config', '
 				  					  value : r.id,
 				  					  title : r.refDesc,
 				  					  status : r.status
+				  				  });
+				  			  }
+					  		  layui.data(config.tableName,{
+					  			  key:key, 
+					  			  value:sysRefData
+					  		  });
+				  		  }
+				      }
+				  });
+			  }else if(refType.indexOf(this.Constants.RemoteTableColumn)==0){
+				  var tableName = refType.substr(this.Constants.RemoteTableColumn.length);
+				  $.ajax({
+				  	  method: "GET",
+				  	  contentType: 'application/json',
+				  	  url: config.appBase+'/remoteTableColumn/'+tableName, 
+				  	  async : false,
+				  	  dataType:"json",
+				  	  success: function(res){
+				  		  if(res.code==0 && res.data!=null && res.data.length>0){
+				  			  sysRefData = new Array();
+				  			  for(var i=0;i<res.data.length;i++){
+				  				  var r = res.data[i];
+				  				  sysRefData.push({
+				  					  value : r.columnName,
+				  					  title : r.columnName + (r.columnComment ? ' '+r.columnComment : ''),
+				  					  status : '1'
 				  				  });
 				  			  }
 					  		  layui.data(config.tableName,{
@@ -188,13 +217,33 @@ layui.define(['laytpl', 'layer', 'element', 'util', 'form', 'table', 'config', '
 			  return refDesc;
 		  },
 		  /**
-		   * 初始化select元素
+		   * 获取select的option元素
 		   */
-		  initSelect : function(obj, data){
+		  getSelectOption : function(data, value){
 			  var html = "<option value=''>不限</option>";
 			  if(data!=null && data.length>0){
 				  for(var i=0;i<data.length;i++){
-					  html += "<option value='"+data[i].value+"'>"+data[i].title+"</option>";
+					  html += "<option value='"+data[i].value+"'";
+					  if(data[i].value==value){
+						  html += " selected='selected'";
+					  }
+					  html += ">"+data[i].title+"</option>";
+				  }
+			  }
+			  return html;
+		  },
+		  /**
+		   * 初始化select元素
+		   */
+		  initSelect : function(obj, data, value){
+			  var html = "<option value=''>不限</option>";
+			  if(data!=null && data.length>0){
+				  for(var i=0;i<data.length;i++){
+					  html += "<option value='"+data[i].value+"'";
+					  if(data[i].value==value){
+						  html += "class='layui-this'";
+					  }
+					  html += ">"+data[i].title+"</option>";
 				  }
 			  }
 			  obj.html(html);

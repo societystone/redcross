@@ -23,10 +23,10 @@ public interface BaseDAO<T, PK> {
 	/**
 	 * 批量插入数据
 	 * 
-	 * @param ts
+	 * @param lists
 	 * @return
 	 */
-	int insertBatch(List<T> ts);
+	int insertBatch(@Param("lists") List<T> lists);
 
 	/**
 	 * 更新数据

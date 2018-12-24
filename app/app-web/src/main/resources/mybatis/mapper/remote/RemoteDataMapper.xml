@@ -35,4 +35,14 @@
 		</foreach>
 	</insert>
 
+	<select id="selectColumns" parameterType="String"
+		resultType="java.util.Map">
+		select column_name,column_comment
+		from
+		information_schema.columns
+		where TABLE_SCHEMA=#{databaseName}
+		and table_name=#{tableName}
+		order by ordinal_position
+	</select>
+
 </mapper>

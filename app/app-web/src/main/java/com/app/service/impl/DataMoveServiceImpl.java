@@ -11,9 +11,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.app.dao.local.LocalDataDAO;
 import com.app.dao.remote.RemoteDataDAO;
-import com.app.entity.DataMoveTempletDetail;
+import com.app.entity.DataMoveTemplate;
+import com.app.entity.DataMoveTemplateDetail;
 import com.app.service.DataMoveService;
-import com.app.service.DataMoveTempletDetailService;
+import com.app.service.DataMoveTemplateService;
 import com.app.util.Emptys;
 import com.app.util.ExceptionUtil;
 
@@ -33,22 +34,23 @@ public class DataMoveServiceImpl implements DataMoveService {
 	@Autowired
 	private RemoteDataDAO remoteDataDAO;
 	@Autowired
-	private DataMoveTempletDetailService dataMoveTempletDetailService;
+	private DataMoveTemplateService dataMoveTemplateService;
 
 	@Transactional(value = "transactionManager", rollbackFor = Exception.class)
 	@Override
 	public Long dataMove() {
 		// TODO Auto-generated method stub
 		long count = 0;
-		List<DataMoveTempletDetail> dataMoveTempletDetails = dataMoveTempletDetailService
-				.selectListByTempletId(Long.valueOf(2));
-		ExceptionUtil.throwEmptyCheckException(dataMoveTempletDetails, "数据迁移模板为空");
+		Long templateId = Long.valueOf(2);
+		DataMoveTemplate dataMoveTemplate = dataMoveTemplateService.selectTemplateDetail(templateId);
+		List<DataMoveTemplateDetail> dataMoveTemplateDetails = dataMoveTemplate.getTemplateDetails();
+		ExceptionUtil.throwEmptyCheckException(dataMoveTemplateDetails, "数据迁移模板为空");
 
 		List<String> resultColumns = new ArrayList<String>();
 		List<String> insertColumns = new ArrayList<String>();
-		for (DataMoveTempletDetail dataMoveTempletDetail : dataMoveTempletDetails) {
-			resultColumns.add(dataMoveTempletDetail.getLocalColumn());
-			insertColumns.add(dataMoveTempletDetail.getRemoteColumn());
+		for (DataMoveTemplateDetail dataMoveTemplateDetail : dataMoveTemplateDetails) {
+			resultColumns.add(dataMoveTemplateDetail.getDataType());
+			insertColumns.add(dataMoveTemplateDetail.getRemoteColumn());
 		}
 		HashMap<String, Object> queryMap = new HashMap<String, Object>();
 		queryMap.put("resultColumns", resultColumns);

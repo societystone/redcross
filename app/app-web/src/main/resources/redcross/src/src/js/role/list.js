@@ -57,7 +57,7 @@ layui.define(['common'], function(exports){
     		}
     		return str;
     	}},
-    	{title: '操作', width: 150, align: 'center', fixed: 'right', templet: function(){
+    	{title: '操作', width: 150, align: 'center', fixed: 'right', templet: function(d){
     		var str = '<div>';
     		if(common.isHasPermission(common.Constants.PermissionType1)){
     			str += '<a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="auz"><i class="layui-icon layui-icon-auz"></i>设置权限</a>';

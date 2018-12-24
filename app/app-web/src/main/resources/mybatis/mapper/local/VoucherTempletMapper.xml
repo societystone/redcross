@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.app.dao.local.DataMoveTemplateDAO">
-	<resultMap id="BaseResultMap" type="DataMoveTemplate">
+<mapper namespace="com.app.dao.local.VoucherTemplateDAO">
+	<resultMap id="BaseResultMap" type="VoucherTemplate">
 		<id column="id" property="id" jdbcType="BIGINT" />
 		<result column="name" property="name" jdbcType="VARCHAR" />
 		<result column="status" property="status" jdbcType="VARCHAR" />
@@ -16,20 +16,20 @@
 	<sql id="Base_Column_List">
 		id, name, status, is_use, create_date, modify_date, remark
 	</sql>
-	<!-- 插入DataMoveTemplate到数据库 -->
-	<insert id="insert" parameterType="DataMoveTemplate"
+	<!-- 插入VoucherTemplate到数据库 -->
+	<insert id="insert" parameterType="VoucherTemplate"
 		keyProperty="id">
 		insert
-		into data_move_template(name, status, is_use,
+		into voucher_template(name, status, is_use,
 		create_date)
 		values(#{name,jdbcType=VARCHAR},
 		#{status,jdbcType=VARCHAR}, #{isUse,jdbcType=VARCHAR},
 		#{createDate,jdbcType=TIMESTAMP})
 	</insert>
 
-	<!-- 更新DataMoveTemplate到数据库 -->
+	<!-- 更新VoucherTemplate到数据库 -->
 	<update id="update" parameterType="DataMoveTemplate">
-		update data_move_template
+		update voucher_template
 		set
 		modify_date=#{modifyDate,jdbcType=TIMESTAMP}
 		<if test="name != null and name != ''">
@@ -44,21 +44,21 @@
 		where id=#{id}
 	</update>
 
-	<!-- 通过DataMoveTemplate的id获得DataMoveTemplate对象 -->
+	<!-- 通过VoucherTemplate的id获得VoucherTemplate对象 -->
 	<select id="selectByPrimaryKey" parameterType="long"
 		resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List" />
-		from data_move_template
+		from voucher_template
 		where id=#{id}
 	</select>
 
-	<!-- 获得DataMoveTemplate数据集合 -->
+	<!-- 获得VoucherTemplate数据集合 -->
 	<select id="selectList" parameterType="java.util.HashMap"
 		resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List" />
-		from data_move_template
+		from voucher_template
 		where 1=1
 		<if test="name != null and name != ''">
 			and name = #{name}

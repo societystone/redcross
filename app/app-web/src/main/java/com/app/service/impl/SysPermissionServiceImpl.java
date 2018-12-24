@@ -54,12 +54,13 @@ public class SysPermissionServiceImpl implements SysPermissionService {
 		List<SysMenu> menus = sysRole.getMenus();
 		List<SysRefDef> permissions = sysRole.getPermissions();
 		// 更新角色菜单
+		String roleRelationType = Constants.ROLE_RELATION_TYPE.ROLE_MENU.getValue();
 		HashMap<String, Object> queryMap = new HashMap<String, Object>();
-		queryMap.put("type", Constants.SYS_RELATION_TYPE.RM.toString());
+		queryMap.put("type", roleRelationType);
 		queryMap.put("roleId", roleId);
 		sysRoleRelationDAO.delete(queryMap);
 		SysRoleRelation sysRoleRelation = new SysRoleRelation();
-		sysRoleRelation.setType(Constants.SYS_RELATION_TYPE.RM.toString());
+		sysRoleRelation.setType(roleRelationType);
 		sysRoleRelation.setRoleId(roleId);
 		if (Emptys.isNotEmpty(menus)) {
 			for (SysMenu menu : menus) {
@@ -68,11 +69,12 @@ public class SysPermissionServiceImpl implements SysPermissionService {
 			}
 		}
 		// 更新角色权限
-		queryMap.put("type", Constants.SYS_RELATION_TYPE.RP.toString());
+		roleRelationType = Constants.ROLE_RELATION_TYPE.ROLE_PERMISSION.getValue();
+		queryMap.put("type", roleRelationType);
 		queryMap.put("roleId", roleId);
 		sysRoleRelationDAO.delete(queryMap);
 		sysRoleRelation = new SysRoleRelation();
-		sysRoleRelation.setType(Constants.SYS_RELATION_TYPE.RP.toString());
+		sysRoleRelation.setType(roleRelationType);
 		sysRoleRelation.setRoleId(roleId);
 		if (Emptys.isNotEmpty(permissions)) {
 			for (SysRefDef permission : permissions) {

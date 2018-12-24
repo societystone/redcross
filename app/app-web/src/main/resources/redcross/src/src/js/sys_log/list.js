@@ -31,8 +31,8 @@ layui.define(['common'], function(exports){
 	  elem: '#endDate', //指定元素
 	  format: 'yyyy-MM-dd'
   });
-//  common.initSelect(searchFormObj.find("select[name='departmentId']"),common.getSysRefDef(common.Constants.Department,'1'));
-//  common.initSelect(searchFormObj.find("select[name='status']"),common.getSysRefDef(common.Constants.Status,'1'));
+//  common.initSelect(searchFormObj.find("select[name='departmentId']"),common.getSysRefDef(common.Constants.Department,'1'),"");
+//  common.initSelect(searchFormObj.find("select[name='status']"),common.getSysRefDef(common.Constants.Status,'1'),"");
 //  form.render("select"); //更新
 //  form.val("layui-form-search",{status:"1"});
 

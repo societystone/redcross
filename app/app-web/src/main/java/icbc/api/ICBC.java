@@ -43,7 +43,7 @@ public class ICBC
 		XMLIO reader = new XMLIO();
 		try
 		{
-			data = TranslationTool.readFile("para.xml");
+			data = TranslationTool.readFile("src/main/resources/para.xml");
 		}
 		catch (IOException e)
 		{
@@ -79,10 +79,11 @@ public class ICBC
 
 	}
 
-	//		public static void main(String[] args)
-	//		{
-	//			
-	//		}
+			public static void main(String[] args)
+			{
+				ICBC icbc= ICBC.getICBC();
+				System.out.println(icbc.getCerfile());
+			}
 
 	public static ICBC getICBC()
 	{

@@ -1,4 +1,4 @@
-package com.app.bankbean;
+package com.app.bankbean.pub;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;

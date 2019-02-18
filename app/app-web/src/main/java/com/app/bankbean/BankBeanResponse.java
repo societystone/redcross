@@ -9,6 +9,7 @@ import javax.xml.bind.annotation.XmlSeeAlso;
 import com.app.bankbean.pub.BankBeanPubResponse;
 import com.app.bankbean.qaccbal.BankBeanQaccbalOut;
 import com.app.bankbean.qbill.BankBeanQbillOut;
+import com.app.bankbean.qhisd.BankBeanQhisdOut;
 import com.app.bankbean.qpd.BankBeanQpdOut;
 
 import lombok.AllArgsConstructor;
@@ -20,7 +21,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @XmlRootElement(name = "eb")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlSeeAlso({ BankBeanQpdOut.class, BankBeanQaccbalOut.class, BankBeanQbillOut.class })
+@XmlSeeAlso({ BankBeanQpdOut.class, BankBeanQaccbalOut.class, BankBeanQbillOut.class, BankBeanQhisdOut.class })
 public class BankBeanResponse<T> {
 
 	private BankBeanPubResponse pub;

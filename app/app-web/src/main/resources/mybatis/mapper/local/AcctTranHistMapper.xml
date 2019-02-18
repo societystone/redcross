@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.app.dao.local.AcctTranHistDAO">
+	<resultMap id="BaseResultMap" type="AcctTranHist">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="acct_id" property="acctId" jdbcType="BIGINT" />
+		<result column="drcrf" property="drcrf" jdbcType="INTEGER" />
+		<result column="vouhNo" property="vouhNo" jdbcType="VARCHAR" />
+		<result column="debitAmount" property="debitAmount"
+			jdbcType="DECIMAL" />
+		<result column="creditAmount" property="creditAmount"
+			jdbcType="DECIMAL" />
+		<result column="balance" property="balance" jdbcType="DECIMAL" />
+		<result column="recipBkNo" property="recipBkNo"
+			jdbcType="VARCHAR" />
+		<result column="recipBkName" property="recipBkName"
+			jdbcType="VARCHAR" />
+		<result column="recipAccNo" property="recipAccNo"
+			jdbcType="VARCHAR" />
+		<result column="recipName" property="recipName"
+			jdbcType="VARCHAR" />
+		<result column="summary" property="summary" jdbcType="VARCHAR" />
+		<result column="useCN" property="useCN" jdbcType="VARCHAR" />
+		<result column="postScript" property="postScript"
+			jdbcType="VARCHAR" />
+		<result column="busCode" property="busCode" jdbcType="VARCHAR" />
+		<result column="date" property="date" jdbcType="VARCHAR" />
+		<result column="time" property="time" jdbcType="VARCHAR" />
+		<result column="ref" property="ref" jdbcType="VARCHAR" />
+		<result column="oref" property="oref" jdbcType="VARCHAR" />
+		<result column="enSummary" property="enSummary"
+			jdbcType="VARCHAR" />
+		<result column="busType" property="busType" jdbcType="VARCHAR" />
+		<result column="vouhType" property="vouhType"
+			jdbcType="VARCHAR" />
+		<result column="addInfo" property="addInfo" jdbcType="VARCHAR" />
+		<result column="toutfo" property="toutfo" jdbcType="VARCHAR" />
+		<result column="onlySequence" property="onlySequence"
+			jdbcType="VARCHAR" />
+		<result column="agentAcctName" property="agentAcctName"
+			jdbcType="VARCHAR" />
+		<result column="agentAcctNo" property="agentAcctNo"
+			jdbcType="VARCHAR" />
+		<result column="upDtranf" property="upDtranf"
+			jdbcType="VARCHAR" />
+		<result column="valueDate" property="valueDate"
+			jdbcType="VARCHAR" />
+		<result column="trxCode" property="trxCode" jdbcType="VARCHAR" />
+		<result column="ref1" property="ref1" jdbcType="VARCHAR" />
+		<result column="oref1" property="oref1" jdbcType="VARCHAR" />
+		<result column="cASHF" property="cASHF" jdbcType="VARCHAR" />
+		<result column="busiDate" property="busiDate"
+			jdbcType="VARCHAR" />
+		<result column="busiTime" property="busiTime"
+			jdbcType="VARCHAR" />
+		<result column="seqNo" property="seqNo" jdbcType="VARCHAR" />
+		<result column="mgNo" property="mgNo" jdbcType="VARCHAR" />
+		<result column="mgAccNo" property="mgAccNo" jdbcType="VARCHAR" />
+		<result column="mgCurrType" property="mgCurrType"
+			jdbcType="VARCHAR" />
+		<result column="cashExf" property="cashExf" jdbcType="VARCHAR" />
+		<result column="detailNo" property="detailNo"
+			jdbcType="VARCHAR" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+		<result column="tradeTime" property="tradeTime"
+			jdbcType="VARCHAR" />
+		<result column="tradeFee" property="tradeFee"
+			jdbcType="DECIMAL" />
+		<result column="tradeLocation" property="tradeLocation"
+			jdbcType="VARCHAR" />
+		<result column="exRate" property="exRate" jdbcType="VARCHAR" />
+		<result column="forCurrtype" property="forCurrtype"
+			jdbcType="INTEGER" />
+		<result column="enAbstract" property="enAbstract"
+			jdbcType="VARCHAR" />
+		<result column="openBankNo" property="openBankNo"
+			jdbcType="VARCHAR" />
+		<result column="openBankBIC" property="openBankBIC"
+			jdbcType="VARCHAR" />
+		<result column="openBankName" property="openBankName"
+			jdbcType="VARCHAR" />
+		<result column="subAcctSeq" property="subAcctSeq"
+			jdbcType="VARCHAR" />
+		<result column="tHCurrency" property="tHCurrency"
+			jdbcType="INTEGER" />
+		<result column="recipBkName1" property="recipBkName1"
+			jdbcType="VARCHAR" />
+		<result column="recipBkNo1" property="recipBkNo1"
+			jdbcType="VARCHAR" />
+		<result column="tInfoNew" property="tInfoNew"
+			jdbcType="VARCHAR" />
+		<result column="refundMsg" property="refundMsg"
+			jdbcType="VARCHAR" />
+		<result column="busTypNo" property="busTypNo"
+			jdbcType="VARCHAR" />
+		<result column="receiptInfo" property="receiptInfo"
+			jdbcType="VARCHAR" />
+		<result column="telNo" property="telNo" jdbcType="VARCHAR" />
+		<result column="mDCARDNO" property="mDCARDNO"
+			jdbcType="VARCHAR" />
+		<result column="trxAmt" property="trxAmt" jdbcType="DECIMAL" />
+		<result column="trxCurr" property="trxCurr" jdbcType="VARCHAR" />
+		<result column="currType" property="currType"
+			jdbcType="VARCHAR" />
+		<result column="data_load_type" property="dataLoadType"
+			jdbcType="VARCHAR" />
+		<result column="create_date" property="createDate"
+			jdbcType="TIMESTAMP" />
+	</resultMap>
+	<!-- 数据库列列表 -->
+	<sql id="Base_Column_List">
+		id, acct_id, drcrf, vouhNo, debitAmount, creditAmount,
+		balance, recipBkNo, recipBkName, recipAccNo, recipName, summary,
+		useCN, postScript, busCode, date, time, ref, oref, enSummary, busType,
+		vouhType, addInfo, toutfo, onlySequence, agentAcctName, agentAcctNo,
+		upDtranf, valueDate, trxCode, ref1, oref1, cASHF, busiDate, busiTime,
+		seqNo, mgNo, mgAccNo, mgCurrType, cashExf, detailNo, remark,
+		tradeTime, tradeFee, tradeLocation, exRate, forCurrtype, enAbstract,
+		openBankNo, openBankBIC, openBankName, subAcctSeq, tHCurrency,
+		recipBkName1, recipBkNo1, tInfoNew, refundMsg, busTypNo, receiptInfo,
+		telNo, mDCARDNO, trxAmt, trxCurr, currType, data_load_type,
+		create_date
+	</sql>
+	<!-- 插入DataMoveTemplate到数据库 -->
+	<insert id="insert" parameterType="AcctTranHist"
+		keyProperty="id">
+		insert
+		into acct_tran_hist(acct_id, drcrf, vouhNo,
+		debitAmount, creditAmount,
+		balance, recipBkNo, recipBkName, recipAccNo,
+		recipName, summary,
+		useCN, postScript, busCode, date, time, ref, oref,
+		enSummary, busType,
+		vouhType, addInfo, toutfo, onlySequence,
+		agentAcctName, agentAcctNo,
+		upDtranf, valueDate, trxCode, ref1, oref1,
+		cASHF, busiDate, busiTime,
+		seqNo, mgNo, mgAccNo, mgCurrType, cashExf,
+		detailNo, remark,
+		tradeTime, tradeFee, tradeLocation, exRate,
+		forCurrtype, enAbstract,
+		openBankNo, openBankBIC, openBankName,
+		subAcctSeq, tHCurrency,
+		recipBkName1, recipBkNo1, tInfoNew, refundMsg,
+		busTypNo, receiptInfo,
+		telNo, mDCARDNO, trxAmt, trxCurr, currType,
+		data_load_type,
+		create_date)
+		values(#{acctId,jdbcType=BIGINT},
+		#{drcrf,jdbcType=INTEGER}, #{vouhNo,jdbcType=VARCHAR},
+		#{debitAmount,jdbcType=DECIMAL}, #{creditAmount,jdbcType=DECIMAL},
+		#{balance,jdbcType=DECIMAL}, #{recipBkNo,jdbcType=VARCHAR},
+		#{recipBkName,jdbcType=VARCHAR}, #{recipAccNo,jdbcType=VARCHAR},
+		#{recipName,jdbcType=VARCHAR}, #{summary,jdbcType=VARCHAR},
+		#{useCN,jdbcType=VARCHAR}, #{postScript,jdbcType=VARCHAR},
+		#{busCode,jdbcType=VARCHAR}, #{date,jdbcType=VARCHAR},
+		#{time,jdbcType=VARCHAR}, #{ref,jdbcType=VARCHAR},
+		#{oref,jdbcType=VARCHAR}, #{enSummary,jdbcType=VARCHAR},
+		#{busType,jdbcType=VARCHAR}, #{vouhType,jdbcType=VARCHAR},
+		#{addInfo,jdbcType=VARCHAR}, #{toutfo,jdbcType=VARCHAR},
+		#{onlySequence,jdbcType=VARCHAR}, #{agentAcctName,jdbcType=VARCHAR},
+		#{agentAcctNo,jdbcType=VARCHAR}, #{upDtranf,jdbcType=VARCHAR},
+		#{valueDate,jdbcType=VARCHAR}, #{trxCode,jdbcType=VARCHAR},
+		#{ref1,jdbcType=VARCHAR}, #{oref1,jdbcType=VARCHAR},
+		#{cASHF,jdbcType=VARCHAR}, #{busiDate,jdbcType=VARCHAR},
+		#{busiTime,jdbcType=VARCHAR}, #{seqNo,jdbcType=VARCHAR},
+		#{mgNo,jdbcType=VARCHAR}, #{mgAccNo,jdbcType=VARCHAR},
+		#{mgCurrType,jdbcType=VARCHAR}, #{cashExf,jdbcType=VARCHAR},
+		#{detailNo,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR},
+		#{tradeTime,jdbcType=VARCHAR}, #{tradeFee,jdbcType=DECIMAL},
+		#{tradeLocation,jdbcType=VARCHAR}, #{exRate,jdbcType=VARCHAR},
+		#{forCurrtype,jdbcType=INTEGER}, #{enAbstract,jdbcType=VARCHAR},
+		#{openBankNo,jdbcType=VARCHAR}, #{openBankBIC,jdbcType=VARCHAR},
+		#{openBankName,jdbcType=VARCHAR}, #{subAcctSeq,jdbcType=VARCHAR},
+		#{tHCurrency,jdbcType=INTEGER}, #{recipBkName1,jdbcType=VARCHAR},
+		#{recipBkNo1,jdbcType=VARCHAR}, #{tInfoNew,jdbcType=VARCHAR},
+		#{refundMsg,jdbcType=VARCHAR}, #{busTypNo,jdbcType=VARCHAR},
+		#{receiptInfo,jdbcType=VARCHAR}, #{telNo,jdbcType=VARCHAR},
+		#{mDCARDNO,jdbcType=VARCHAR}, #{trxAmt,jdbcType=DECIMAL},
+		#{trxCurr,jdbcType=VARCHAR}, #{currType,jdbcType=VARCHAR},
+		#{dataLoadType,jdbcType=VARCHAR},
+		#{createDate,jdbcType=TIMESTAMP})
+	</insert>
+	<!-- 批量插入到数据库 -->
+	<insert id="insertBatch">
+		insert
+		into acct_tran_hist(acct_id, drcrf, vouhNo,
+		debitAmount,
+		creditAmount,
+		balance, recipBkNo, recipBkName, recipAccNo,
+		recipName,
+		summary,
+		useCN, postScript, busCode, date, time, ref, oref,
+		enSummary,
+		busType,
+		vouhType, addInfo, toutfo, onlySequence,
+		agentAcctName,
+		agentAcctNo,
+		upDtranf, valueDate, trxCode, ref1, oref1,
+		cASHF, busiDate,
+		busiTime,
+		seqNo, mgNo, mgAccNo, mgCurrType, cashExf,
+		detailNo, remark,
+		tradeTime, tradeFee, tradeLocation, exRate,
+		forCurrtype, enAbstract,
+		openBankNo, openBankBIC, openBankName,
+		subAcctSeq, tHCurrency,
+		recipBkName1, recipBkNo1, tInfoNew, refundMsg,
+		busTypNo, receiptInfo,
+		telNo, mDCARDNO, trxAmt, trxCurr, currType,
+		data_load_type,
+		create_date)
+		values
+		<foreach collection="lists" index="index" item="item"
+			separator=",">
+			(#{item.acctId,jdbcType=BIGINT},
+			#{item.drcrf,jdbcType=INTEGER}, #{item.vouhNo,jdbcType=VARCHAR},
+			#{item.debitAmount,jdbcType=DECIMAL},
+			#{item.creditAmount,jdbcType=DECIMAL},
+			#{item.balance,jdbcType=DECIMAL}, #{item.recipBkNo,jdbcType=VARCHAR},
+			#{item.recipBkName,jdbcType=VARCHAR},
+			#{item.recipAccNo,jdbcType=VARCHAR},
+			#{item.recipName,jdbcType=VARCHAR}, #{item.summary,jdbcType=VARCHAR},
+			#{item.useCN,jdbcType=VARCHAR}, #{item.postScript,jdbcType=VARCHAR},
+			#{item.busCode,jdbcType=VARCHAR}, #{item.date,jdbcType=VARCHAR},
+			#{item.time,jdbcType=VARCHAR}, #{item.ref,jdbcType=VARCHAR},
+			#{item.oref,jdbcType=VARCHAR}, #{item.enSummary,jdbcType=VARCHAR},
+			#{item.busType,jdbcType=VARCHAR}, #{item.vouhType,jdbcType=VARCHAR},
+			#{item.addInfo,jdbcType=VARCHAR}, #{item.toutfo,jdbcType=VARCHAR},
+			#{item.onlySequence,jdbcType=VARCHAR},
+			#{item.agentAcctName,jdbcType=VARCHAR},
+			#{item.agentAcctNo,jdbcType=VARCHAR},
+			#{item.upDtranf,jdbcType=VARCHAR},
+			#{item.valueDate,jdbcType=VARCHAR}, #{item.trxCode,jdbcType=VARCHAR},
+			#{item.ref1,jdbcType=VARCHAR}, #{item.oref1,jdbcType=VARCHAR},
+			#{item.cASHF,jdbcType=VARCHAR}, #{item.busiDate,jdbcType=VARCHAR},
+			#{item.busiTime,jdbcType=VARCHAR}, #{item.seqNo,jdbcType=VARCHAR},
+			#{item.mgNo,jdbcType=VARCHAR}, #{item.mgAccNo,jdbcType=VARCHAR},
+			#{item.mgCurrType,jdbcType=VARCHAR},
+			#{item.cashExf,jdbcType=VARCHAR},
+			#{item.detailNo,jdbcType=VARCHAR},
+			#{item.remark,jdbcType=VARCHAR},
+			#{item.tradeTime,jdbcType=VARCHAR},
+			#{item.tradeFee,jdbcType=DECIMAL},
+			#{item.tradeLocation,jdbcType=VARCHAR},
+			#{item.exRate,jdbcType=VARCHAR},
+			#{item.forCurrtype,jdbcType=INTEGER},
+			#{item.enAbstract,jdbcType=VARCHAR},
+			#{item.openBankNo,jdbcType=VARCHAR},
+			#{item.openBankBIC,jdbcType=VARCHAR},
+			#{item.openBankName,jdbcType=VARCHAR},
+			#{item.subAcctSeq,jdbcType=VARCHAR},
+			#{item.tHCurrency,jdbcType=INTEGER},
+			#{item.recipBkName1,jdbcType=VARCHAR},
+			#{item.recipBkNo1,jdbcType=VARCHAR},
+			#{item.tInfoNew,jdbcType=VARCHAR},
+			#{item.refundMsg,jdbcType=VARCHAR},
+			#{item.busTypNo,jdbcType=VARCHAR},
+			#{item.receiptInfo,jdbcType=VARCHAR}, #{item.telNo,jdbcType=VARCHAR},
+			#{item.mDCARDNO,jdbcType=VARCHAR}, #{item.trxAmt,jdbcType=DECIMAL},
+			#{item.trxCurr,jdbcType=VARCHAR}, #{item.currType,jdbcType=VARCHAR},
+			#{item.dataLoadType,jdbcType=VARCHAR},
+			#{item.createDate,jdbcType=TIMESTAMP})
+		</foreach>
+	</insert>
+
+	<select id="selectCount" parameterType="java.util.HashMap"
+		resultType="java.lang.Integer">
+		select count(*) from acct_tran_hist
+		<where>
+			<if test="acctId != null">
+				and acct_id = #{acctId,jdbcType=BIGINT}
+			</if>
+			<if test="beginDate != null and endDate != null">
+				and (date between #{beginDate} and endDate)
+			</if>
+		</where>
+	</select>
+
+	<!-- 删除数据 -->
+	<delete id="delete" parameterType="java.util.HashMap">
+		delete from acct_tran_hist
+		where acct_id = #{acctId} and (date between #{beginDate} and endDate)
+	</delete>
+</mapper>

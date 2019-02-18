@@ -1,6 +1,7 @@
 package com.app.util;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -105,6 +106,23 @@ public final class DateUtils {
 	}
 
 	/**
+	 * 解析日期字符串
+	 * 
+	 * @param dateStr
+	 * @return
+	 */
+	public static Date parseYYYYMMDD(String dateStr) {
+		Date date = null;
+		try {
+			date = YYYYMMDD.get().parse(dateStr);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return date;
+	}
+
+	/**
 	 * 格式化时分秒毫秒
 	 * 
 	 * @param date
@@ -186,6 +204,21 @@ public final class DateUtils {
 		calendar.set(Calendar.SECOND, 59);
 		calendar.set(Calendar.MILLISECOND, 999);
 		return calendar.getTime().getTime();
+	}
+
+	/**
+	 * 日期增加天数
+	 * 
+	 * @param date
+	 * @param day
+	 * @return
+	 */
+	public static Date addDay(Date date, int day) {
+		Calendar c = Calendar.getInstance();
+		c.setTime(date);
+		c.add(Calendar.DAY_OF_MONTH, day);// 利用Calendar 实现 Date日期+1天
+		return c.getTime();
+
 	}
 
 }

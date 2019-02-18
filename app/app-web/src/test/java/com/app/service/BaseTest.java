@@ -7,11 +7,11 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.app.bankbean.BankBean01In;
-import com.app.bankbean.BankBean01Out;
-import com.app.bankbean.BankBeanPubRequest;
 import com.app.bankbean.BankBeanRequest;
 import com.app.bankbean.BankBeanResponse;
+import com.app.bankbean.pub.BankBeanPubRequest;
+import com.app.bankbean.qpd.BankBeanQpdIn;
+import com.app.bankbean.qpd.BankBeanQpdOut;
 import com.app.util.JaxbUtil;
 import com.app.util.MD5Utils;
 
@@ -31,10 +31,10 @@ public class BaseTest {
 		BankBeanPubRequest bbpr = new BankBeanPubRequest();
 		bbpr.setTransCode("0000");
 		bbpr.setBankCode("1111");
-		BankBean01In bbi = new BankBean01In();
+		BankBeanQpdIn bbi = new BankBeanQpdIn();
 		bbi.setAccNo("1234567890");
 		bbi.setAreaCode("10");
-		BankBeanRequest<BankBean01In> bbRequest = new BankBeanRequest<BankBean01In>(bbpr, bbi);
+		BankBeanRequest<BankBeanQpdIn> bbRequest = new BankBeanRequest<BankBeanQpdIn>(bbpr, bbi);
 		String xml = JaxbUtil.convertToXml(BankBeanRequest.class, bbRequest);
 		System.out.println(xml);
 
@@ -47,7 +47,7 @@ public class BaseTest {
 				+ "            <Drcrf>2</Drcrf>\r\n" + "            <VouhNo>867867867</VouhNo>\r\n"
 				+ "        </rd>\r\n" + "    </out>\r\n" + "</eb>\r\n" + "</CMS>";
 		@SuppressWarnings("unchecked")
-		BankBeanResponse<BankBean01Out> bbResponse = JaxbUtil.convertToJavaBean(BankBeanResponse.class, xmlResponse);
+		BankBeanResponse<BankBeanQpdOut> bbResponse = JaxbUtil.convertToJavaBean(BankBeanResponse.class, xmlResponse);
 		System.out.println(bbResponse.getPub().getBankCode());
 		System.out.println(bbResponse.getOut().getAccNo());
 

@@ -7,6 +7,7 @@ import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.app.common.Constants;
 import com.app.dao.local.SysRefDefDAO;
@@ -46,6 +47,7 @@ public class SysPermissionServiceImpl implements SysPermissionService {
 		return sysRefDefDAO.selectPermissionByRoleId(roleId);
 	}
 
+	@Transactional(value = "transactionManager", rollbackFor = Exception.class)
 	@Override
 	public Long updatePermissionByRoleId(SysRole sysRole) {
 		// TODO Auto-generated method stub

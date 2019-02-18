@@ -19,6 +19,7 @@ import com.app.bankbean.BankBeanResponse;
 import com.app.bankbean.pub.BankBeanPubRequest;
 import com.app.bankbean.qaccbal.BankBeanQaccbalIn;
 import com.app.bankbean.qaccbal.BankBeanQaccbalInRd;
+import com.app.bankbean.qhisd.BankBeanQhisdIn;
 import com.app.util.DateUtils;
 import com.app.util.Emptys;
 import com.app.util.JaxbUtil;
@@ -38,21 +39,34 @@ public class NCExample {
 //		BankBeanResponse bbResponse = NCExample.sendToBank(sTransCode, bbRequest);
 //		System.out.println(bbResponse.getPub().getRetMsg());
 
-		String[] accNoArr = new String[] { "4402263009100188886", "4402263029105888858", "4402263029100139502" };
-		String sTransCode = "QACCBAL";// 交易代码
-		BankBeanQaccbalIn bbi = new BankBeanQaccbalIn();
-		bbi.setTotalNum(Integer.toString(accNoArr.length));
-		List<BankBeanQaccbalInRd> rds = new ArrayList<BankBeanQaccbalInRd>();
-		int index = 0;
-		for (String accNo : accNoArr) {
-			BankBeanQaccbalInRd inRd = new BankBeanQaccbalInRd();
-			inRd.setISeqno(Integer.toString(++index));
-			inRd.setAccNo(accNo);
-			rds.add(inRd);
-		}
-		bbi.setRds(rds);
-		BankBeanRequest<BankBeanQaccbalIn> bbRequest = new BankBeanRequest<BankBeanQaccbalIn>(null, bbi);
-		BankBeanResponse bbResponse = NCExample.sendToBank(sTransCode, bbRequest);
+//		String[] accNoArr = new String[] { "4402263009100188886", "4402263029105888858", "4402263029100139502" };
+////		String[] accNoArr = new String[] { "4402263009100188886" };
+//		String sTransCode = "QACCBAL";// 交易代码
+//		BankBeanQaccbalIn bbi = new BankBeanQaccbalIn();
+//		bbi.setTotalNum(Integer.toString(accNoArr.length));
+//		List<BankBeanQaccbalInRd> rds = new ArrayList<BankBeanQaccbalInRd>();
+//		int index = 0;
+//		for (String accNo : accNoArr) {
+//			BankBeanQaccbalInRd inRd = new BankBeanQaccbalInRd();
+//			inRd.setISeqno(Integer.toString(++index));
+//			inRd.setAccNo(accNo);
+//			rds.add(inRd);
+//		}
+//		bbi.setRds(rds);
+//		BankBeanRequest<BankBeanQaccbalIn> bbRequest = new BankBeanRequest<BankBeanQaccbalIn>(null, bbi);
+//		BankBeanResponse bbResponse = NCExample.sendToBank(sTransCode, bbRequest);
+//		System.out.println(bbResponse.getPub().getRetMsg());
+
+		String sTransCode = "QHISD";// 交易代码
+		BankBeanQhisdIn bbi = new BankBeanQhisdIn();
+		bbi.setAccNo("4402263029105888858");
+		bbi.setMinAmt("0");
+		bbi.setMaxAmt("0");
+		bbi.setBeginDate("20181019");
+		bbi.setEndDate("20190319");
+		bbi.setNextTag("");
+		BankBeanRequest<BankBeanQhisdIn> bbRequest = new BankBeanRequest<BankBeanQhisdIn>(null, bbi);
+		BankBeanResponse<?> bbResponse = NCExample.sendToBank(sTransCode, bbRequest);
 		System.out.println(bbResponse.getPub().getRetMsg());
 	}
 
@@ -85,7 +99,7 @@ public class NCExample {
 
 			Date nowDate = new Date();
 			String nowDateStr = DateUtils.formatYYYYMMDD(nowDate);
-			String tranDate = "20190228";
+			String tranDate = "20190319";
 			String tranTime = DateUtils.formatHHmmssSSS(nowDate);
 			// 下面字段与明文xml包中保持一致
 			String sPackageID = "PACKAGE" + nowDateStr + tranTime;// 包序列号与xml包中保持一致
@@ -95,6 +109,7 @@ public class NCExample {
 			bbpr.setCIS(SGroupCIS);
 			bbpr.setBankCode(SBankCode);
 			bbpr.setID(SID);
+//			bbpr.setTranDate(nowDateStr);
 			bbpr.setTranDate(tranDate);
 			bbpr.setTranTime(tranTime);
 			bbpr.setFSeqno(sPackageID);

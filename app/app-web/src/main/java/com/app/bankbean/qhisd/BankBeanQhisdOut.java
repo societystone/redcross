@@ -1,4 +1,4 @@
-package com.app.bankbean.qpd;
+package com.app.bankbean.qhisd;
 
 import java.util.List;
 
@@ -12,7 +12,7 @@ import lombok.Data;
 @Data
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "out")
-public class BankBeanQpdOut {
+public class BankBeanQhisdOut {
 
 	@XmlElement(name = "AccNo")
 	private String accNo;// 账号
@@ -20,20 +20,26 @@ public class BankBeanQpdOut {
 	private String accName;// 户名
 	@XmlElement(name = "CurrType")
 	private String currType;// 币种
-	@XmlElement(name = "AreaCode")
-	private String areaCode;// 地区代码
+	@XmlElement(name = "BeginDate")
+	private String beginDate;// 起始日期
+	@XmlElement(name = "EndDate")
+	private String endDate;// 截止日期
+	@XmlElement(name = "MinAmt")
+	private String minAmt;// 发生额下限
+	@XmlElement(name = "MaxAmt")
+	private String maxAmt;// 发生额上限
+	@XmlElement(name = "BankType")
+	private String bankType;// 行别
 	@XmlElement(name = "NextTag")
 	private String nextTag;// 查询下页标识
 	@XmlElement(name = "TotalNum")
 	private Integer totalNum;// 交易条数
-	@XmlElement(name = "RepReserved1")
-	private String repReserved1;// 行别
-	@XmlElement(name = "RepReserved2")
-	private String repReserved2;// 响应备用字段2
+	@XmlElement(name = "DueBillNo")
+	private String dueBillNo;// 借据编号
 	@XmlElement(name = "AcctSeq")
 	private String acctSeq;// 账号序号
 
 	@XmlElement(name = "rd")
-	private List<BankBeanQpdOutRd> rds;
+	private List<BankBeanQhisdOutRd> rds;
 
 }

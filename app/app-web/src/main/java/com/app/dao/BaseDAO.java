@@ -53,6 +53,14 @@ public interface BaseDAO<T, PK> {
 	T selectByPrimaryKey(@Param("id") PK id);
 
 	/**
+	 * 查询数据条数
+	 * 
+	 * @param map
+	 * @return
+	 */
+	Integer selectCount(HashMap<String, Object> map);
+
+	/**
 	 * 查询数据集合
 	 * 
 	 * @param map

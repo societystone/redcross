@@ -13,6 +13,7 @@ import java.util.Map;
 
 import org.jdom.Document;
 import org.jdom.Element;
+import org.springframework.util.ResourceUtils;
 
 import com.app.util.Emptys;
 
@@ -52,7 +53,9 @@ public class ICBCConfig {
 		byte[] data = null;
 		XMLIO reader = new XMLIO();
 		try {
-			data = TranslationTool.readFile("src/main/resources/ICBC-config.xml");
+//			String path = "src/main/resources/ICBC-config.xml";
+			String path = ResourceUtils.getURL("classpath:/ICBC-config.xml").getPath();
+			data = TranslationTool.readFile(path);
 			reader.build(data);
 
 			Document jdom = reader.getJdom();

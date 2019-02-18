@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="GBK"?>
+<config>
+	<NCIp>http://wangtingweiceshi.ngrok.xiaomiqiu.cn</NCIp>		 <!--NC IP地址 -->
+	<NCPort>446</NCPort>		 <!--NC HTTP服务端口号 -->
+	<SCoding>GBK</SCoding>		 <!--编码格式 -->
+	<SBankCode>102</SBankCode>		 <!--银行编码 -->
+	<SGroupCIS>440290000450839</SGroupCIS>		 <!--集团CIS号 -->
+	<SID>scshszhghyqtest1.y.4402</SID>		 <!--证书ID -->
+	<TranCodes>
+		<TranCode>
+			<code>QPD</code>  <!--交易码 -->
+			<name>查询当日明细</name> <!--交易名称 -->
+			<version>0.0.1.0</version> <!--版本 -->
+		</TranCode>
+		<TranCode>
+			<code>QHISD</code>  <!--交易码 -->
+			<name>高级明细查询</name> <!--交易名称 -->
+			<version>0.0.1.0</version> <!--版本 -->
+		</TranCode>
+	</TranCodes>
+</config>

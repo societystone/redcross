@@ -105,6 +105,7 @@ layui.define(['common'], function(exports){
     page: true, //是否显示分页
     limits:config.tableLimits,
     limit: config.tableDefaultLimit,
+    toolbar: '#table-toolbar',
     defaultToolbar: ['filter']
   });
 
@@ -264,6 +265,15 @@ layui.define(['common'], function(exports){
   table.on('tool(table-data)', function(obj){
 	  var type = obj.event;
 	  active[type] ? active[type].call(this, obj.data.id) : '';
+  });
+  
+  //工具栏事件
+  table.on('toolbar(table-data)', function(obj){
+    switch(obj.event){
+      case 'add':
+    	  active.add();
+    	  break;
+    };
   });
 
   exports('acct/list', {});

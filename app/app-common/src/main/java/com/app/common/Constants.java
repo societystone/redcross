@@ -3,6 +3,8 @@ package com.app.common;
 public class Constants {
 	public static final String ENABLE_VALUE = "1";// 启用
 	public static final String DISABLE_VALUE = "0";// 禁用
+	
+	public static final int RESULT_NUM = 0 ;// 用于数据库插入修改是否有返回值作对比用
 
 	/**
 	 * 系统状态

@@ -4,11 +4,10 @@ import java.util.List;
 
 import com.app.bean.PageResultBean;
 import com.app.entity.Account;
-import com.app.entity.AcctInfo;
 
 public interface AccountService {
 
-	int  addAcct(Account acct);
+	int addAcct(Account acct);
 
 	int deleteAcctByid(Long id);
 
@@ -17,11 +16,11 @@ public interface AccountService {
 	int updateAcct(Account acct);
 
 	int stopOrStartAcct(Account acct);
-	
+
 	PageResultBean<Account> SelectListByPage(Account acct);
 
 	Account selectById(Long id);
-	
+
 	/**
 	 * 获取所有有效账户列表
 	 * 

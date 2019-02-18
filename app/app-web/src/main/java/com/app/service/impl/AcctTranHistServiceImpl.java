@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.app.bankbean.qhisd.BankBeanQhisdOutRd;
 import com.app.dao.local.AcctQueryHistDAO;
 import com.app.dao.local.AcctTranHistDAO;
-import com.app.entity.AcctInfo;
+import com.app.entity.Account;
 import com.app.entity.AcctQueryHist;
 import com.app.entity.AcctTranHist;
 import com.app.service.AcctTranHistService;
@@ -42,12 +42,12 @@ public class AcctTranHistServiceImpl implements AcctTranHistService {
 
 	@Transactional(value = "transactionManager", rollbackFor = Exception.class)
 	@Override
-	public void loadAcctTranHist(AcctInfo acctInfo, Date beginDate, Date endDate, String taskType) {
+	public void loadAcctTranHist(Account account, Date beginDate, Date endDate, String taskType) {
 		// TODO Auto-generated method stub
-		Long acctId = acctInfo.getId();
+		Long acctId = account.getId();
 		List<Map<String, String>> timeRegionList = getQueryTimeRegion(acctId, beginDate, endDate);
 		if (Emptys.isNotEmpty(timeRegionList)) {
-			String acctNo = acctInfo.getAcctNo();
+			String acctNo = account.getAcctNo();
 			int batchTotalCount = 100;
 			for (Map<String, String> timeRegion : timeRegionList) {
 				String isNowDay = timeRegion.get("isNowDay");

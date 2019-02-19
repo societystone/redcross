@@ -11,6 +11,7 @@
 		<result column="modify_date" property="modifyDate"
 			jdbcType="TIMESTAMP" />
 		<result column="remark" property="remark" jdbcType="VARCHAR" />
+
 	</resultMap>
 	<!-- 数据库列列表 -->
 	<sql id="Base_Column_List">

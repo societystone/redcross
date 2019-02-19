@@ -13,17 +13,7 @@ layui.define(['common'], function(exports){
   function add_one_mapping(obj){
 
 	var obj = $("#layui-add-btn").parent();
-	obj.before(html);
 	form.render();
-	obj.prev().find("button[name='LAY-btn-del']").click(function(){
-		console.log(123);
-		  $(this).parent().parent().remove();
-	  });
-	obj.prev().find("select[name^='remoteTable']").change(function(){
-		console.log(456);
-		  var remoteTable = $(this).find("option:selected").val();
-		  $(this).parent().parent().next().find("select[name^='remoteColumn']").html(common.getSelectOption(common.getSysRefDef(common.Constants.RemoteTableColumn+remoteTable,'1'), ''));
-	   });
   }
   
   function init_mapping(data){

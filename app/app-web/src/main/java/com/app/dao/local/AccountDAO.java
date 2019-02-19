@@ -16,4 +16,5 @@ public interface AccountDAO {
 	 int updateAcct(Account acct);
 	 int stopOrStartAcct(Account acct);
 	 List<Account> selectListByStatus(HashMap<String, Object> map);
+	 Account getAcctByAcctNo(String acctNo);
 }

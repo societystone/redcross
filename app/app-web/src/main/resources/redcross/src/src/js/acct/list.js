@@ -22,7 +22,8 @@ layui.define(['common'], function(exports){
   var searchFormObj = $(".layui-form");
 
   var searchData = {
-		  "acctName":searchFormObj.find("input[name='acctName']").val()
+		  "acctName":searchFormObj.find("input[name='acctName']").val(),
+  		"acctNo":searchFormObj.find("input[name='acctNo']").val()
   };
   //监听搜索
   form.on('submit(LAY-btn-search)', function(data){
@@ -33,10 +34,10 @@ layui.define(['common'], function(exports){
     });
   });
   
-  //用户管理
+  //账户管理
   table.render({
     elem: '#table-data',
-    title: '用户数据表',
+    title: '账户列表',
     height:cardBodyHeight,
     method: "POST",
     contentType: 'application/json',
@@ -192,7 +193,7 @@ layui.define(['common'], function(exports){
 		    		              table.reload('table-data'); //数据刷新
 		    		              layer.close(index); //关闭弹层
 		              		  }else{
-		              			  layer.msg("编辑账户失败！");
+		              			  layer.msg(res.msg);
 		              			  common.disabledButton(submit,false);
 		              		  }
 		                  }
@@ -214,7 +215,7 @@ layui.define(['common'], function(exports){
 	              			  layer.msg("删除账户成功！");
 	    		              table.reload('table-data'); //数据刷新
 	              		  }else{
-	              			 layer.msg("删除账户失败！");
+	              			layer.msg(res.msg);
 	              		  }
 	    				  layer.close(index);
 	                  }
@@ -233,7 +234,7 @@ layui.define(['common'], function(exports){
 	              			  layer.msg("启用账户成功！");
 	    		              table.reload('table-data'); //数据刷新
 	              		  }else{
-	              			layer.msg("启用账户失败！");
+	              			layer.msg(res.msg);
 	              		  }
 	    				  layer.close(index);
 	                  }
@@ -252,7 +253,7 @@ layui.define(['common'], function(exports){
 	              			  layer.msg("停用账户成功！");
 	    		              table.reload('table-data'); //数据刷新
 	              		  }else{
-	              			 layer.msg("停用账户失败！");
+	              			layer.msg(res.msg);
 	              		  }
 	    				  layer.close(index);
 	                  }

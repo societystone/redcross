@@ -12,9 +12,9 @@
 		<result column="status" property="status"
 			jdbcType="VARCHAR" />
 		<result column="create_date" property="createDate"
-			jdbcType="DATE" />
+			jdbcType="TIMESTAMP" />
 		<result column="modify_date" property="modifyDate"
-			jdbcType="DATE" />
+			jdbcType="TIMESTAMP" />
 		<result column="user_code" property="userCode"
 			jdbcType="VARCHAR" />
 		<result column="user_name" property="userName"
@@ -71,11 +71,11 @@
 		
 		<if test="acctNo != null and acctNo !='' ">
 			<bind name="pattern" value="'%' + acctNo + '%'" />
-			and acct_no=#{pattern}
+			and acct_no like #{pattern}
 		</if>
 		<if test="acctName != null and acctName !='' ">
 			<bind name="pattern" value="'%' + acctName + '%'" />
-			and acct_name=#{pattern}
+			and acct_name like  #{pattern}
 		</if>
 	
 	</select>
@@ -90,5 +90,14 @@
 			and status = #{status}
 		</if>
 	</select>
+	<select id="getAcctByAcctNo" parameterType="string"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from acct_info
+		where  acct_no = #{acctNo}
+	</select>
+	
+	
 
 </mapper>

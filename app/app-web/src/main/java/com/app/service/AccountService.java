@@ -7,7 +7,7 @@ import com.app.entity.Account;
 
 public interface AccountService {
 
-	int addAcct(Account acct);
+	int addAcct(Account acct) throws Exception;
 
 	int deleteAcctByid(Long id);
 
@@ -27,5 +27,7 @@ public interface AccountService {
 	 * @return
 	 */
 	public List<Account> getAllValidAcct();
+
+	boolean getAcctByAcctNo(String acctNo);
 
 }

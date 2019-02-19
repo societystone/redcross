@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.app.bankbean.qhisd.BankBeanQhisdOutRd;
+import com.app.bean.PageResultBean;
 import com.app.dao.local.AcctQueryHistDAO;
 import com.app.dao.local.AcctTranHistDAO;
 import com.app.entity.Account;
@@ -21,6 +22,8 @@ import com.app.service.AcctTranHistService;
 import com.app.service.BankDataService;
 import com.app.util.DateUtils;
 import com.app.util.Emptys;
+import com.app.util.PageUtils;
+import com.github.pagehelper.PageHelper;
 
 /**
  * 账户交易流水接口实现类 . <br>
@@ -199,5 +202,28 @@ public class AcctTranHistServiceImpl implements AcctTranHistService {
 			timeRegionList.add(map);
 		}
 		return timeRegionList;
+	}
+
+	@Override
+	public PageResultBean<AcctTranHist> SelectListByPage(HashMap<String, Object> queryMap) {
+		// TODO Auto-generated method stub
+
+		PageHelper.startPage(PageUtils.getPageNum(), PageUtils.getPageSize());
+		PageResultBean<AcctTranHist> pages = new PageResultBean<AcctTranHist>(selectList(queryMap));
+		return pages;
+	}
+
+	
+	public List<AcctTranHist> selectList(HashMap<String, Object> queryMap) {
+//		queryMap
+		List<AcctTranHist> list =  acctTranHistDAO.selectList(queryMap);
+		return list;
+	}
+	
+	
+	@Override
+	public AcctTranHist selectById(Long id) {
+		
+		return acctTranHistDAO.selectByPrimaryKey(id);
 	}
 }

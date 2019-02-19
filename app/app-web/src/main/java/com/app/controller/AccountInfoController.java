@@ -1,9 +1,5 @@
 package com.app.controller;
 
-import java.util.Date;
-
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,9 +11,8 @@ import com.app.bean.PageResultBean;
 import com.app.bean.ResultBean;
 import com.app.common.Constants;
 import com.app.entity.Account;
-import com.app.entity.SysUser;
 import com.app.service.AccountService;
-import com.app.util.UserUtils;
+import com.app.util.ExceptionUtil;
 
 @RestController
 public class AccountInfoController {
@@ -34,21 +29,20 @@ public class AccountInfoController {
 	@RequestMapping("acct/add")
 	@ResponseBody
 	public ResultBean<Account> addAcct(@RequestBody Account acct) {
-		ResultBean<Account> rt = new ResultBean<Account>();
-		SysUser su = (SysUser) UserUtils.getUser();
-		acct.setCreateDate(new Date());
-		acct.setUserCode(su.getUsername());
-		acct.setUserName(su.getRealName());
-		acct.setModifyDate(new Date());
-		acct.setUserCodeLastModify(su.getUsername());
-		acct.setUserNameLastModify(su.getRealName());
-		int result = accountService.addAcct(acct);
-		if(result > Constants.RESULT_NUM ) {
-			rt.setCode(0);
-		}else {
-			rt.setCode(-1);
+		/*
+		 * 判断账号会否已存在
+		 */
+		if(accountService.getAcctByAcctNo(acct.getAcctNo())) {
+			ExceptionUtil.throwCheckException("账号已存在");
 		}
-		return rt;
+		try {
+			accountService.addAcct(acct);
+		} catch (Exception e) {
+			ExceptionUtil.throwCheckException("账户添加失败");
+			
+		}
+		
+		return new ResultBean<Account>(null);
 	}
 	
 	/**
@@ -59,14 +53,11 @@ public class AccountInfoController {
 	@RequestMapping("acct/delete/{id}")
 	@ResponseBody
 	public ResultBean<Account> addAcct(@PathVariable("id") Long id) {
-		ResultBean<Account> rt = new ResultBean<Account>();
 		int result = accountService.deleteAcctByid(id);
-		if(result > Constants.RESULT_NUM ) {
-			rt.setCode(0);
-		}else {
-			rt.setCode(-1);
+		if(result != Constants.RESULT_NUM1 ) {
+			ExceptionUtil.throwCheckException("删除账户失败");
 		}
-		return rt;
+		return new ResultBean<Account>(null);
 		
 	}
 	
@@ -99,18 +90,11 @@ public class AccountInfoController {
 	@RequestMapping("acct/updateAcct")
 	@ResponseBody
 	public ResultBean<Account> updateAcct(@RequestBody Account acct) {
-		ResultBean<Account> rt = new ResultBean<Account>();
-		SysUser su = (SysUser) UserUtils.getUser();
-		acct.setModifyDate(new Date());
-		acct.setUserCodeLastModify(su.getUsername());
-		acct.setUserNameLastModify(su.getRealName());
 		int result = accountService.updateAcct(acct);
-		if(result > Constants.RESULT_NUM ) {
-			rt.setCode(0);
-		}else {
-			rt.setCode(-1);
+		if(result != Constants.RESULT_NUM1 ) {
+			ExceptionUtil.throwCheckException("更新账户失败");
 		}
-		return rt;
+		return new ResultBean<Account>(null);
 	}
 	/**
 	 * 启用或者停止使用账户
@@ -120,22 +104,15 @@ public class AccountInfoController {
 	@RequestMapping("acct/stopOrStartAcct/{id}/{status}")
 	@ResponseBody
 	public ResultBean<Account> stopOrStartAcct(@PathVariable("id") Long id,@PathVariable("status") String status) {
-		ResultBean<Account> rt = new ResultBean<Account>();
 		Account acct = new Account();
 		acct.setId(id);
 		acct.setStatus(status);
-		
-		SysUser su = (SysUser) UserUtils.getUser();
-		acct.setModifyDate(new Date());
-		acct.setUserCodeLastModify(su.getUsername());
-		acct.setUserNameLastModify(su.getRealName());
 		int result = accountService.stopOrStartAcct(acct);
-		if(result > Constants.RESULT_NUM ) {
-			rt.setCode(0);
-		}else {
-			rt.setCode(-1);
+		if(result != Constants.RESULT_NUM1 ) {
+			ExceptionUtil.throwCheckException("对账户启动或停止操作失败");
 		}
-		return rt;
+
+		return new ResultBean<Account>(null);
 	}
 	
 }

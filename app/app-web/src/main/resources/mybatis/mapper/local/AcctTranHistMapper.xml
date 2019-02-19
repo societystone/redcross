@@ -106,6 +106,12 @@
 			jdbcType="VARCHAR" />
 		<result column="create_date" property="createDate"
 			jdbcType="TIMESTAMP" />
+			
+	    <association property="account" javaType="Account">
+		  <id property="id" column="id"/>
+		  <result property="acctName" column="acct_name"/>
+		  <result property="acctNo" column="acct_no"/>
+		</association>
 	</resultMap>
 	<!-- 数据库列列表 -->
 	<sql id="Base_Column_List">
@@ -282,4 +288,38 @@
 		delete from acct_tran_hist
 		where acct_id = #{acctId} and (date between #{beginDate} and endDate)
 	</delete>
+	
+	<!-- 获得数据集合 -->
+	<select id="selectList" parameterType="java.util.HashMap"
+		resultMap="BaseResultMap">
+		select
+		ai.acct_no,ai.acct_name,ath.*
+		from acct_tran_hist ath ,acct_info  ai 
+		where  ath.acct_id = ai.id
+		
+		<if test="acctNo != null and acctNo !='' ">
+			and ai.acct_No = #{acctNo}
+		</if> 
+		<if test="queryStartTime != null and queryStartTime !='' ">
+		<![CDATA[ 
+			and  STR_TO_DATE(tradeTime,'%Y%m%d') >= #{queryStartTime}
+		]]>
+			
+		</if> 
+		<if test="queryEndTime != null and queryEndTime !='' ">
+		<![CDATA[ 
+			and #{queryEndTime}  >=  STR_TO_DATE(tradeTime,'%Y%m%d')	
+		]]>
+			
+		</if> 
+	</select>
+	
+	<!-- 通过SysUser的id获得SysUser对象 -->
+	<select id="selectByPrimaryKey" parameterType="long"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from acct_tran_hist
+		where id=#{id}
+	</select>
 </mapper>

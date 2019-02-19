@@ -19,4 +19,5 @@ public interface AcctTranHistDAO extends BaseDAO<AcctTranHist, Long> {
 	 * @return
 	 */
 	Long delete(HashMap<String, Object> map);
+
 }

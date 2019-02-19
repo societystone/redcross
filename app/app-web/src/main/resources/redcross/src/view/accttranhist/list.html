@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" style="height:100%">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<title>账户管理</title>
+
+<link rel="stylesheet" href="../../src/layui/css/layui.css">
+
+<style>
+body{padding: 10px; /*overflow-y: scroll;*/}
+</style>
+</head>
+<body>
+<div class="layui-fluid">
+    <div class="layui-card">
+      <div class="layui-form layui-card-header" style="padding:0px;" lay-filter="layui-form-search">
+        <div class="layui-form-item">
+          <div class="layui-inline">
+              <input type="text" name="acctNo" placeholder="请输入账户号" autocomplete="off" class="layui-input">
+          </div>
+          
+          <div class="layui-inline">
+		      <label class="layui-form-label">开始时间</label>
+		      <div class="layui-input-inline">
+		        <input type="text" class="layui-input" id="date1" name="queryStartTime" placeholder="yyyy-MM-dd">
+		      </div>
+		  </div>
+		  <div class="layui-inline">
+		     <label class="layui-form-label">结束时间</label>
+		     <div class="layui-input-inline">
+		        <input type="text" class="layui-input" id="date2" name="queryEndTime" placeholder="yyyy-MM-dd">
+		      </div>
+		   </div>
+ 
+          <div class="layui-inline">
+            <button class="layui-btn" lay-submit lay-filter="LAY-btn-search">
+              <i class="layui-icon layui-icon-search"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <div class="layui-card-body">
+	
+		<table id="table-data" lay-filter="table-data"></table>
+
+	  </div>
+	</div>
+</div>
+<script src="../../src/layui/layui.js"></script>
+<script>
+layui.config({
+    base: '../../src/js/'
+  }).use('accttranhist/list');
+  
+layui.use('laydate', function(){
+  var laydate = layui.laydate;
+  
+  //常规用法
+  laydate.render({
+    elem: '#date1'
+  });
+  laydate.render({
+	    elem: '#date2'
+	  });
+
+});
+
+</script>
+</body>
+</html>

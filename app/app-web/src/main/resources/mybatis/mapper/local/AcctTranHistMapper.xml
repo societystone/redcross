@@ -107,8 +107,7 @@
 		<result column="create_date" property="createDate"
 			jdbcType="TIMESTAMP" />
 			
-	    <association property="account" javaType="Account">
-		  <id property="id" column="id"/>
+	    <association property="account" column="acct_id" javaType="Account">
 		  <result property="acctName" column="acct_name"/>
 		  <result property="acctNo" column="acct_no"/>
 		</association>
@@ -318,8 +317,8 @@
 	<select id="selectByPrimaryKey" parameterType="long"
 		resultMap="BaseResultMap">
 		select
-		<include refid="Base_Column_List" />
-		from acct_tran_hist
-		where id=#{id}
+		ai.acct_no,ai.acct_name,ath.*
+		from acct_tran_hist ath ,acct_info  ai 
+		where  ath.acct_id = ai.id and ai.id=#{id}
 	</select>
 </mapper>

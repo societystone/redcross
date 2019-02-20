@@ -48,8 +48,12 @@ layui.define(['common'], function(exports){
     cols: [[
     	{type:'id', title: '账户流水id', hide:true},
     	{field: 'acctId', title: '账户id', width: 300},
-    	{field: 'account.acctNo', title: '账户号', width: 250},
-    	{field: 'account.acctName', title: '账户名', width: 250},
+    	{field: 'acctNo', title: '账户号', width: 250, templet: function(d) {
+    		return d.account.acctNo;
+    	}},
+    	{field: 'acctName', title: '账户名', width: 250, templet: function(d) {
+    		return d.account.acctName;
+    	}},
     	{field: 'vouhNo', title: '凭证号', width: 150},
     	{field: 'tradeTime', title: '交易时间', width: 150},
     	{field: 'tradeLocation', title: '交易场所', width: 150},

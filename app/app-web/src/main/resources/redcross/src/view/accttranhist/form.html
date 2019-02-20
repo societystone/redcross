@@ -25,276 +25,460 @@ body {
 	<div class="layui-form" lay-filter="layui-form" id="layui-form"
 		style="padding: 20px 30px 0 0;">
 		<input type="hidden" name="id">
-		<div class="layui-form-item">
-			<label class="layui-form-label">账户ID</label>
-			<div class="layui-input-inline">
-				<input type="text" name="acctId" lay-verify="required"
-					 autocomplete="off" class="layui-input">
+		<div class="layui-inline">
+			<label class="layui-form-label">账号</label>
+			<div class="layui-input-block">
+				<input type="text" name="acctNo" autocomplete="off"
+					class="layui-input">
 			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label">账户名称</label>
+			<div class="layui-input-block">
+				<input type="text" name="acctName" autocomplete="off"
+					class="layui-input">
+			</div>
+		</div>
+		<div class="layui-inline">
 			<label class="layui-form-label">借贷标志</label>
-			<div class="layui-input-inline">
-				<input type="text" name="drcrf" lay-verify="required"
-					autocomplete="off" class="layui-input">
+			<div class="layui-input-block">
+				<input type="text" name="drcrf" autocomplete="off"
+					class="layui-input">
 			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label">凭证号</label>
+			<div class="layui-input-block">
+				<input type="text" name="vouhNo" autocomplete="off"
+					class="layui-input">
+			</div>
+		</div>
+		<div class="layui-inline">
 			<label class="layui-form-label">借方发生额</label>
-			<div class="layui-input-inline">
-				<input type="text" name="debitAmount" lay-verify="required"
-					 autocomplete="off" class="layui-input">
+			<div class="layui-input-block">
+				<input type="text" name="debitAmount" autocomplete="off"
+					class="layui-input">
 			</div>
+		</div>
+		<div class="layui-inline">
 			<label class="layui-form-label">贷方发生额</label>
-			<div class="layui-input-inline">
-				<input type="text" name="creditAmount" lay-verify="required"
-					autocomplete="off" class="layui-input">
+			<div class="layui-input-block">
+				<input type="text" name="creditAmount" autocomplete="off"
+					class="layui-input">
 			</div>
 		</div>
-		<div class="layui-form-item">
+		<div class="layui-inline">
 			<label class="layui-form-label">余额</label>
-			<div class="layui-input-inline">
-				<input type="text" name="balance" lay-verify="required"
-					 autocomplete="off" class="layui-input">
+			<div class="layui-input-block">
+				<input type="text" name="balance" autocomplete="off"
+					class="layui-input">
 			</div>
+		</div>
+		<div class="layui-inline">
 			<label class="layui-form-label">对方行号</label>
-			<div class="layui-input-inline">
-				<input type="text" name="recipBkNo" lay-verify="required"
-					autocomplete="off" class="layui-input">
+			<div class="layui-input-block">
+				<input type="text" name="recipBkNo" autocomplete="off"
+					class="layui-input">
 			</div>
+		</div>
+		<div class="layui-inline">
 			<label class="layui-form-label">对方行名</label>
-			<div class="layui-input-inline">
-				<input type="text" name="recipBkName" lay-verify="required"
-					 autocomplete="off" class="layui-input">
+			<div class="layui-input-block">
+				<input type="text" name="recipBkName" autocomplete="off"
+					class="layui-input">
 			</div>
+		</div>
+		<div class="layui-inline">
 			<label class="layui-form-label">对方账号</label>
-			<div class="layui-input-inline">
-				<input type="text" name="recipAccNo" lay-verify="required"
-					autocomplete="off" class="layui-input">
+			<div class="layui-input-block">
+				<input type="text" name="recipAccNo" autocomplete="off"
+					class="layui-input">
 			</div>
 		</div>
-		<div class="layui-form-item">
+		<div class="layui-inline">
 			<label class="layui-form-label">对方户名</label>
-			<div class="layui-input-inline">
-				<input type="text" name="recipName" lay-verify="required"
-					 autocomplete="off" class="layui-input">
+			<div class="layui-input-block">
+				<input type="text" name="recipName" autocomplete="off"
+					class="layui-input">
 			</div>
+		</div>
+		<div class="layui-inline">
 			<label class="layui-form-label">摘要</label>
-			<div class="layui-input-inline">
-				<input type="text" name="summary" lay-verify="required"
-					autocomplete="off" class="layui-input">
-			</div>
-			<label class="layui-form-label">  用途</label>
-			<div class="layui-input-inline">
-				<input type="text" name="useCN" lay-verify="required"
-					 autocomplete="off" class="layui-input">
-			</div>
-			<label class="layui-form-label"> 附言</label>
-			<div class="layui-input-inline">
-				<input type="text" name="postScript" lay-verify="required"
-					autocomplete="off" class="layui-input">
+			<div class="layui-input-block">
+				<input type="text" name="summary" autocomplete="off"
+					class="layui-input">
 			</div>
 		</div>
-		<div class="layui-form-item">
+		<div class="layui-inline">
+			<label class="layui-form-label">用途</label>
+			<div class="layui-input-block">
+				<input type="text" name="useCN" autocomplete="off"
+					class="layui-input">
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label">附言</label>
+			<div class="layui-input-block">
+				<input type="text" name="postScript" autocomplete="off"
+					class="layui-input">
+			</div>
+		</div>
+		<div class="layui-inline">
 			<label class="layui-form-label">业务代码</label>
-			<div class="layui-input-inline">
-				<input type="text" name="busCode" lay-verify="required"
-					 autocomplete="off" class="layui-input">
+			<div class="layui-input-block">
+				<input type="text" name="busCode" autocomplete="off"
+					class="layui-input">
 			</div>
+		</div>
+		<div class="layui-inline">
 			<label class="layui-form-label">交易日期</label>
-			<div class="layui-input-inline">
-				<input type="text" name="date" lay-verify="required"
-					autocomplete="off" class="layui-input">
+			<div class="layui-input-block">
+				<input type="text" name="date" autocomplete="off"
+					class="layui-input">
 			</div>
+		</div>
+		<div class="layui-inline">
 			<label class="layui-form-label">时间戳</label>
-			<div class="layui-input-inline">
-				<input type="text" name="time" lay-verify="required"
-					 autocomplete="off" class="layui-input">
+			<div class="layui-input-block">
+				<input type="text" name="time" autocomplete="off"
+					class="layui-input">
 			</div>
+		</div>
+		<div class="layui-inline">
 			<label class="layui-form-label">业务编号</label>
-			<div class="layui-input-inline">
-				<input type="text" name="ref" lay-verify="required"
-					autocomplete="off" class="layui-input">
+			<div class="layui-input-block">
+				<input type="text" name="ref" autocomplete="off" class="layui-input">
 			</div>
 		</div>
-		<div class="layui-form-item">
+		<div class="layui-inline">
 			<label class="layui-form-label">相关业务编号</label>
-			<div class="layui-input-inline">
-				<input type="text" name="oref" lay-verify="required"
-					 autocomplete="off" class="layui-input">
+			<div class="layui-input-block">
+				<input type="text" name="oref" autocomplete="off"
+					class="layui-input">
 			</div>
+		</div>
+		<div class="layui-inline">
 			<label class="layui-form-label">英文备注</label>
-			<div class="layui-input-inline">
-				<input type="text" name="enSummary" lay-verify="required"
-					autocomplete="off" class="layui-input">
+			<div class="layui-input-block">
+				<input type="text" name="enSummary" autocomplete="off"
+					class="layui-input">
 			</div>
+		</div>
+		<div class="layui-inline">
 			<label class="layui-form-label">业务种类</label>
-			<div class="layui-input-inline">
-				<input type="text" name="busType" lay-verify="required"
-					 autocomplete="off" class="layui-input">
+			<div class="layui-input-block">
+				<input type="text" name="busType" autocomplete="off"
+					class="layui-input">
 			</div>
+		</div>
+		<div class="layui-inline">
 			<label class="layui-form-label">凭证种类</label>
-			<div class="layui-input-inline">
-				<input type="text" name="vouhType" lay-verify="required"
-					autocomplete="off" class="layui-input">
+			<div class="layui-input-block">
+				<input type="text" name="vouhType" autocomplete="off"
+					class="layui-input">
 			</div>
 		</div>
-		<div class="layui-form-item">
+		<div class="layui-inline">
 			<label class="layui-form-label">附加信息</label>
-			<div class="layui-input-inline">
-				<input type="text" name="addInfo" lay-verify="required"
-					 autocomplete="off" class="layui-input">
+			<div class="layui-input-block">
+				<input type="text" name="addInfo" autocomplete="off"
+					class="layui-input">
 			</div>
+		</div>
+		<div class="layui-inline">
 			<label class="layui-form-label">电子回单唯一标识</label>
-			<div class="layui-input-inline">
-				<input type="text" name="toutfo" lay-verify="required"
-					autocomplete="off" class="layui-input">
+			<div class="layui-input-block">
+				<input type="text" name="toutfo" autocomplete="off"
+					class="layui-input">
 			</div>
+		</div>
+		<div class="layui-inline">
 			<label class="layui-form-label">银行交易流水号</label>
-			<div class="layui-input-inline">
-				<input type="text" name="onlySequence" lay-verify="required"
-					 autocomplete="off" class="layui-input">
+			<div class="layui-input-block">
+				<input type="text" name="onlySequence" autocomplete="off"
+					class="layui-input">
 			</div>
+		</div>
+		<div class="layui-inline">
 			<label class="layui-form-label">财务公司二级账户户名（资金池次要对手账号户名）</label>
-			<div class="layui-input-inline">
-				<input type="text" name="agentAcctName" lay-verify="required"
-					autocomplete="off" class="layui-input">
+			<div class="layui-input-block">
+				<input type="text" name="agentAcctName" autocomplete="off"
+					class="layui-input">
 			</div>
 		</div>
-		//以下還沒弄
-		
-		
-		
-		<div class="layui-form-item">
-			<label class="layui-form-label">账户ID</label>
-			<div class="layui-input-inline">
-				<input type="text" name="acctId" lay-verify="required"
-					 autocomplete="off" class="layui-input">
-			</div>
-			<label class="layui-form-label">凭证号</label>
-			<div class="layui-input-inline">
-				<input type="text" name="vouhNo" lay-verify="required"
-					autocomplete="off" class="layui-input">
-			</div>
-			<label class="layui-form-label">账户ID</label>
-			<div class="layui-input-inline">
-				<input type="text" name="acctId" lay-verify="required"
-					 autocomplete="off" class="layui-input">
-			</div>
-			<label class="layui-form-label">凭证号</label>
-			<div class="layui-input-inline">
-				<input type="text" name="vouhNo" lay-verify="required"
-					autocomplete="off" class="layui-input">
+		<div class="layui-inline">
+			<label class="layui-form-label">财务公司二级账户账号（资金池次要对手账号）</label>
+			<div class="layui-input-block">
+				<input type="text" name="agentAcctNo" autocomplete="off"
+					class="layui-input">
 			</div>
 		</div>
-		<div class="layui-form-item">
-			<label class="layui-form-label">账户ID</label>
-			<div class="layui-input-inline">
-				<input type="text" name="acctId" lay-verify="required"
-					 autocomplete="off" class="layui-input">
-			</div>
-			<label class="layui-form-label">凭证号</label>
-			<div class="layui-input-inline">
-				<input type="text" name="vouhNo" lay-verify="required"
-					autocomplete="off" class="layui-input">
-			</div>
-			<label class="layui-form-label">账户ID</label>
-			<div class="layui-input-inline">
-				<input type="text" name="acctId" lay-verify="required"
-					 autocomplete="off" class="layui-input">
-			</div>
-			<label class="layui-form-label">凭证号</label>
-			<div class="layui-input-inline">
-				<input type="text" name="vouhNo" lay-verify="required"
-					autocomplete="off" class="layui-input">
+		<div class="layui-inline">
+			<label class="layui-form-label">冲正标志</label>
+			<div class="layui-input-block">
+				<input type="text" name="upDtranf" autocomplete="off"
+					class="layui-input">
 			</div>
 		</div>
-		<div class="layui-form-item">
-			<label class="layui-form-label">账户ID</label>
-			<div class="layui-input-inline">
-				<input type="text" name="acctId" lay-verify="required"
-					 autocomplete="off" class="layui-input">
-			</div>
-			<label class="layui-form-label">凭证号</label>
-			<div class="layui-input-inline">
-				<input type="text" name="vouhNo" lay-verify="required"
-					autocomplete="off" class="layui-input">
-			</div>
-			<label class="layui-form-label">账户ID</label>
-			<div class="layui-input-inline">
-				<input type="text" name="acctId" lay-verify="required"
-					 autocomplete="off" class="layui-input">
-			</div>
-			<label class="layui-form-label">凭证号</label>
-			<div class="layui-input-inline">
-				<input type="text" name="vouhNo" lay-verify="required"
-					autocomplete="off" class="layui-input">
+		<div class="layui-inline">
+			<label class="layui-form-label">起息日</label>
+			<div class="layui-input-block">
+				<input type="text" name="valueDate" autocomplete="off"
+					class="layui-input">
 			</div>
 		</div>
-		<div class="layui-form-item">
-			<label class="layui-form-label">账户ID</label>
-			<div class="layui-input-inline">
-				<input type="text" name="acctId" lay-verify="required"
-					 autocomplete="off" class="layui-input">
-			</div>
-			<label class="layui-form-label">凭证号</label>
-			<div class="layui-input-inline">
-				<input type="text" name="vouhNo" lay-verify="required"
-					autocomplete="off" class="layui-input">
-			</div>
-			<label class="layui-form-label">账户ID</label>
-			<div class="layui-input-inline">
-				<input type="text" name="acctId" lay-verify="required"
-					 autocomplete="off" class="layui-input">
-			</div>
-			<label class="layui-form-label">凭证号</label>
-			<div class="layui-input-inline">
-				<input type="text" name="vouhNo" lay-verify="required"
-					autocomplete="off" class="layui-input">
+		<div class="layui-inline">
+			<label class="layui-form-label">工行交易代码</label>
+			<div class="layui-input-block">
+				<input type="text" name="trxCode" autocomplete="off"
+					class="layui-input">
 			</div>
 		</div>
-		<div class="layui-form-item">
-			<label class="layui-form-label">账户ID</label>
-			<div class="layui-input-inline">
-				<input type="text" name="acctId" lay-verify="required"
-					 autocomplete="off" class="layui-input">
-			</div>
-			<label class="layui-form-label">凭证号</label>
-			<div class="layui-input-inline">
-				<input type="text" name="vouhNo" lay-verify="required"
-					autocomplete="off" class="layui-input">
-			</div>
-			<label class="layui-form-label">账户ID</label>
-			<div class="layui-input-inline">
-				<input type="text" name="acctId" lay-verify="required"
-					 autocomplete="off" class="layui-input">
-			</div>
-			<label class="layui-form-label">凭证号</label>
-			<div class="layui-input-inline">
-				<input type="text" name="vouhNo" lay-verify="required"
-					autocomplete="off" class="layui-input">
+		<div class="layui-inline">
+			<label class="layui-form-label">业务编号1</label>
+			<div class="layui-input-block">
+				<input type="text" name="ref1" autocomplete="off"
+					class="layui-input">
 			</div>
 		</div>
-		<div class="layui-form-item">
-			<label class="layui-form-label">账户ID</label>
-			<div class="layui-input-inline">
-				<input type="text" name="acctId" lay-verify="required"
-					 autocomplete="off" class="layui-input">
-			</div>
-			<label class="layui-form-label">凭证号</label>
-			<div class="layui-input-inline">
-				<input type="text" name="vouhNo" lay-verify="required"
-					autocomplete="off" class="layui-input">
-			</div>
-			<label class="layui-form-label">账户ID</label>
-			<div class="layui-input-inline">
-				<input type="text" name="acctId" lay-verify="required"
-					 autocomplete="off" class="layui-input">
-			</div>
-			<label class="layui-form-label">凭证号</label>
-			<div class="layui-input-inline">
-				<input type="text" name="vouhNo" lay-verify="required"
-					autocomplete="off" class="layui-input">
+		<div class="layui-inline">
+			<label class="layui-form-label">相关业务编号1</label>
+			<div class="layui-input-block">
+				<input type="text" name="oref1" autocomplete="off"
+					class="layui-input">
 			</div>
 		</div>
-		
-		
+		<div class="layui-inline">
+			<label class="layui-form-label">交易类型</label>
+			<div class="layui-input-block">
+				<input type="text" name="cASHF" autocomplete="off"
+					class="layui-input">
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label">入账日期</label>
+			<div class="layui-input-block">
+				<input type="text" name="busiDate" autocomplete="off"
+					class="layui-input">
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label">入账时间</label>
+			<div class="layui-input-block">
+				<input type="text" name="busiTime" autocomplete="off"
+					class="layui-input">
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label">顺序号</label>
+			<div class="layui-input-block">
+				<input type="text" name="seqNo" autocomplete="off"
+					class="layui-input">
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label">保证金编号</label>
+			<div class="layui-input-block">
+				<input type="text" name="mgNo" autocomplete="off"
+					class="layui-input">
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label">保证金缴存账号</label>
+			<div class="layui-input-block">
+				<input type="text" name="mgAccNo" autocomplete="off"
+					class="layui-input">
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label">保证金币种</label>
+			<div class="layui-input-block">
+				<input type="text" name="mgCurrType" autocomplete="off"
+					class="layui-input">
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label">钞汇标志</label>
+			<div class="layui-input-block">
+				<input type="text" name="cashExf" autocomplete="off"
+					class="layui-input">
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label">明细序号</label>
+			<div class="layui-input-block">
+				<input type="text" name="detailNo" autocomplete="off"
+					class="layui-input">
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label">备注</label>
+			<div class="layui-input-block">
+				<input type="text" name="remark" autocomplete="off"
+					class="layui-input">
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label">交易时间</label>
+			<div class="layui-input-block">
+				<input type="text" name="tradeTime" autocomplete="off"
+					class="layui-input">
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label">手续费</label>
+			<div class="layui-input-block">
+				<input type="text" name="tradeFee" autocomplete="off"
+					class="layui-input">
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label">交易场所</label>
+			<div class="layui-input-block">
+				<input type="text" name="tradeLocation" autocomplete="off"
+					class="layui-input">
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label">汇率</label>
+			<div class="layui-input-block">
+				<input type="text" name="exRate" autocomplete="off"
+					class="layui-input">
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label">外币币种</label>
+			<div class="layui-input-block">
+				<input type="text" name="forCurrtype" autocomplete="off"
+					class="layui-input">
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label">英文摘要</label>
+			<div class="layui-input-block">
+				<input type="text" name="enAbstract" autocomplete="off"
+					class="layui-input">
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label">开户行行号</label>
+			<div class="layui-input-block">
+				<input type="text" name="openBankNo" autocomplete="off"
+					class="layui-input">
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label">开户行BIC</label>
+			<div class="layui-input-block">
+				<input type="text" name="openBankBIC" autocomplete="off"
+					class="layui-input">
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label">开户银行名称</label>
+			<div class="layui-input-block">
+				<input type="text" name="openBankName" autocomplete="off"
+					class="layui-input">
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label">账号序号</label>
+			<div class="layui-input-block">
+				<input type="text" name="subAcctSeq" autocomplete="off"
+					class="layui-input">
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label">币种</label>
+			<div class="layui-input-block">
+				<input type="text" name="tHCurrency" autocomplete="off"
+					class="layui-input">
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label">对方行名（以此为准）</label>
+			<div class="layui-input-block">
+				<input type="text" name="recipBkName1" autocomplete="off"
+					class="layui-input">
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label">对方行号（以此为准）</label>
+			<div class="layui-input-block">
+				<input type="text" name="recipBkNo1" autocomplete="off"
+					class="layui-input">
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label">电子回单唯一标识</label>
+			<div class="layui-input-block">
+				<input type="text" name="tInfoNew" autocomplete="off"
+					class="layui-input">
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label">跨行退回原因</label>
+			<div class="layui-input-block">
+				<input type="text" name="refundMsg" autocomplete="off"
+					class="layui-input">
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label">回单业务种类</label>
+			<div class="layui-input-block">
+				<input type="text" name="busTypNo" autocomplete="off"
+					class="layui-input">
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label">回单个性化信息</label>
+			<div class="layui-input-block">
+				<input type="text" name="receiptInfo" autocomplete="off"
+					class="layui-input">
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label">柜员号</label>
+			<div class="layui-input-block">
+				<input type="text" name="telNo" autocomplete="off"
+					class="layui-input">
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label">本方财智账户卡卡号（管家卡卡号）</label>
+			<div class="layui-input-block">
+				<input type="text" name="mDCARDNO" autocomplete="off"
+					class="layui-input">
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label">交易金额</label>
+			<div class="layui-input-block">
+				<input type="text" name="trxAmt" autocomplete="off"
+					class="layui-input">
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label">交易币种</label>
+			<div class="layui-input-block">
+				<input type="text" name="trxCurr" autocomplete="off"
+					class="layui-input">
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label">币种</label>
+			<div class="layui-input-block">
+				<input type="text" name="currType" autocomplete="off"
+					class="layui-input">
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label">数据导入类型</label>
+			<div class="layui-input-block">
+				<input type="text" name="dataLoadType" autocomplete="off"
+					class="layui-input">
+			</div>
+		</div>
 	</div>
 
 	<script src="../../src/layui/layui.js"></script>

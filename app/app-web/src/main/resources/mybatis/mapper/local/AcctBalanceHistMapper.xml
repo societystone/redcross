@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.app.dao.local.AcctBalanceHistDAO">
+	<resultMap id="BaseResultMap" type="AcctBalanceHist">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="acct_no" property="acctNo" jdbcType="VARCHAR" />
+		<result column="date" property="date" jdbcType="VARCHAR" />
+		<result column="currType" property="currType"
+			jdbcType="VARCHAR" />
+		<result column="cashExf" property="cashExf" jdbcType="VARCHAR" />
+		<result column="acctProperty" property="acctProperty"
+			jdbcType="VARCHAR" />
+		<result column="accBalance" property="accBalance"
+			jdbcType="VARCHAR" />
+		<result column="balance" property="balance" jdbcType="VARCHAR" />
+		<result column="usableBalance" property="usableBalance"
+			jdbcType="VARCHAR" />
+		<result column="frzAmt" property="frzAmt" jdbcType="VARCHAR" />
+		<result column="queryTime" property="queryTime"
+			jdbcType="VARCHAR" />
+		<result column="iRetCode" property="iRetCode"
+			jdbcType="VARCHAR" />
+		<result column="iRetMsg" property="iRetMsg" jdbcType="VARCHAR" />
+		<result column="repReserved3" property="repReserved3"
+			jdbcType="VARCHAR" />
+		<result column="accName" property="accName" jdbcType="VARCHAR" />
+		<result column="holdAmt" property="holdAmt" jdbcType="VARCHAR" />
+		<result column="lastIntrDate" property="lastIntrDate"
+			jdbcType="VARCHAR" />
+		<result column="lastTranDate" property="lastTranDate"
+			jdbcType="VARCHAR" />
+		<result column="interDeposit" property="interDeposit"
+			jdbcType="VARCHAR" />
+		<result column="interWithdrawal" property="interWithdrawal"
+			jdbcType="VARCHAR" />
+		<result column="acctSeq" property="acctSeq" jdbcType="VARCHAR" />
+		<result column="mainAcctNo" property="mainAcctNo"
+			jdbcType="VARCHAR" />
+		<result column="create_date" property="createDate"
+			jdbcType="TIMESTAMP" />
+		<result column="modify_date" property="modifyDate"
+			jdbcType="TIMESTAMP" />
+	</resultMap>
+	<!-- 数据库列列表 -->
+	<sql id="Base_Column_List">
+		id, acct_no, date ,currType ,cashExf ,acctProperty
+		,accBalance ,balance ,usableBalance ,frzAmt ,queryTime ,iRetCode
+		,iRetMsg ,repReserved3 ,accName ,holdAmt ,lastIntrDate ,lastTranDate
+		,interDeposit ,interWithdrawal ,acctSeq , mainAcctNo,
+		create_date,
+		modify_date
+	</sql>
+	<!-- 插入DataMoveTemplate到数据库 -->
+	<insert id="insert" parameterType="AcctBalanceHist"
+		keyProperty="id">
+		insert
+		into acct_balance_hist(acct_no, date
+		,currType
+		,cashExf ,acctProperty
+		,accBalance ,balance ,usableBalance
+		,frzAmt
+		,queryTime ,iRetCode
+		,iRetMsg ,repReserved3 ,accName ,holdAmt
+		,lastIntrDate ,lastTranDate
+		,interDeposit ,interWithdrawal ,acctSeq ,
+		mainAcctNo,
+		create_date)
+		values(#{acctNo,jdbcType=VARCHAR},
+		#{date,jdbcType=VARCHAR},
+		#{currType,jdbcType=VARCHAR},
+		#{cashExf,jdbcType=VARCHAR},
+		#{acctProperty,jdbcType=VARCHAR},
+		#{accBalance,jdbcType=VARCHAR},
+		#{balance,jdbcType=VARCHAR},
+		#{usableBalance,jdbcType=VARCHAR},
+		#{frzAmt,jdbcType=VARCHAR},
+		#{queryTime,jdbcType=VARCHAR},
+		#{iRetCode ,jdbcType=VARCHAR},
+		#{iRetMsg,jdbcType=VARCHAR},
+		#{repReserved3,jdbcType=VARCHAR},
+		#{accName,jdbcType=VARCHAR},
+		#{holdAmt,jdbcType=VARCHAR},
+		#{lastIntrDate,jdbcType=VARCHAR},
+		#{lastTranDate,jdbcType=VARCHAR},
+		#{interDeposit,jdbcType=VARCHAR},
+		#{interWithdrawal,jdbcType=VARCHAR},
+		#{acctSeq,jdbcType=VARCHAR},
+		#{mainAcctNo,jdbcType=VARCHAR},
+		#{createDate,jdbcType=TIMESTAMP})
+	</insert>
+
+
+	<!-- 更新AcctBalanceHist到数据库 -->
+	<update id="update" parameterType="AcctBalanceHist">
+		update acct_balance_hist
+		set
+		modify_date=#{modifyDate,jdbcType=TIMESTAMP}
+		<if test="balance != null and balance != ''">
+			, balance = #{balance}
+		</if>
+		<if test="queryTime != null and queryTime != ''">
+			, queryTime = #{queryTime}
+		</if>
+		where id=#{id}
+	</update>
+
+	<!-- 获得数据集合 -->
+	<select id="selectList" parameterType="java.util.HashMap"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from acct_balance_hist
+		<where>
+			<if test="acctNo != null and acctNo != ''">
+				and acct_no = #{acctNo}
+			</if>
+			<if test="date != null and date != ''">
+				and date = #{date}
+			</if>
+			<if
+				test="beginDate != null and beginDate != '' and endDate != null and endDate != ''">
+				<![CDATA[ 
+				and date >= #{beginDate}
+				]]>
+			</if>
+			<if test="endDate != null and endDate != ''">
+				<![CDATA[ 
+				and date <= #{endDate}
+				]]>
+			</if>
+			<if test='acctNo != null and acctNo != "" and isLast == "Y"'>
+				and date = (select max(date) from acct_balance_hist where
+				acct_no = #{acctNo})
+			</if>
+		</where>
+		order by acct_no,date
+	</select>
+
+	<select id="selectCount" parameterType="java.util.HashMap"
+		resultType="java.lang.Integer">
+		select count(*) from acct_balance_hist
+		<where>
+			<if test="acctNo != null and acctNo != ''">
+				and acct_no = #{acctNo}
+			</if>
+			<if test="date != null and date != ''">
+				and date = #{date}
+			</if>
+		</where>
+	</select>
+
+	<!-- 获得数据集合 -->
+	<select id="selectBalanceHist" parameterType="java.util.HashMap"
+		resultMap="BaseResultMap">
+		<if test='type == "1"'>
+			select acct_no,date,balance
+			from acct_balance_hist
+			where date between
+			#{beginDate} and #{endDate}
+			<if test="acctNo != null and acctNo !='' ">
+				and acct_no = #{acctNo}
+			</if>
+			order by acct_no,date
+		</if>
+		<if test='type == "2"'>
+			select t1.acct_no,substr(t1.date,1,6) as date,t1.balance
+			from (
+			select acct_no,date,balance from acct_balance_hist
+			where date between #{beginDate} and #{endDate}
+			<if test="acctNo != null and acctNo !='' ">
+				and acct_no = #{acctNo}
+			</if>
+			) t1
+			left join (
+			select acct_no,date,balance from acct_balance_hist
+			where date between #{beginDate} and #{endDate}
+			<if test="acctNo != null and acctNo !='' ">
+				and acct_no = #{acctNo}
+			</if>
+			) t2 
+				<![CDATA[ 
+				on t1.acct_no=t2.acct_no and substr(t1.date,1,6)=substr(t2.date,1,6) and t1.date<t2.date 
+			where t2.date is null
+				]]>
+		</if>
+	</select>
+</mapper>

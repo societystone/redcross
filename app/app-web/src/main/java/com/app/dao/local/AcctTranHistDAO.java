@@ -1,6 +1,7 @@
 package com.app.dao.local;
 
 import java.util.HashMap;
+import java.util.List;
 
 import com.app.dao.BaseDAO;
 import com.app.entity.AcctTranHist;
@@ -19,5 +20,17 @@ public interface AcctTranHistDAO extends BaseDAO<AcctTranHist, Long> {
 	 * @return
 	 */
 	Long delete(HashMap<String, Object> map);
+
+	/**
+	 * 通过日期查询流水集合
+	 * 
+	 * @param map
+	 * @return
+	 */
+	List<AcctTranHist> selectListByDate(HashMap<String, Object> map);
+
+	AcctTranHist selectSumAmount(HashMap<String, Object> map);
+
+	List<AcctTranHist> selectSumAmountByDate(HashMap<String, Object> map);
 
 }

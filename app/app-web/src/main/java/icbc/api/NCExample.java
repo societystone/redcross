@@ -6,19 +6,18 @@ import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SignatureException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.methods.PostMethod;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.app.bankbean.BankBeanRequest;
 import com.app.bankbean.BankBeanResponse;
 import com.app.bankbean.pub.BankBeanPubRequest;
-import com.app.bankbean.qaccbal.BankBeanQaccbalIn;
-import com.app.bankbean.qaccbal.BankBeanQaccbalInRd;
 import com.app.bankbean.qhisd.BankBeanQhisdIn;
 import com.app.util.DateUtils;
 import com.app.util.Emptys;
@@ -28,6 +27,10 @@ import cn.com.infosec.icbc.ReturnValue;
 import sun.misc.BASE64Decoder;
 
 public class NCExample {
+	/**
+	 * 日志对象
+	 */
+	private static final Logger log = LoggerFactory.getLogger(NCExample.class);
 
 	public static void main(String[] args) throws Exception {
 //		String sTransCode = "QPD";// 交易代码
@@ -37,7 +40,7 @@ public class NCExample {
 //		bbi.setMaxAmt("0");
 //		BankBeanRequest<BankBeanQpdIn> bbRequest = new BankBeanRequest<BankBeanQpdIn>(null, bbi);
 //		BankBeanResponse bbResponse = NCExample.sendToBank(sTransCode, bbRequest);
-//		System.out.println(bbResponse.getPub().getRetMsg());
+//		log.info(bbResponse.getPub().getRetMsg());
 
 //		String[] accNoArr = new String[] { "4402263009100188886", "4402263029105888858", "4402263029100139502" };
 ////		String[] accNoArr = new String[] { "4402263009100188886" };
@@ -55,29 +58,31 @@ public class NCExample {
 //		bbi.setRds(rds);
 //		BankBeanRequest<BankBeanQaccbalIn> bbRequest = new BankBeanRequest<BankBeanQaccbalIn>(null, bbi);
 //		BankBeanResponse bbResponse = NCExample.sendToBank(sTransCode, bbRequest);
-//		System.out.println(bbResponse.getPub().getRetMsg());
+//		log.info(bbResponse.getPub().getRetMsg());
 
-		String sTransCode = "QHISD";// 交易代码
-		BankBeanQhisdIn bbi = new BankBeanQhisdIn();
-		bbi.setAccNo("4402263029105888858");
-		bbi.setMinAmt("0");
-		bbi.setMaxAmt("0");
-		bbi.setBeginDate("20181019");
-		bbi.setEndDate("20190319");
-		bbi.setNextTag("");
-		BankBeanRequest<BankBeanQhisdIn> bbRequest = new BankBeanRequest<BankBeanQhisdIn>(null, bbi);
-		BankBeanResponse<?> bbResponse = NCExample.sendToBank(sTransCode, bbRequest);
-		System.out.println(bbResponse.getPub().getRetMsg());
+//		String sTransCode = "QHISD";// 交易代码
+//		BankBeanQhisdIn bbi = new BankBeanQhisdIn();
+//		bbi.setAccNo("4402263029105888858");
+//		bbi.setMinAmt("0");
+//		bbi.setMaxAmt("0");
+//		bbi.setBeginDate("20181019");
+//		bbi.setEndDate("20190319");
+//		bbi.setNextTag("");
+//		BankBeanRequest<BankBeanQhisdIn> bbRequest = new BankBeanRequest<BankBeanQhisdIn>(null, bbi);
+//		BankBeanResponse<?> bbResponse = NCExample.sendToBank(sTransCode, bbRequest);
+//		log.info(bbResponse.getPub().getRetMsg());
 	}
 
 	/**
 	 * 往银行发送请求，获取数据
 	 * 
+	 * @param clz        Class
 	 * @param tranCode        交易代码
 	 * @param bankBeanRequest 请求实体
+	 * @param tranDate 交易日期
 	 * @return
 	 */
-	public static BankBeanResponse<?> sendToBank(String tranCode, BankBeanRequest<?> bankBeanRequest) {
+	public static <T> T sendToBank(Class<T> clz, String tranCode, BankBeanRequest<?> bankBeanRequest, String tranDate) {
 		try {
 			ICBCConfig icbc = ICBCConfig.getICBC();
 			String NCIp = icbc.getNCIp();// NC IP地址
@@ -99,7 +104,6 @@ public class NCExample {
 
 			Date nowDate = new Date();
 			String nowDateStr = DateUtils.formatYYYYMMDD(nowDate);
-			String tranDate = "20190319";
 			String tranTime = DateUtils.formatHHmmssSSS(nowDate);
 			// 下面字段与明文xml包中保持一致
 			String sPackageID = "PACKAGE" + nowDateStr + tranTime;// 包序列号与xml包中保持一致
@@ -115,7 +119,7 @@ public class NCExample {
 			bbpr.setFSeqno(sPackageID);
 			bankBeanRequest.setPub(bbpr);
 			String sContent = JaxbUtil.convertToXml(BankBeanRequest.class, bankBeanRequest);
-			System.out.println(sContent);
+			log.info(sContent);
 
 			String sendTime = DateUtils.formatYYYYMMDDHHmmss(nowDate);
 
@@ -124,7 +128,7 @@ public class NCExample {
 			String urlStr = NCIp + "/servlet/ICBCCMPAPIReqServlet?userID=" + SID + "&PackageID=" + sPackageID
 					+ "&SendTime=" + sendTime;
 
-			System.out.println("url==" + urlStr);
+			log.info("url==" + urlStr);
 
 			HttpClient client = new HttpClient(); // 构建http客户端
 			PostMethod post = new PostMethod(urlStr); // 构建http post方法
@@ -139,24 +143,24 @@ public class NCExample {
 			post.addParameter("Cert", "");
 			post.addParameter("reqData", sContent);
 
-			System.out.println("开始发送。。。");
+			log.info("开始发送。。。");
 			int returnFlag = client.executeMethod(post); // 获得http返回码
-			System.out.println("发送成功。。。，HTTP响应状态：" + returnFlag);
+			log.info("发送成功。。。，HTTP响应状态：" + returnFlag);
 			try {
 				String postResult = post.getResponseBodyAsString();
 
 				String responseXml = "";
 				if (postResult.startsWith("reqData=")) {
 					postResult = postResult.substring(8);
-					System.out.println("retMessage==" + new String(postResult));
+					log.info("retMessage==" + new String(postResult));
 					byte[] decodeResult = getFromBASE64(postResult);
 					responseXml = new String(decodeResult, SCoding);
 				} else {
 					responseXml = new String(postResult);
 				}
-				System.out.println("******************************银企互联返回数据******************************\n");
-				System.out.println(responseXml);
-				return JaxbUtil.convertToJavaBean(BankBeanResponse.class, responseXml);
+				log.info("******************************银企互联返回数据******************************\n");
+				log.info(responseXml);
+				return JaxbUtil.convertToJavaBean(clz, responseXml);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -191,16 +195,16 @@ public class NCExample {
 			fii.read(bPubCert);// 公钥
 			return ReturnValue.verifySign(message.getBytes(), mlength, bPubCert, ReturnValue.base64dec(signinfo));
 		} catch (InvalidKeyException e) {
-			System.out.println("InvalidKeyException:" + e);
+			log.info("InvalidKeyException:" + e);
 			e.printStackTrace();
 		} catch (NoSuchAlgorithmException e) {
-			System.out.println("NoSuchAlgorithmException:" + e);
+			log.info("NoSuchAlgorithmException:" + e);
 			e.printStackTrace();
 		} catch (SignatureException e) {
-			System.out.println("SignatureException:" + e);
+			log.info("SignatureException:" + e);
 			e.printStackTrace();
 		} catch (IOException e) {
-			System.out.println("IOException:" + e);
+			log.info("IOException:" + e);
 			e.printStackTrace();
 		}
 		return -1;

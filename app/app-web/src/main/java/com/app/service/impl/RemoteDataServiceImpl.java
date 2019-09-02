@@ -5,9 +5,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.app.config.Config;
 import com.app.dao.remote.RemoteDataDAO;
 import com.app.dto.RemoteTableDTO;
 import com.app.service.RemoteDataService;
@@ -28,15 +28,12 @@ public class RemoteDataServiceImpl implements RemoteDataService {
 	@Autowired
 	private RemoteDataDAO remoteDataDAO;
 
-	@Value("${remote.databaseName}")
-	private String databaseName;
-
 	@Override
 	public List<RemoteTableDTO> selectColumnsByTableName(String tableName) {
 		// TODO Auto-generated method stub
 		ExceptionUtil.throwEmptyCheckException(tableName, "表名为空");
 		List<RemoteTableDTO> results = null;
-		List<Map<String, String>> lists = remoteDataDAO.selectColumns(databaseName, tableName);
+		List<Map<String, String>> lists = remoteDataDAO.selectColumns(Config.databaseName, tableName);
 		if (Emptys.isNotEmpty(lists)) {
 			results = new ArrayList<RemoteTableDTO>();
 			for (Map<String, String> map : lists) {

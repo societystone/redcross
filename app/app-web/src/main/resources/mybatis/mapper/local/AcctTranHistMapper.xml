@@ -3,14 +3,14 @@
 <mapper namespace="com.app.dao.local.AcctTranHistDAO">
 	<resultMap id="BaseResultMap" type="AcctTranHist">
 		<id column="id" property="id" jdbcType="BIGINT" />
-		<result column="acct_id" property="acctId" jdbcType="BIGINT" />
-		<result column="drcrf" property="drcrf" jdbcType="INTEGER" />
+		<result column="acct_no" property="acctNo" jdbcType="VARCHAR" />
+		<result column="drcrf" property="drcrf" jdbcType="VARCHAR" />
 		<result column="vouhNo" property="vouhNo" jdbcType="VARCHAR" />
 		<result column="debitAmount" property="debitAmount"
-			jdbcType="DECIMAL" />
+			jdbcType="VARCHAR" />
 		<result column="creditAmount" property="creditAmount"
-			jdbcType="DECIMAL" />
-		<result column="balance" property="balance" jdbcType="DECIMAL" />
+			jdbcType="VARCHAR" />
+		<result column="balance" property="balance" jdbcType="VARCHAR" />
 		<result column="recipBkNo" property="recipBkNo"
 			jdbcType="VARCHAR" />
 		<result column="recipBkName" property="recipBkName"
@@ -65,12 +65,12 @@
 		<result column="tradeTime" property="tradeTime"
 			jdbcType="VARCHAR" />
 		<result column="tradeFee" property="tradeFee"
-			jdbcType="DECIMAL" />
+			jdbcType="VARCHAR" />
 		<result column="tradeLocation" property="tradeLocation"
 			jdbcType="VARCHAR" />
 		<result column="exRate" property="exRate" jdbcType="VARCHAR" />
 		<result column="forCurrtype" property="forCurrtype"
-			jdbcType="INTEGER" />
+			jdbcType="VARCHAR" />
 		<result column="enAbstract" property="enAbstract"
 			jdbcType="VARCHAR" />
 		<result column="openBankNo" property="openBankNo"
@@ -82,7 +82,7 @@
 		<result column="subAcctSeq" property="subAcctSeq"
 			jdbcType="VARCHAR" />
 		<result column="tHCurrency" property="tHCurrency"
-			jdbcType="INTEGER" />
+			jdbcType="VARCHAR" />
 		<result column="recipBkName1" property="recipBkName1"
 			jdbcType="VARCHAR" />
 		<result column="recipBkNo1" property="recipBkNo1"
@@ -98,23 +98,16 @@
 		<result column="telNo" property="telNo" jdbcType="VARCHAR" />
 		<result column="mDCARDNO" property="mDCARDNO"
 			jdbcType="VARCHAR" />
-		<result column="trxAmt" property="trxAmt" jdbcType="DECIMAL" />
+		<result column="trxAmt" property="trxAmt" jdbcType="VARCHAR" />
 		<result column="trxCurr" property="trxCurr" jdbcType="VARCHAR" />
 		<result column="currType" property="currType"
 			jdbcType="VARCHAR" />
-		<result column="data_load_type" property="dataLoadType"
-			jdbcType="VARCHAR" />
 		<result column="create_date" property="createDate"
 			jdbcType="TIMESTAMP" />
-			
-	    <association property="account" column="acct_id" javaType="Account">
-		  <result property="acctName" column="acct_name"/>
-		  <result property="acctNo" column="acct_no"/>
-		</association>
 	</resultMap>
 	<!-- 数据库列列表 -->
 	<sql id="Base_Column_List">
-		id, acct_id, drcrf, vouhNo, debitAmount, creditAmount,
+		id, acct_no, drcrf, vouhNo, debitAmount, creditAmount,
 		balance, recipBkNo, recipBkName, recipAccNo, recipName, summary,
 		useCN, postScript, busCode, date, time, ref, oref, enSummary, busType,
 		vouhType, addInfo, toutfo, onlySequence, agentAcctName, agentAcctNo,
@@ -123,14 +116,14 @@
 		tradeTime, tradeFee, tradeLocation, exRate, forCurrtype, enAbstract,
 		openBankNo, openBankBIC, openBankName, subAcctSeq, tHCurrency,
 		recipBkName1, recipBkNo1, tInfoNew, refundMsg, busTypNo, receiptInfo,
-		telNo, mDCARDNO, trxAmt, trxCurr, currType, data_load_type,
+		telNo, mDCARDNO, trxAmt, trxCurr, currType,
 		create_date
 	</sql>
 	<!-- 插入DataMoveTemplate到数据库 -->
 	<insert id="insert" parameterType="AcctTranHist"
 		keyProperty="id">
 		insert
-		into acct_tran_hist(acct_id, drcrf, vouhNo,
+		into acct_tran_hist(acct_no, drcrf, vouhNo,
 		debitAmount, creditAmount,
 		balance, recipBkNo, recipBkName, recipAccNo,
 		recipName, summary,
@@ -149,12 +142,11 @@
 		recipBkName1, recipBkNo1, tInfoNew, refundMsg,
 		busTypNo, receiptInfo,
 		telNo, mDCARDNO, trxAmt, trxCurr, currType,
-		data_load_type,
 		create_date)
-		values(#{acctId,jdbcType=BIGINT},
-		#{drcrf,jdbcType=INTEGER}, #{vouhNo,jdbcType=VARCHAR},
-		#{debitAmount,jdbcType=DECIMAL}, #{creditAmount,jdbcType=DECIMAL},
-		#{balance,jdbcType=DECIMAL}, #{recipBkNo,jdbcType=VARCHAR},
+		values(#{acctNo,jdbcType=VARCHAR},
+		#{drcrf,jdbcType=VARCHAR}, #{vouhNo,jdbcType=VARCHAR},
+		#{debitAmount,jdbcType=VARCHAR}, #{creditAmount,jdbcType=VARCHAR},
+		#{balance,jdbcType=VARCHAR}, #{recipBkNo,jdbcType=VARCHAR},
 		#{recipBkName,jdbcType=VARCHAR}, #{recipAccNo,jdbcType=VARCHAR},
 		#{recipName,jdbcType=VARCHAR}, #{summary,jdbcType=VARCHAR},
 		#{useCN,jdbcType=VARCHAR}, #{postScript,jdbcType=VARCHAR},
@@ -172,24 +164,23 @@
 		#{mgNo,jdbcType=VARCHAR}, #{mgAccNo,jdbcType=VARCHAR},
 		#{mgCurrType,jdbcType=VARCHAR}, #{cashExf,jdbcType=VARCHAR},
 		#{detailNo,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR},
-		#{tradeTime,jdbcType=VARCHAR}, #{tradeFee,jdbcType=DECIMAL},
+		#{tradeTime,jdbcType=VARCHAR}, #{tradeFee,jdbcType=VARCHAR},
 		#{tradeLocation,jdbcType=VARCHAR}, #{exRate,jdbcType=VARCHAR},
-		#{forCurrtype,jdbcType=INTEGER}, #{enAbstract,jdbcType=VARCHAR},
+		#{forCurrtype,jdbcType=VARCHAR}, #{enAbstract,jdbcType=VARCHAR},
 		#{openBankNo,jdbcType=VARCHAR}, #{openBankBIC,jdbcType=VARCHAR},
 		#{openBankName,jdbcType=VARCHAR}, #{subAcctSeq,jdbcType=VARCHAR},
-		#{tHCurrency,jdbcType=INTEGER}, #{recipBkName1,jdbcType=VARCHAR},
+		#{tHCurrency,jdbcType=VARCHAR}, #{recipBkName1,jdbcType=VARCHAR},
 		#{recipBkNo1,jdbcType=VARCHAR}, #{tInfoNew,jdbcType=VARCHAR},
 		#{refundMsg,jdbcType=VARCHAR}, #{busTypNo,jdbcType=VARCHAR},
 		#{receiptInfo,jdbcType=VARCHAR}, #{telNo,jdbcType=VARCHAR},
-		#{mDCARDNO,jdbcType=VARCHAR}, #{trxAmt,jdbcType=DECIMAL},
+		#{mDCARDNO,jdbcType=VARCHAR}, #{trxAmt,jdbcType=VARCHAR},
 		#{trxCurr,jdbcType=VARCHAR}, #{currType,jdbcType=VARCHAR},
-		#{dataLoadType,jdbcType=VARCHAR},
 		#{createDate,jdbcType=TIMESTAMP})
 	</insert>
 	<!-- 批量插入到数据库 -->
 	<insert id="insertBatch">
 		insert
-		into acct_tran_hist(acct_id, drcrf, vouhNo,
+		into acct_tran_hist(acct_no, drcrf, vouhNo,
 		debitAmount,
 		creditAmount,
 		balance, recipBkNo, recipBkName, recipAccNo,
@@ -213,16 +204,15 @@
 		recipBkName1, recipBkNo1, tInfoNew, refundMsg,
 		busTypNo, receiptInfo,
 		telNo, mDCARDNO, trxAmt, trxCurr, currType,
-		data_load_type,
 		create_date)
 		values
 		<foreach collection="lists" index="index" item="item"
 			separator=",">
-			(#{item.acctId,jdbcType=BIGINT},
-			#{item.drcrf,jdbcType=INTEGER}, #{item.vouhNo,jdbcType=VARCHAR},
-			#{item.debitAmount,jdbcType=DECIMAL},
-			#{item.creditAmount,jdbcType=DECIMAL},
-			#{item.balance,jdbcType=DECIMAL}, #{item.recipBkNo,jdbcType=VARCHAR},
+			(#{item.acctNo,jdbcType=VARCHAR},
+			#{item.drcrf,jdbcType=VARCHAR}, #{item.vouhNo,jdbcType=VARCHAR},
+			#{item.debitAmount,jdbcType=VARCHAR},
+			#{item.creditAmount,jdbcType=VARCHAR},
+			#{item.balance,jdbcType=VARCHAR}, #{item.recipBkNo,jdbcType=VARCHAR},
 			#{item.recipBkName,jdbcType=VARCHAR},
 			#{item.recipAccNo,jdbcType=VARCHAR},
 			#{item.recipName,jdbcType=VARCHAR}, #{item.summary,jdbcType=VARCHAR},
@@ -246,25 +236,24 @@
 			#{item.detailNo,jdbcType=VARCHAR},
 			#{item.remark,jdbcType=VARCHAR},
 			#{item.tradeTime,jdbcType=VARCHAR},
-			#{item.tradeFee,jdbcType=DECIMAL},
+			#{item.tradeFee,jdbcType=VARCHAR},
 			#{item.tradeLocation,jdbcType=VARCHAR},
 			#{item.exRate,jdbcType=VARCHAR},
-			#{item.forCurrtype,jdbcType=INTEGER},
+			#{item.forCurrtype,jdbcType=VARCHAR},
 			#{item.enAbstract,jdbcType=VARCHAR},
 			#{item.openBankNo,jdbcType=VARCHAR},
 			#{item.openBankBIC,jdbcType=VARCHAR},
 			#{item.openBankName,jdbcType=VARCHAR},
 			#{item.subAcctSeq,jdbcType=VARCHAR},
-			#{item.tHCurrency,jdbcType=INTEGER},
+			#{item.tHCurrency,jdbcType=VARCHAR},
 			#{item.recipBkName1,jdbcType=VARCHAR},
 			#{item.recipBkNo1,jdbcType=VARCHAR},
 			#{item.tInfoNew,jdbcType=VARCHAR},
 			#{item.refundMsg,jdbcType=VARCHAR},
 			#{item.busTypNo,jdbcType=VARCHAR},
 			#{item.receiptInfo,jdbcType=VARCHAR}, #{item.telNo,jdbcType=VARCHAR},
-			#{item.mDCARDNO,jdbcType=VARCHAR}, #{item.trxAmt,jdbcType=DECIMAL},
+			#{item.mDCARDNO,jdbcType=VARCHAR}, #{item.trxAmt,jdbcType=VARCHAR},
 			#{item.trxCurr,jdbcType=VARCHAR}, #{item.currType,jdbcType=VARCHAR},
-			#{item.dataLoadType,jdbcType=VARCHAR},
 			#{item.createDate,jdbcType=TIMESTAMP})
 		</foreach>
 	</insert>
@@ -273,11 +262,12 @@
 		resultType="java.lang.Integer">
 		select count(*) from acct_tran_hist
 		<where>
-			<if test="acctId != null">
-				and acct_id = #{acctId,jdbcType=BIGINT}
+			<if test="acctNo != null and acctNo !=''">
+				and acct_no = #{acctNo}
 			</if>
-			<if test="beginDate != null and endDate != null">
-				and (date between #{beginDate} and endDate)
+			<if
+				test="beginDate != null and beginDate != '' and endDate != null and endDate != ''">
+				and (date between #{beginDate} and #{endDate})
 			</if>
 		</where>
 	</select>
@@ -285,40 +275,85 @@
 	<!-- 删除数据 -->
 	<delete id="delete" parameterType="java.util.HashMap">
 		delete from acct_tran_hist
-		where acct_id = #{acctId} and (date between #{beginDate} and endDate)
+		where acct_no = #{acctNo} and (date between #{beginDate} and endDate)
 	</delete>
-	
+
 	<!-- 获得数据集合 -->
 	<select id="selectList" parameterType="java.util.HashMap"
 		resultMap="BaseResultMap">
 		select
-		ai.acct_no,ai.acct_name,ath.*
-		from acct_tran_hist ath ,acct_info  ai 
-		where  ath.acct_id = ai.id
-		
-		<if test="acctNo != null and acctNo !='' ">
-			and ai.acct_No = #{acctNo}
-		</if> 
-		<if test="queryStartTime != null and queryStartTime !='' ">
-		<![CDATA[ 
-			and  STR_TO_DATE(tradeTime,'%Y%m%d') >= #{queryStartTime}
-		]]>
-			
-		</if> 
-		<if test="queryEndTime != null and queryEndTime !='' ">
-		<![CDATA[ 
-			and #{queryEndTime}  >=  STR_TO_DATE(tradeTime,'%Y%m%d')	
-		]]>
-			
-		</if> 
+		<include refid="Base_Column_List" />
+		from acct_tran_hist
+		<where>
+			<if test="acctNo != null and acctNo !='' ">
+				and acct_No = #{acctNo}
+			</if>
+			<if test="beginDate != null and beginDate !='' ">
+				<![CDATA[ 
+					and date >= #{beginDate}
+				]]>
+			</if>
+			<if test="endDate != null and endDate !='' ">
+				<![CDATA[ 
+					and date <= #{endDate}
+				]]>
+			</if>
+		</where>
 	</select>
-	
-	<!-- 通过SysUser的id获得SysUser对象 -->
+
 	<select id="selectByPrimaryKey" parameterType="long"
 		resultMap="BaseResultMap">
 		select
-		ai.acct_no,ai.acct_name,ath.*
-		from acct_tran_hist ath ,acct_info  ai 
-		where  ath.acct_id = ai.id and ai.id=#{id}
+		<include refid="Base_Column_List" />
+		from acct_tran_hist
+		where id=#{id}
+	</select>
+
+	<!-- 获得数据集合 -->
+	<select id="selectListByDate" parameterType="java.util.HashMap"
+		resultMap="BaseResultMap">
+		select onlySequence
+		from acct_tran_hist
+		<where>
+			<if test="acctNo != null and acctNo !='' ">
+				and acct_no = #{acctNo}
+			</if>
+			<if
+				test="beginDate != null and beginDate != '' and endDate != null and endDate != ''">
+				and date between #{beginDate} and #{endDate}
+			</if>
+		</where>
+	</select>
+
+	<!-- 获得数据集合 -->
+	<select id="selectSumAmount" parameterType="java.util.HashMap"
+		resultType="AcctTranHist">
+		select sum(cast(debitAmount as decimal(20))) as
+		debitAmount, sum(cast(creditAmount as decimal(20))) as creditAmount
+		from acct_tran_hist
+		where acct_no = #{acctNo}
+	</select>
+
+	<!-- 获得数据集合 -->
+	<select id="selectSumAmountByDate"
+		parameterType="java.util.HashMap" resultMap="BaseResultMap">
+		<if test='type == "1"'>
+			select date, sum(cast(debitAmount as decimal(20))) as debitAmount, sum(cast(creditAmount as decimal(20))) as creditAmount
+			from acct_tran_hist
+			where date between #{beginDate} and #{endDate}
+			<if test="acctNo != null and acctNo !='' ">
+				and acct_no = #{acctNo}
+			</if>
+			group by date
+		</if>
+		<if test='type == "2"'>
+			select substr(date, 1, 6) as date, sum(cast(debitAmount as decimal(20))) as debitAmount, sum(cast(creditAmount as decimal(20))) as creditAmount
+			from acct_tran_hist
+			where date between #{beginDate} and #{endDate}
+			<if test="acctNo != null and acctNo !='' ">
+				and acct_no = #{acctNo}
+			</if>
+			group by substr(date, 1, 6)
+		</if>
 	</select>
 </mapper>

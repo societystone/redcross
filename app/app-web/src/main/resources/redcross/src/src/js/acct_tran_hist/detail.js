@@ -15,16 +15,16 @@ layui.define([ 'common' ], function(exports) {
 		$.ajax({
 			type : "GET",
 			contentType : 'application/json',
-			url : config.appBase + '/accttranhist/select/' + id,
+			url : config.appBase + '/acct_tran_hist/' + id,
 			dataType : 'json',
 			success : function(res) {
 				if (res.code == 0) {
 					if (res.data != null) {
 						var data = res.data;
-						var account = data.account;
-						data["acctNo"] = account.acctNo;
-						data["acctName"] = account.acctName;
-						form.val("layui-form", data);
+//						form.val("layui-form", data);
+						for(var k in data){
+							formObj.find("span[name='"+k+"']").html(data[k]);
+						}
 					}
 				} else {
 					layer.msg(res.msg);
@@ -33,5 +33,5 @@ layui.define([ 'common' ], function(exports) {
 		});
 	}
 
-	exports('accttranhist/form', {});
+	exports('acct_tran_hist/detail', {});
 });

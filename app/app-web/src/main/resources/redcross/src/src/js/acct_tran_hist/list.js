@@ -23,13 +23,26 @@ layui.define(['common'], function(exports){
 
   var searchData = {
 		  "acctNo":searchFormObj.find("input[name='acctNo']").val(),
-		  "queryStartTime":searchFormObj.find("input[name='queryStartTime']").val(),
-		  "queryEndTime":searchFormObj.find("input[name='queryEndTime']").val()
-		  
+		  "beginDate":searchFormObj.find("input[name='beginDate']").val(),
+		  "endDate":searchFormObj.find("input[name='endDate']").val()
   };
   //监听搜索
   form.on('submit(LAY-btn-search)', function(data){
     var field = data.field;
+    var beginDate=field.beginDate;
+    var endDate=field.endDate;
+    if(!beginDate){
+    	layer.msg("开始时间为空！");
+    	return;
+    }
+    if(!endDate){
+    	layer.msg("结束时间为空！");
+    	return;
+    }
+    if(beginDate>endDate){
+    	layer.msg("开始时间大于结束时间！");
+    	return;
+    }
     //执行重载
     table.reload('table-data', {
       where: field
@@ -43,25 +56,23 @@ layui.define(['common'], function(exports){
     height:cardBodyHeight,
     method: "POST",
     contentType: 'application/json',
-    url: config.appBase+'/accttranhist/selectlist',
+    url: config.appBase+'/acct_tran_hist/list',
     where: searchData,
     cols: [[
     	{type:'id', title: '账户流水id', hide:true},
-    	{field: 'acctId', title: '账户id', width: 300},
-    	{field: 'acctNo', title: '账户号', width: 250, templet: function(d) {
-    		return d.account.acctNo;
-    	}},
-    	{field: 'acctName', title: '账户名', width: 250, templet: function(d) {
-    		return d.account.acctName;
-    	}},
-    	{field: 'vouhNo', title: '凭证号', width: 150},
+    	{field: 'acctNo', title: '账户号', width: 200},
+    	{field: 'acctName', title: '账户名', width: 200},
+    	{field: 'vouhNo', title: '凭证号', width: 120},
+    	{field: 'date', title: '交易日期', width: 100},
     	{field: 'tradeTime', title: '交易时间', width: 150},
-    	{field: 'tradeLocation', title: '交易场所', width: 150},
-    	{field: 'trxAmt', title: '交易金额', width: 150},
+    	{field: 'drcrf', title: '借贷方向', width: 100, templet: function(d){
+    		return common.getRefDesc(common.Constants.drcrf, d.drcrf);
+    	}},
+    	{field: 'trxAmt', title: '交易金额', width: 120},
     	{field: 'trxCurr', title: '交易币种', width: 150},
-    	{title: '操作', width: 200, align: 'center', fixed: 'right', templet: function(d){
+    	{title: '操作', width: 80, align: 'center', fixed: 'right', templet: function(d){
     		var str = '<div>';
-			str += '<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="datial"><i class="layui-icon layui-icon-edit"></i>明细详情</a>';
+			str += '<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="datial"><i class="layui-icon layui-icon-edit"></i>详情</a>';
     		str += '</div>';
     		return str;
     	}
@@ -103,7 +114,7 @@ layui.define(['common'], function(exports){
     limits:config.tableLimits,
     limit: config.tableDefaultLimit,
     toolbar: '#table-toolbar',
-    defaultToolbar: ['filter']
+    defaultToolbar: ["filter","print"]
   });
 
   //事件
@@ -114,7 +125,7 @@ layui.define(['common'], function(exports){
 		      layer.open({
 		          type: 2,
 		          title: '交易详情',
-		          content: 'form.html',
+		          content: 'detail.html',
 		          maxmin: true,
 		          area: ['500px', '450px'],
 		          success: function(layero, index){
@@ -123,6 +134,15 @@ layui.define(['common'], function(exports){
 		        	  iframeContent.find("input[name='id']").val(id);
 		          }
 		       }); 
+		  },
+		  exportFunc: function(){
+			  var url = config.appBase+'/export/acct_tran_hist?';
+			  if(searchData){
+				  for(var i in searchData){
+					  url += (i + "=" + searchData[i] + "&");
+				  }
+			  }
+			  window.location.href = url;
 		  }
     };
   
@@ -132,6 +152,14 @@ layui.define(['common'], function(exports){
 	  active[type] ? active[type].call(this, obj.data.id) : '';
   });
   
+  //工具栏事件
+  table.on('toolbar(table-data)', function(obj){
+    switch(obj.event){
+      case 'export':
+    	  active.exportFunc();
+    	  break;
+    };
+  });
 
-  exports('accttranhist/list', {});
+  exports('acct_tran_hist/list', {});
 });

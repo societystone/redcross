@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>详情</title>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="telephone=no">
+
+<link rel="stylesheet" href="../../src/layui/css/layui.css">
+<link rel="stylesheet" href="../../src/css/form.css">
+
+<style>
+body {
+	padding: 10px;
+}
+</style>
+</head>
+<body>
+
+	<div class="layui-form" lay-filter="layui-form" id="layui-form"
+		style="padding: 20px 30px 0 0;">
+		<input type="hidden" name="id">
+		<div class="layui-inline">
+			<label class="layui-form-label"
+				style="padding: 0px 15px; font-weight: bold;">账号</label>
+			<div class="layui-input-block" style="min-width:200px;padding-top:3px;">
+				<span name="acctNo"></span>
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label"
+				style="padding: 0px 15px; font-weight: bold;">借贷标志</label>
+			<div class="layui-input-block" style="min-width:200px;padding-top:3px;">
+				<span name="drcrf"></span>
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label"
+				style="padding: 0px 15px; font-weight: bold;">凭证号</label>
+			<div class="layui-input-block" style="min-width:200px;padding-top:3px;">
+				<span name="vouhNo"></span>
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label"
+				style="padding: 0px 15px; font-weight: bold;">借方发生额</label>
+			<div class="layui-input-block" style="min-width:200px;padding-top:3px;">
+				<span name="debitAmount"></span>
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label"
+				style="padding: 0px 15px; font-weight: bold;">贷方发生额</label>
+			<div class="layui-input-block" style="min-width:200px;padding-top:3px;">
+				<span name="creditAmount"></span>
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label"
+				style="padding: 0px 15px; font-weight: bold;">余额</label>
+			<div class="layui-input-block" style="min-width:200px;padding-top:3px;">
+				<span name="balance"></span>
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label"
+				style="padding: 0px 15px; font-weight: bold;">对方行号</label>
+			<div class="layui-input-block" style="min-width:200px;padding-top:3px;">
+				<span name="recipBkNo"></span>
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label"
+				style="padding: 0px 15px; font-weight: bold;">对方行名</label>
+			<div class="layui-input-block" style="min-width:200px;padding-top:3px;">
+				<span name="recipBkName"></span>
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label"
+				style="padding: 0px 15px; font-weight: bold;">对方账号</label>
+			<div class="layui-input-block" style="min-width:200px;padding-top:3px;">
+				<span name="recipAccNo"></span>
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label"
+				style="padding: 0px 15px; font-weight: bold;">对方户名</label>
+			<div class="layui-input-block" style="min-width:200px;padding-top:3px;">
+				<span name="recipName"></span>
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label"
+				style="padding: 0px 15px; font-weight: bold;">摘要</label>
+			<div class="layui-input-block" style="min-width:200px;padding-top:3px;">
+				<span name="summary"></span>
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label"
+				style="padding: 0px 15px; font-weight: bold;">用途</label>
+			<div class="layui-input-block" style="min-width:200px;padding-top:3px;">
+				<span name="useCN"></span>
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label"
+				style="padding: 0px 15px; font-weight: bold;">附言</label>
+			<div class="layui-input-block" style="min-width:200px;padding-top:3px;">
+				<span name="postScript"></span>
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label"
+				style="padding: 0px 15px; font-weight: bold;">业务代码</label>
+			<div class="layui-input-block" style="min-width:200px;padding-top:3px;">
+				<span name="busCode"></span>
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label"
+				style="padding: 0px 15px; font-weight: bold;">交易日期</label>
+			<div class="layui-input-block" style="min-width:200px;padding-top:3px;">
+				<span name="date"></span>
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label"
+				style="padding: 0px 15px; font-weight: bold;">时间戳</label>
+			<div class="layui-input-block" style="min-width:200px;padding-top:3px;">
+				<span name="time"></span>
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label"
+				style="padding: 0px 15px; font-weight: bold;">业务编号</label>
+			<div class="layui-input-block" style="min-width:200px;padding-top:3px;">
+				<span name="ref"></span>
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label"
+				style="padding: 0px 15px; font-weight: bold;">相关业务编号</label>
+			<div class="layui-input-block" style="min-width:200px;padding-top:3px;">
+				<span name="oref"></span>
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label"
+				style="padding: 0px 15px; font-weight: bold;">英文备注</label>
+			<div class="layui-input-block" style="min-width:200px;padding-top:3px;">
+				<span name="enSummary"></span>
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label"
+				style="padding: 0px 15px; font-weight: bold;">业务种类</label>
+			<div class="layui-input-block" style="min-width:200px;padding-top:3px;">
+				<span name="busType"></span>
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label"
+				style="padding: 0px 15px; font-weight: bold;">凭证种类</label>
+			<div class="layui-input-block" style="min-width:200px;padding-top:3px;">
+				<span name="vouhType"></span>
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label"
+				style="padding: 0px 15px; font-weight: bold;">附加信息</label>
+			<div class="layui-input-block" style="min-width:200px;padding-top:3px;">
+				<span name="addInfo"></span>
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label"
+				style="padding: 0px 15px; font-weight: bold;">电子回单唯一标识</label>
+			<div class="layui-input-block" style="min-width:200px;padding-top:3px;">
+				<span name="toutfo"></span>
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label"
+				style="padding: 0px 15px; font-weight: bold;">银行交易流水号</label>
+			<div class="layui-input-block" style="min-width:200px;padding-top:3px;">
+				<span name="onlySequence"></span>
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label"
+				style="padding: 0px 15px; font-weight: bold;">财务公司二级账户户名（资金池次要对手账号户名）</label>
+			<div class="layui-input-block" style="min-width:200px;padding-top:3px;">
+				<span name="agentAcctName"></span>
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label"
+				style="padding: 0px 15px; font-weight: bold;">财务公司二级账户账号（资金池次要对手账号）</label>
+			<div class="layui-input-block" style="min-width:200px;padding-top:3px;">
+				<span name="agentAcctNo"></span>
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label"
+				style="padding: 0px 15px; font-weight: bold;">冲正标志</label>
+			<div class="layui-input-block" style="min-width:200px;padding-top:3px;">
+				<span name="upDtranf"></span>
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label"
+				style="padding: 0px 15px; font-weight: bold;">起息日</label>
+			<div class="layui-input-block" style="min-width:200px;padding-top:3px;">
+				<span name="valueDate"></span>
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label"
+				style="padding: 0px 15px; font-weight: bold;">工行交易代码</label>
+			<div class="layui-input-block" style="min-width:200px;padding-top:3px;">
+				<span name="trxCode"></span>
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label"
+				style="padding: 0px 15px; font-weight: bold;">业务编号1</label>
+			<div class="layui-input-block" style="min-width:200px;padding-top:3px;">
+				<span name="ref1"></span>
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label"
+				style="padding: 0px 15px; font-weight: bold;">相关业务编号1</label>
+			<div class="layui-input-block" style="min-width:200px;padding-top:3px;">
+				<span name="oref1"></span>
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label"
+				style="padding: 0px 15px; font-weight: bold;">交易类型</label>
+			<div class="layui-input-block" style="min-width:200px;padding-top:3px;">
+				<span name="cASHF"></span>
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label"
+				style="padding: 0px 15px; font-weight: bold;">入账日期</label>
+			<div class="layui-input-block" style="min-width:200px;padding-top:3px;">
+				<span name="busiDate"></span>
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label"
+				style="padding: 0px 15px; font-weight: bold;">入账时间</label>
+			<div class="layui-input-block" style="min-width:200px;padding-top:3px;">
+				<span name="busiTime"></span>
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label"
+				style="padding: 0px 15px; font-weight: bold;">顺序号</label>
+			<div class="layui-input-block" style="min-width:200px;padding-top:3px;">
+				<span name="seqNo"></span>
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label"
+				style="padding: 0px 15px; font-weight: bold;">保证金编号</label>
+			<div class="layui-input-block" style="min-width:200px;padding-top:3px;">
+				<span name="mgNo"></span>
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label"
+				style="padding: 0px 15px; font-weight: bold;">保证金缴存账号</label>
+			<div class="layui-input-block" style="min-width:200px;padding-top:3px;">
+				<span name="mgAccNo"></span>
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label"
+				style="padding: 0px 15px; font-weight: bold;">保证金币种</label>
+			<div class="layui-input-block" style="min-width:200px;padding-top:3px;">
+				<span name="mgCurrType"></span>
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label"
+				style="padding: 0px 15px; font-weight: bold;">钞汇标志</label>
+			<div class="layui-input-block" style="min-width:200px;padding-top:3px;">
+				<span name="cashExf"></span>
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label"
+				style="padding: 0px 15px; font-weight: bold;">明细序号</label>
+			<div class="layui-input-block" style="min-width:200px;padding-top:3px;">
+				<span name="detailNo"></span>
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label"
+				style="padding: 0px 15px; font-weight: bold;">备注</label>
+			<div class="layui-input-block" style="min-width:200px;padding-top:3px;">
+				<span name="remark"></span>
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label"
+				style="padding: 0px 15px; font-weight: bold;">交易时间</label>
+			<div class="layui-input-block" style="min-width:200px;padding-top:3px;">
+				<span name="tradeTime"></span>
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label"
+				style="padding: 0px 15px; font-weight: bold;">手续费</label>
+			<div class="layui-input-block" style="min-width:200px;padding-top:3px;">
+				<span name="tradeFee"></span>
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label"
+				style="padding: 0px 15px; font-weight: bold;">交易场所</label>
+			<div class="layui-input-block" style="min-width:200px;padding-top:3px;">
+				<span name="tradeLocation"></span>
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label"
+				style="padding: 0px 15px; font-weight: bold;">汇率</label>
+			<div class="layui-input-block" style="min-width:200px;padding-top:3px;">
+				<span name="exRate"></span>
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label"
+				style="padding: 0px 15px; font-weight: bold;">外币币种</label>
+			<div class="layui-input-block" style="min-width:200px;padding-top:3px;">
+				<span name="forCurrtype"></span>
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label"
+				style="padding: 0px 15px; font-weight: bold;">英文摘要</label>
+			<div class="layui-input-block" style="min-width:200px;padding-top:3px;">
+				<span name="enAbstract"></span>
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label"
+				style="padding: 0px 15px; font-weight: bold;">开户行行号</label>
+			<div class="layui-input-block" style="min-width:200px;padding-top:3px;">
+				<span name="openBankNo"></span>
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label"
+				style="padding: 0px 15px; font-weight: bold;">开户行BIC</label>
+			<div class="layui-input-block" style="min-width:200px;padding-top:3px;">
+				<span name="openBankBIC"></span>
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label"
+				style="padding: 0px 15px; font-weight: bold;">开户银行名称</label>
+			<div class="layui-input-block" style="min-width:200px;padding-top:3px;">
+				<span name="openBankName"></span>
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label"
+				style="padding: 0px 15px; font-weight: bold;">账号序号</label>
+			<div class="layui-input-block" style="min-width:200px;padding-top:3px;">
+				<span name="subAcctSeq"></span>
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label"
+				style="padding: 0px 15px; font-weight: bold;">币种</label>
+			<div class="layui-input-block" style="min-width:200px;padding-top:3px;">
+				<span name="tHCurrency"></span>
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label"
+				style="padding: 0px 15px; font-weight: bold;">对方行名（以此为准）</label>
+			<div class="layui-input-block" style="min-width:200px;padding-top:3px;">
+				<span name="recipBkName1"></span>
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label"
+				style="padding: 0px 15px; font-weight: bold;">对方行号（以此为准）</label>
+			<div class="layui-input-block" style="min-width:200px;padding-top:3px;">
+				<span name="recipBkNo1"></span>
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label"
+				style="padding: 0px 15px; font-weight: bold;">电子回单唯一标识</label>
+			<div class="layui-input-block" style="min-width:200px;padding-top:3px;">
+				<span name="tInfoNew"></span>
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label"
+				style="padding: 0px 15px; font-weight: bold;">跨行退回原因</label>
+			<div class="layui-input-block" style="min-width:200px;padding-top:3px;">
+				<span name="refundMsg"></span>
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label"
+				style="padding: 0px 15px; font-weight: bold;">回单业务种类</label>
+			<div class="layui-input-block" style="min-width:200px;padding-top:3px;">
+				<span name="busTypNo"></span>
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label"
+				style="padding: 0px 15px; font-weight: bold;">回单个性化信息</label>
+			<div class="layui-input-block" style="min-width:200px;padding-top:3px;">
+				<span name="receiptInfo"></span>
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label"
+				style="padding: 0px 15px; font-weight: bold;">柜员号</label>
+			<div class="layui-input-block" style="min-width:200px;padding-top:3px;">
+				<span name="telNo"></span>
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label"
+				style="padding: 0px 15px; font-weight: bold;">本方财智账户卡卡号（管家卡卡号）</label>
+			<div class="layui-input-block" style="min-width:200px;padding-top:3px;">
+				<span name="mDCARDNO"></span>
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label"
+				style="padding: 0px 15px; font-weight: bold;">交易金额</label>
+			<div class="layui-input-block" style="min-width:200px;padding-top:3px;">
+				<span name="trxAmt"></span>
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label"
+				style="padding: 0px 15px; font-weight: bold;">交易币种</label>
+			<div class="layui-input-block" style="min-width:200px;padding-top:3px;">
+				<span name="trxCurr"></span>
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label"
+				style="padding: 0px 15px; font-weight: bold;">币种</label>
+			<div class="layui-input-block" style="min-width:200px;padding-top:3px;">
+				<span name="currType"></span>
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label"
+				style="padding: 0px 15px; font-weight: bold;">创建日期</label>
+			<div class="layui-input-block" style="min-width:200px;padding-top:3px;">
+				<span name="create_date"></span>
+			</div>
+		</div>
+	</div>
+
+	<script src="../../src/layui/layui.js"></script>
+	<script>
+		layui.config({
+			base : '../../src/js/'
+		}).use('acct_tran_hist/detail');
+	</script>
+</body>
+</html>

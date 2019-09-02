@@ -1,51 +1,63 @@
 <!DOCTYPE html>
-<html lang="en" style="height:100%">
+<html lang="en" style="height: 100%">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta name="viewport"
+	content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 <title>账户管理</title>
 
 <link rel="stylesheet" href="../../src/layui/css/layui.css">
 
 <style>
-body{padding: 10px; /*overflow-y: scroll;*/}
+body {
+	padding: 10px; /*overflow-y: scroll;*/
+}
 </style>
 </head>
 <body>
-<div class="layui-fluid">
-    <div class="layui-card">
-      <div class="layui-form layui-card-header" style="padding:0px;" lay-filter="layui-form-search">
-        <div class="layui-form-item">
-          <div class="layui-inline">
-              <input type="text" name="acctNo" placeholder="请输入账户号" autocomplete="off" class="layui-input">
-          </div>
-           <div class="layui-inline">
-              <input type="text" name="acctName" placeholder="请输入账户名" autocomplete="off" class="layui-input">
-          </div>
-          <div class="layui-inline">
-            <button class="layui-btn" lay-submit lay-filter="LAY-btn-search">
-              <i class="layui-icon layui-icon-search"></i>
-            </button>
-          </div>
-        </div>
-      </div>
-      
-      <div class="layui-card-body">
-		<script type="text/html" id="table-toolbar">
+	<div class="layui-fluid">
+		<div class="layui-card">
+			<div class="layui-form layui-card-header" style="padding: 0px;"
+				lay-filter="layui-form-search">
+				<div class="layui-form-item">
+					<div class="layui-inline">
+						<label class="layui-form-label">账号</label>
+						<div class="layui-input-inline">
+							<input type="text" name="acctNo" placeholder="请输入账号"
+								autocomplete="off" class="layui-input">
+						</div>
+					</div>
+					<div class="layui-inline">
+						<label class="layui-form-label">账户名称</label>
+						<div class="layui-input-inline">
+							<input type="text" name="acctName" placeholder="请输入账户名称"
+								autocomplete="off" class="layui-input">
+						</div>
+					</div>
+					<div class="layui-inline">
+						<button class="layui-btn" lay-submit lay-filter="LAY-btn-search">
+							<i class="layui-icon layui-icon-search"></i>
+						</button>
+					</div>
+				</div>
+			</div>
+
+			<div class="layui-card-body">
+				<script type="text/html" id="table-toolbar">
   		<div class="layui-btn-container">
     		<button class="layui-btn layui-btn-sm" lay-event="add"><i class="layui-icon layui-icon-add-1"></i>添加</button>
     	</div>
 		</script>
-		<table id="table-data" lay-filter="table-data"></table>
+				<table id="table-data" lay-filter="table-data"></table>
 
-	  </div>
+			</div>
+		</div>
 	</div>
-</div>
-<script src="../../src/layui/layui.js"></script>
-<script>
-layui.config({
-    base: '../../src/js/'
-  }).use('acct/list');
-</script>
+	<script src="../../src/layui/layui.js"></script>
+	<script>
+		layui.config({
+			base : '../../src/js/'
+		}).use('acct/list');
+	</script>
 </body>
 </html>

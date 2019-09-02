@@ -41,17 +41,19 @@ layui.define(['common'], function(exports){
     height:cardBodyHeight,
     method: "POST",
     contentType: 'application/json',
-    url: config.appBase+'/acct/selectlist',
+    url: config.appBase+'/acct/list',
     where: searchData,
     cols: [[
     	{type:'id', title: '账户id', hide:true},
-    	{field: 'acctNo', title: '账户号', width: 300},
-    	{field: 'acctName', title: '账户名', width: 250},
+    	{field: 'bankName', title: '银行名称', width: 120},
+    	{field: 'acctNo', title: '账号', width: 200},
+    	{field: 'acctName', title: '账户名称', width: 200},
+    	{field: 'status', title: '账户状态', width: 100, templet: function(d){
+    		return common.getRefDesc(common.Constants.Status, d.status);
+    	}},
     	{field: 'createDate', title: '账户创建时间', width: 150},
-    	{field: 'status', title: '账户状态', width: 150},
-    	{field: 'modifyDate', title: '账户最后修改时间', width: 150},
-    	{field: 'modifyDate', title: '账户最后修改时间', width: 150},
     	{field: 'userName', title: '账户创建人', width: 150},
+    	{field: 'modifyDate', title: '账户最后修改时间', width: 150},
     	{field: 'userNameLastModify', title: '账户最后修改人', width: 150},
     	{title: '操作', width: 200, align: 'center', fixed: 'right', templet: function(d){
     		var str = '<div>';
@@ -73,20 +75,6 @@ layui.define(['common'], function(exports){
     	
     ]],
     done:function(res, curr, count){    //res 接口返回的信息
-
-    	    $("[data-field = 'status']").children().each(function(){
-
-    	        if($(this).text() == '1'){
-
-    	            $(this).text("已启用");
-
-    	        }else if($(this).text() == '2'){
-
-    	             $(this).text("已禁用");
-
-    	        }
-
-    	    })
     },
     parseData: function(res){ //res 即为原始返回的数据
     	var dataList = res.data;
@@ -111,18 +99,16 @@ layui.define(['common'], function(exports){
   });
 
   //事件
-
-  //事件
   var active = {
 		  add: function(){
 		      layer.open({
 		          type: 2,
 		          title: '添加账户',
 		          content: 'form.html',
-		          maxmin: true,
-		          area: ['500px', '450px'],
+		          maxmin: false,
+		          area: ['500px', '300px'],
 		          success: function(layero, index){
-		        	  layer.full(index);
+//		        	  layer.full(index);
 		          },
 		          btn: ['确定', '取消'],
 		          yes: function(index, layero){
@@ -163,12 +149,13 @@ layui.define(['common'], function(exports){
 		          type: 2,
 		          title: '编辑账户',
 		          content: 'form.html',
-		          maxmin: true,
-		          area: ['500px', '450px'],
+		          maxmin: false,
+		          area: ['500px', '300px'],
 		          success: function(layero, index){
-		        	  layer.full(index);
+//		        	  layer.full(index);
 		        	  var iframeContent = layero.find('iframe').contents();
 		        	  iframeContent.find("input[name='id']").val(id);
+		        	  iframeContent.find("input[name='acctNo']").attr("disabled",true);
 		          },
 		          btn: ['确定', '取消'],
 		          yes: function(index, layero){
@@ -184,7 +171,7 @@ layui.define(['common'], function(exports){
 		              $.ajax({
 		              	  type: "PUT",
 		              	  contentType: 'application/json',
-		              	  url: config.appBase+'/acct/updateAcct', 
+		              	  url: config.appBase+'/acct/update', 
 		              	  data: JSON.stringify(field),
 		              	  dataType:'json',
 		              	  success: function(res){

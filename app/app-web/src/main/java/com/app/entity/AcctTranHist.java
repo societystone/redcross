@@ -18,12 +18,14 @@ public class AcctTranHist extends BaseEntity implements Serializable {
 	 * 序列化id
 	 */
 	private static final long serialVersionUID = -1705182797058431420L;
-	private Long acctId;// 账户表ID
-	private Integer drcrf;// 借贷标志
+	private String acctNo;// 账号
+	private String acctName;// 账户名称
+	private String bankName;// 银行名称
+	private String drcrf;// 借贷标志
 	private String vouhNo;// 凭证号
-	private Double debitAmount;// 借方发生额
-	private Double creditAmount;// 贷方发生额
-	private Double balance;// 余额
+	private String debitAmount;// 借方发生额
+	private String creditAmount;// 贷方发生额
+	private String balance;// 余额
 	private String recipBkNo;// 对方行号
 	private String recipBkName;// 对方行名
 	private String recipAccNo;// 对方账号
@@ -60,16 +62,16 @@ public class AcctTranHist extends BaseEntity implements Serializable {
 	private String detailNo;// 明细序号
 	private String remark;// 备注
 	private String tradeTime;// 交易时间
-	private Double tradeFee;// 手续费
+	private String tradeFee;// 手续费
 	private String tradeLocation;// 交易场所
 	private String exRate;// 汇率
-	private Integer forCurrtype;// 外币币种
+	private String forCurrtype;// 外币币种
 	private String enAbstract;// 英文摘要
 	private String openBankNo;// 开户行行号
 	private String openBankBIC;// 开户行BIC
 	private String openBankName;// 开户银行名称
 	private String subAcctSeq;// 账号序号
-	private Integer tHCurrency;// 币种
+	private String tHCurrency;// 币种
 	private String recipBkName1;// 对方行名（以此为准）
 	private String recipBkNo1;// 对方行号（以此为准）
 	private String tInfoNew;// 电子回单唯一标识
@@ -78,10 +80,8 @@ public class AcctTranHist extends BaseEntity implements Serializable {
 	private String receiptInfo;// 回单个性化信息
 	private String telNo;// 柜员号
 	private String mDCARDNO;// 本方财智账户卡卡号（管家卡卡号）
-	private Double trxAmt;// 交易金额
+	private String trxAmt;// 交易金额
 	private String trxCurr;// 交易币种
 	private String currType;// 币种
-	private String dataLoadType;// 数据导入类型
-	private Account account;
 
 }

@@ -19,5 +19,13 @@ public interface SysRefDefService {
 	 * @return
 	 */
 	List<SysRefDef> selectList(SysRefDef sysRefDef);
+	
+	/**
+	 * 获取码值描述
+	 * @param refType
+	 * @param refCode
+	 * @return
+	 */
+	String getSysRefDefDesc(String refType, String refCode);
 
 }

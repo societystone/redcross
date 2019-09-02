@@ -10,6 +10,8 @@ import java.io.IOException;
 
 import org.jdom.Document;
 import org.jdom.JDOMException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import cn.com.icbc.CMS.commontools.TranslationTool;
 import cn.com.icbc.CMS.commontools.XMLIO;
@@ -18,50 +20,49 @@ import cn.com.icbc.CMS.commontools.XpathOperater;
 /**
  ***********************************************
  * 项目名称：APIforZHEJIANG<br>
- * 包名称  ：icbc.api<br>
+ * 包名称 ：icbc.api<br>
  * 文件名称：ICBC.java<br>
- * 程序描述： <pre>
+ * 程序描述：
+ * 
+ * <pre>
  *            工行信息，单体
- *           </pre><br>
+ * </pre>
+ * 
+ * <br>
  * 编写者 ：icbcsdc---dujh<br>
  * 编写日期 ：2005-6-30<br>
- * 变更者：   <br>
+ * 变更者： <br>
  * 变更日期： <br>
  ***********************************************
  */
-public class ICBC
-{
+public class ICBC {
+	/**
+	 * 日志对象
+	 */
+	private static final Logger log = LoggerFactory.getLogger(ICBC.class);
 	private String ip = null;
 	private String port = null;
 	private String truststore = null;
 	private String cerfile = null;
 	private static ICBC i = null;
 
-	private ICBC()
-	{
+	private ICBC() {
 		byte[] data = null;
 		XMLIO reader = new XMLIO();
-		try
-		{
+		try {
 			data = TranslationTool.readFile("src/main/resources/para.xml");
+		} catch (IOException e) {
+			manage.DivScreen("", "无法读取参数配置文件 para.xml", 80);
 		}
-		catch (IOException e)
-		{
-			manage.DivScreen("","无法读取参数配置文件 para.xml",80);
-		}
-		try
-		{
+		try {
 			reader.build(data);
-		}
-		catch (Exception e1)
-		{
-			manage.DivScreen("","参数文件不正确",80);
+		} catch (Exception e1) {
+			manage.DivScreen("", "参数文件不正确", 80);
 		}
 
 		Document jdom = reader.getJdom();
 		XpathOperater xo = new XpathOperater();
-		try
-		{
+		try {
 			xo.setDom(jdom);
 			xo.setXpath("/paras/ICBC/IP");
 			ip = xo.getNodeValue();
@@ -71,22 +72,18 @@ public class ICBC
 			truststore = xo.getNodeValue();
 			xo.setXpath("/paras/ICBC/datalevel/cerfile");
 			cerfile = xo.getNodeValue();
-		}
-		catch (JDOMException e2)
-		{
-			manage.DivScreen("","参数不存在",80);
+		} catch (JDOMException e2) {
+			manage.DivScreen("", "参数不存在", 80);
 		}
 
 	}
 
-			public static void main(String[] args)
-			{
-				ICBC icbc= ICBC.getICBC();
-				System.out.println(icbc.getCerfile());
-			}
+	public static void main(String[] args) {
+		ICBC icbc = ICBC.getICBC();
+		log.info(icbc.getCerfile());
+	}
 
-	public static ICBC getICBC()
-	{
+	public static ICBC getICBC() {
 		if (i == null)
 			i = new ICBC();
 		return i;
@@ -96,11 +93,11 @@ public class ICBC
 	 ********************************************
 	 * 方法名称：getCerfile<br>
 	 * 方法功能：<br>
+	 * 
 	 * @return
 	 ********************************************
 	 */
-	public String getCerfile()
-	{
+	public String getCerfile() {
 		return cerfile;
 	}
 
@@ -108,24 +105,23 @@ public class ICBC
 	 ********************************************
 	 * 方法名称：getTruststore<br>
 	 * 方法功能：<br>
+	 * 
 	 * @return
 	 ********************************************
 	 */
-	public String getTruststore()
-	{
+	public String getTruststore() {
 		return truststore;
 	}
 
-	
 	/**
 	 ********************************************
 	 * 方法名称：getIp<br>
 	 * 方法功能：<br>
+	 * 
 	 * @return
 	 ********************************************
 	 */
-	public String getIp()
-	{
+	public String getIp() {
 		return ip;
 	}
 
@@ -133,11 +129,11 @@ public class ICBC
 	 ********************************************
 	 * 方法名称：getPort<br>
 	 * 方法功能：<br>
+	 * 
 	 * @return
 	 ********************************************
 	 */
-	public String getPort()
-	{
+	public String getPort() {
 		return port;
 	}
 

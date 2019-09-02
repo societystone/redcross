@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="GBK"?>
 <config>
-	<NCIp>http://wangtingweiceshi.ngrok.xiaomiqiu.cn</NCIp>		 <!--NC IP地址 -->
+	<NCIp>http://www.bank.test.ngrok.ibanzhuan.cn</NCIp>		 <!--NC IP地址 -->
 	<NCPort>446</NCPort>		 <!--NC HTTP服务端口号 -->
 	<SCoding>GBK</SCoding>		 <!--编码格式 -->
 	<SBankCode>102</SBankCode>		 <!--银行编码 -->
@@ -15,6 +15,11 @@
 		<TranCode>
 			<code>QHISD</code>  <!--交易码 -->
 			<name>高级明细查询</name> <!--交易名称 -->
+			<version>0.0.1.0</version> <!--版本 -->
+		</TranCode>
+		<TranCode>
+			<code>QACCBAL</code>  <!--交易码 -->
+			<name>高级新多账户余额查询</name> <!--交易名称 -->
 			<version>0.0.1.0</version> <!--版本 -->
 		</TranCode>
 	</TranCodes>

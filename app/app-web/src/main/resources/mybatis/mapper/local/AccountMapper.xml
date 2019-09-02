@@ -3,14 +3,13 @@
 <mapper namespace="com.app.dao.local.AccountDAO">
 	<resultMap id="BaseResultMap" type="Account">
 		<id column="id" property="id" jdbcType="BIGINT" />
-		<result column="id" property="id"
-			jdbcType="BIGINT" />
-		<result column="acct_no" property="acctNo"
-			jdbcType="VARCHAR" />
+		<result column="id" property="id" jdbcType="BIGINT" />
+		<result column="acct_no" property="acctNo" jdbcType="VARCHAR" />
 		<result column="acct_name" property="acctName"
 			jdbcType="VARCHAR" />
-		<result column="status" property="status"
+		<result column="bank_name" property="bankName"
 			jdbcType="VARCHAR" />
+		<result column="status" property="status" jdbcType="VARCHAR" />
 		<result column="create_date" property="createDate"
 			jdbcType="TIMESTAMP" />
 		<result column="modify_date" property="modifyDate"
@@ -19,37 +18,41 @@
 			jdbcType="VARCHAR" />
 		<result column="user_name" property="userName"
 			jdbcType="VARCHAR" />
-		<result column="user_code_last_modify" property="userCodeLastModify"
-			jdbcType="VARCHAR" />
-		<result column="user_name_last_modify" property="userNameLastModify"
-			jdbcType="VARCHAR" />
+		<result column="user_code_last_modify"
+			property="userCodeLastModify" jdbcType="VARCHAR" />
+		<result column="user_name_last_modify"
+			property="userNameLastModify" jdbcType="VARCHAR" />
 	</resultMap>
 	<!-- 数据库列列表 -->
 	<sql id="Base_Column_List">
-		id,acct_no,acct_name,status,create_date,modify_date,user_code,user_name,user_code_last_modify,user_name_last_modify
+		id,acct_no,acct_name,bank_name,status,create_date,modify_date,user_code,user_name,user_code_last_modify,user_name_last_modify
 	</sql>
 	<!-- 插入account到数据库 -->
 	<insert id="addAcct" parameterType="com.app.entity.Account">
 		insert
-		into acct_info(acct_no,acct_name,status,create_date,modify_date,user_code,user_name,user_code_last_modify,user_name_last_modify)
+		into
+		acct_info(acct_no,acct_name,bank_name,status,create_date,modify_date,user_code,user_name,user_code_last_modify,user_name_last_modify)
 		values
-			(#{acctNo},#{acctName},#{status},#{createDate},#{modifyDate},#{userCode},#{userName},#{userCodeLastModify},#{userNameLastModify})
+		(#{acctNo},#{acctName},#{bankName},#{status},#{createDate},#{modifyDate},#{userCode},#{userName},#{userCodeLastModify},#{userNameLastModify})
 	</insert>
-	
+
 	<!-- 修改account到数据库 -->
 	<update id="updateAcct" parameterType="com.app.entity.Account">
 		update
-		 acct_info SET acct_no = #{acctNo} ,acct_name = #{acctName} ,
-		 modify_date =#{modifyDate} ,
-		 user_code_last_modify=#{userCodeLastModify},user_name_last_modify = #{userNameLastModify}
-		  where id = #{id}
+		acct_info SET acct_name = #{acctName} ,bank_name = #{bankName} ,
+		modify_date =#{modifyDate} ,
+		user_code_last_modify=#{userCodeLastModify},user_name_last_modify =
+		#{userNameLastModify}
+		where id = #{id}
 	</update>
 	<!-- 停用跟启用账号 -->
-	<update id="stopOrStartAcct" parameterType="com.app.entity.Account">
+	<update id="stopOrStartAcct"
+		parameterType="com.app.entity.Account">
 		update
-		 acct_info SET status = #{status}, modify_date =#{modifyDate} ,
-		 user_code_last_modify=#{userCodeLastModify},user_name_last_modify = #{userNameLastModify}
-		  where id = #{id}
+		acct_info SET status = #{status}, modify_date =#{modifyDate} ,
+		user_code_last_modify=#{userCodeLastModify},user_name_last_modify =
+		#{userNameLastModify}
+		where id = #{id}
 	</update>
 	<!-- 删除acct_info中的数据 -->
 	<delete id="deleteAcctById" parameterType="Long">
@@ -64,24 +67,24 @@
 		select
 		<include refid="Base_Column_List" />
 		from acct_info
-		where  status != '9'
+		where status != '9'
 		<if test="id != null and id !='' ">
 			and id=#{id}
 		</if>
-		
+
 		<if test="acctNo != null and acctNo !='' ">
 			<bind name="pattern" value="'%' + acctNo + '%'" />
 			and acct_no like #{pattern}
 		</if>
 		<if test="acctName != null and acctName !='' ">
 			<bind name="pattern" value="'%' + acctName + '%'" />
-			and acct_name like  #{pattern}
+			and acct_name like #{pattern}
 		</if>
-	
+
 	</select>
-		<!-- 获得数据集合 -->
-	<select id="selectListByStatus" parameterType="java.util.HashMap"
-		resultMap="BaseResultMap">
+	<!-- 获得数据集合 -->
+	<select id="selectListByStatus"
+		parameterType="java.util.HashMap" resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List" />
 		from acct_info
@@ -95,9 +98,9 @@
 		select
 		<include refid="Base_Column_List" />
 		from acct_info
-		where  acct_no = #{acctNo}
+		where acct_no = #{acctNo}
 	</select>
-	
-	
+
+
 
 </mapper>

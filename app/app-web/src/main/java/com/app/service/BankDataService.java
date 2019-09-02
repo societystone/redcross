@@ -2,6 +2,7 @@ package com.app.service;
 
 import java.util.List;
 
+import com.app.bankbean.qaccbal.BankBeanQaccbalOutRd;
 import com.app.bankbean.qhisd.BankBeanQhisdOutRd;
 import com.app.bankbean.qpd.BankBeanQpdOutRd;
 
@@ -32,4 +33,5 @@ public interface BankDataService {
 	 */
 	List<BankBeanQpdOutRd> downloadNowDayBankData(String acctNo, String beginTime, String endTime);
 
+	List<BankBeanQaccbalOutRd> queryAcctBal(String acctNo);
 }

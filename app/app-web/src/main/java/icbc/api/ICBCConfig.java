@@ -13,6 +13,8 @@ import java.util.Map;
 
 import org.jdom.Document;
 import org.jdom.Element;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.ResourceUtils;
 
 import com.app.util.Emptys;
@@ -40,6 +42,10 @@ import cn.com.icbc.CMS.commontools.XpathOperater;
  ***********************************************
  */
 public class ICBCConfig {
+	/**
+	 * 日志对象
+	 */
+	private static final Logger log = LoggerFactory.getLogger(ICBCConfig.class);
 	private String NCIp;// NC IP地址
 	private String NCPort;// NC HTTP服务端口号
 	private String SCoding;// 编码格式
@@ -101,11 +107,11 @@ public class ICBCConfig {
 		String SGroupCIS = icbc.getSGroupCIS();// 集团CIS号
 		String SID = icbc.getSID();// 证书ID
 		List<Map<String, String>> tranCodes = icbc.getTranCodes();// 交易码列表
-		System.out.println(NCIp + ";" + NCPort + ";" + SCoding + ";" + SBankCode + ";" + SGroupCIS + ";" + SID);
+		log.info(NCIp + ";" + NCPort + ";" + SCoding + ";" + SBankCode + ";" + SGroupCIS + ";" + SID);
 
 		if (Emptys.isNotEmpty(tranCodes)) {
 			for (Map<String, String> map : tranCodes) {
-				System.out.println(map.get("code") + ";" + map.get("name") + ";" + map.get("version"));
+				log.info(map.get("code") + ";" + map.get("name") + ";" + map.get("version"));
 			}
 		}
 	}

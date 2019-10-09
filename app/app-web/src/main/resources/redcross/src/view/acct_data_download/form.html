@@ -28,8 +28,7 @@ body {
 		<div class="layui-form-item">
 			<label class="layui-form-label">账号</label>
 			<div class="layui-input-inline">
-				<input type="text" name="acctNo" placeholder="请输入账号"
-					autocomplete="off" class="layui-input">
+				<select name="acctNo" lay-verify=""></select>
 			</div>
 		</div>
 		<div class="layui-form-item">
@@ -56,7 +55,7 @@ body {
 	<script>
 		layui.config({
 			base : '../../src/js/'
-		}).use('acct/form');
+		}).use('acct_data_download/form');
 		layui.use('laydate', function() {
 			var laydate = layui.laydate;
 

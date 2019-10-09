@@ -59,7 +59,7 @@ public class DataMoveTemplateServiceImpl implements DataMoveTemplateService {
 		return dataMoveTemplate;
 	}
 
-	@Transactional(value = "transactionManager", rollbackFor = Exception.class)
+	@Transactional(value = "transactionManagerLocal", rollbackFor = { Exception.class })
 	@Override
 	public Long insertTemplateInfo(DataMoveTemplate dataMoveTemplate) {
 		// TODO Auto-generated method stub
@@ -78,7 +78,7 @@ public class DataMoveTemplateServiceImpl implements DataMoveTemplateService {
 		return dataMoveTemplateDAO.insert(dataMoveTemplate);
 	}
 
-	@Transactional(value = "transactionManager", rollbackFor = Exception.class)
+	@Transactional(value = "transactionManagerLocal", rollbackFor = { Exception.class })
 	@Override
 	public void updateTemplateInfo(DataMoveTemplate dataMoveTemplate) {
 		// TODO Auto-generated method stub

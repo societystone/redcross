@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.app.aspect.annotation.Log;
 import com.app.config.Config;
 import com.app.dto.AcctBalanceDTO;
 import com.app.dto.AcctInOutDTO;
@@ -49,6 +50,7 @@ public class ReportController {
 	 * 
 	 * @return
 	 */
+	@Log("导出账户余额数据")
 	@RequestMapping("export/acct_balance")
 	public void exportAcctBalanceList(HttpServletResponse response) {
 		log.info("导出账户余额信息开始");
@@ -121,6 +123,7 @@ public class ReportController {
 	 * @param acct
 	 * @return
 	 */
+	@Log("导出账户收支数据")
 	@RequestMapping("export/acct_in_out_hist")
 	public void exportAcctInOutList(HttpServletRequest request, HttpServletResponse response) {
 		HashMap<String, Object> queryMap = new HashMap<>();
@@ -200,6 +203,7 @@ public class ReportController {
 	 * @param acct
 	 * @return
 	 */
+	@Log("导出账户交易流水数据")
 	@RequestMapping("export/acct_tran_hist")
 	public void exportAcctTranHistList(HttpServletRequest request, HttpServletResponse response) {
 		HashMap<String, Object> queryMap = new HashMap<>();

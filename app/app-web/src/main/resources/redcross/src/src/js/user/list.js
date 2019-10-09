@@ -59,6 +59,14 @@ layui.define(['common'], function(exports){
     			}
     		}
     		return str;
+    	}},
+    	{title: '操作', width: 150, align: 'center', fixed: 'right', templet: function(d){
+    		var str = '<div>';
+    		if(common.isHasPermission(common.Constants.PermissionType1)){
+    			str += '<a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="auz"><i class="layui-icon layui-icon-auz"></i>设置账户权限</a>';
+    		}
+    		str += '</div>';
+    		return str;
     	}}
     ]],
     parseData: function(res){ //res 即为原始返回的数据
@@ -82,9 +90,61 @@ layui.define(['common'], function(exports){
     defaultToolbar: ['filter']
   });
 
+
   //事件
   var active = {
-		  
+		  auz:function(id){
+		      layer.open({
+		          type: 2,
+		          title: '设置账户权限',
+		          content: 'permissionform.html',
+		          maxmin: true,
+		          area: ['500px', '450px'],
+		          success: function(layero, index){
+		        	  var iframeContent = layero.find('iframe').contents();
+		        	  iframeContent.find("input[name='id']").val(id);
+		          },
+		          btn: ['确定', '取消'],
+		          yes: function(index, layero){
+		            var iframeWindow = window['layui-layer-iframe'+ index];
+		            var submitID = 'layui-submit-btn';
+		            var submit = layero.find('iframe').contents().find('#'+ submitID);
+		
+		            //监听提交
+		            iframeWindow.layui.form.on('submit('+ submitID +')', function(data){
+		            	common.disabledButton(submit,true);
+		            	var field = data.field; //获取提交的字段
+			            var permissionArr = new Array();
+			            for(var i in field){
+			            	if(i.indexOf("acctId[")!=-1){
+			            		permissionArr.push({
+			            			"id":field[i]
+			            		});
+			            	}
+			            }
+			            field["accts"] = permissionArr;
+		              $.ajax({
+		              	  type: "POST",
+		              	  contentType: 'application/json',
+		              	  url: config.appBase+'/sys/user/acct', 
+		              	  data: JSON.stringify(field),
+		              	  dataType:'json',
+		              	  success: function(res){
+		              		  if(res.code==0){
+		              			  layer.msg("设置权限成功！");
+		    		              table.reload('table-data'); //数据刷新
+		    		              layer.close(index); //关闭弹层
+		              		  }else{
+		              			  layer.msg(res.msg);
+		              			  common.disabledButton(submit,false);
+		              		  }
+		                  }
+		                });
+		            });  
+		            submit.trigger('click');
+		          }
+		       }); 
+		  }
     };
   
   //监听行工具事件

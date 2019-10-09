@@ -36,7 +36,7 @@ public class DataMoveServiceImpl implements DataMoveService {
 	@Autowired
 	private DataMoveTemplateService dataMoveTemplateService;
 
-	@Transactional(value = "transactionManager", rollbackFor = Exception.class)
+	@Transactional(value = "transactionManagerLocal", rollbackFor = { Exception.class })
 	@Override
 	public Long dataMove() {
 		// TODO Auto-generated method stub

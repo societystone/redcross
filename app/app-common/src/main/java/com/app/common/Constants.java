@@ -3,9 +3,9 @@ package com.app.common;
 public class Constants {
 	public static final String ENABLE_VALUE = "1";// 启用
 	public static final String DISABLE_VALUE = "0";// 禁用
-	
-	public static final int RESULT_NUM = 0 ;// 用于数据库插入修改是否有返回值作对比用
-	public static final int RESULT_NUM1 = 1 ;// 用于数据库插入修改是否有返回值作对比用
+
+	public static final int RESULT_NUM = 0;// 用于数据库插入修改是否有返回值作对比用
+	public static final int RESULT_NUM1 = 1;// 用于数据库插入修改是否有返回值作对比用
 
 	/**
 	 * 系统状态
@@ -48,10 +48,10 @@ public class Constants {
 	/**
 	 * 角色关联类型
 	 * 
-	 * @author wangtw ROLE_MENU-角色菜单关联 ROLE_PERMISSION-角色权限关联
+	 * @author wangtw ROLE_MENU-角色菜单关联 ROLE_PERMISSION-角色权限关联 USER_ACCT-用户账户关联
 	 */
 	public static enum ROLE_RELATION_TYPE {
-		ROLE_MENU("RM"), ROLE_PERMISSION("RP");
+		ROLE_MENU("RM"), ROLE_PERMISSION("RP"), USER_ACCT("UA");
 
 		private String value;
 

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.app.bean.PageResultBean;
+import com.app.dto.AcctDTO;
 import com.app.entity.Account;
 
 public interface AccountService {
@@ -42,5 +43,9 @@ public interface AccountService {
 	boolean getAcctByAcctNo(String acctNo);
 
 	Account getAccountByAcctNo(String acctNo);
+
+	public List<AcctDTO> getAcctByUser(Long userId);
+
+	List<Account> getValidAcctLoginUser();
 
 }

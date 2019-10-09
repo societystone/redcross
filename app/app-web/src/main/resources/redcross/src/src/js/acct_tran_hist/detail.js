@@ -22,6 +22,7 @@ layui.define([ 'common' ], function(exports) {
 					if (res.data != null) {
 						var data = res.data;
 //						form.val("layui-form", data);
+						data["downType"] = common.getRefDesc(common.Constants.DownType, data["downType"]);
 						for(var k in data){
 							formObj.find("span[name='"+k+"']").html(data[k]);
 						}

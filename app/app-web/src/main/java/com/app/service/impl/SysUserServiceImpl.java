@@ -8,7 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.app.bean.PageResultBean;
+import com.app.common.Constants;
+import com.app.dao.local.SysRoleRelationDAO;
 import com.app.dao.remote.SysUserDAO;
+import com.app.entity.Account;
+import com.app.entity.SysRoleRelation;
 import com.app.entity.SysUser;
 import com.app.service.CompanyService;
 import com.app.service.SysRoleService;
@@ -35,6 +39,8 @@ public class SysUserServiceImpl implements SysUserService {
 	private SysRoleService sysRoleService;
 	@Autowired
 	private CompanyService companyService;
+	@Autowired
+	private SysRoleRelationDAO sysRoleRelationDAO;
 
 	@Override
 	public SysUser selectSysUser(String username, String password) {
@@ -86,6 +92,30 @@ public class SysUserServiceImpl implements SysUserService {
 		HashMap<String, Object> queryMap = new HashMap<String, Object>();
 		queryMap.put("username", sysUser.getUsername());
 		return sysUserDAO.selectList(queryMap);
+	}
+
+	@Override
+	public Long updateAcctPermissionByUserId(SysUser sysUser) {
+		// TODO Auto-generated method stub
+		Long userId = sysUser.getId();
+		ExceptionUtil.throwEmptyCheckException(userId, "用户ID为空");
+		List<Account> accts = sysUser.getAccts();
+		// 更新角色菜单
+		String userRelationType = Constants.ROLE_RELATION_TYPE.USER_ACCT.getValue();
+		HashMap<String, Object> queryMap = new HashMap<String, Object>();
+		queryMap.put("type", userRelationType);
+		queryMap.put("roleId", userId);
+		sysRoleRelationDAO.delete(queryMap);
+		SysRoleRelation sysRoleRelation = new SysRoleRelation();
+		sysRoleRelation.setType(userRelationType);
+		sysRoleRelation.setRoleId(userId);
+		if (Emptys.isNotEmpty(accts)) {
+			for (Account acct : accts) {
+				sysRoleRelation.setRelationId(acct.getId());
+				sysRoleRelationDAO.insert(sysRoleRelation);
+			}
+		}
+		return Long.valueOf(1);
 	}
 
 }

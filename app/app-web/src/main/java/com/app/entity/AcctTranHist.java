@@ -83,5 +83,6 @@ public class AcctTranHist extends BaseEntity implements Serializable {
 	private String trxAmt;// 交易金额
 	private String trxCurr;// 交易币种
 	private String currType;// 币种
+	private String downType;//下载方式
 
 }

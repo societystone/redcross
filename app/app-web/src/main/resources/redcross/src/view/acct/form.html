@@ -26,24 +26,85 @@ body {
 		style="padding: 20px 30px 0 0;">
 		<input type="hidden" name="id">
 		<div class="layui-form-item">
-			<label class="layui-form-label">账号</label>
+			<label class="layui-form-label">银行账号</label>
 			<div class="layui-input-inline">
 				<input type="text" name="acctNo" lay-verify="required"
-					placeholder="请输入账号" autocomplete="off" class="layui-input">
+					placeholder="请输入银行账号" autocomplete="off" class="layui-input">
 			</div>
 		</div>
 		<div class="layui-form-item">
 			<label class="layui-form-label">账户名称</label>
 			<div class="layui-input-inline">
 				<input type="text" name="acctName" lay-verify="required"
-					placeholder="请输入账户名称" autocomplete="off" class="layui-input">
+					placeholder="请输入账户名称" autocomplete="off" class="layui-input" style="width:300px">
 			</div>
 		</div>
 		<div class="layui-form-item">
-			<label class="layui-form-label">银行名称</label>
+			<label class="layui-form-label">账户类型</label>
 			<div class="layui-input-inline">
-				<input type="text" name="bankName" lay-verify="required"
-					placeholder="请输入银行名称" autocomplete="off" class="layui-input">
+				<select name="acctType" lay-verify=""></select>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">行号</label>
+			<div class="layui-input-inline">
+				<input type="text" name="bankNo" 
+					placeholder="请输入行号" autocomplete="off" class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">开户行名称</label>
+			<div class="layui-input-inline">
+				<input type="text" name="bankName" 
+					placeholder="请输入开户行名称" autocomplete="off" class="layui-input" style="width:300px">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">开户行简称</label>
+			<div class="layui-input-inline">
+				<input type="text" name="bankShortName" 
+					placeholder="请输入开户行简称" autocomplete="off" class="layui-input" style="width:300px">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">开户行地址</label>
+			<div class="layui-input-inline">
+				<input type="text" name="bankAdds" 
+					placeholder="请输入开户行地址" autocomplete="off" class="layui-input" style="width:400px">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">开户单位</label>
+			<div class="layui-input-inline">
+				<input type="text" name="opAcctCompany" 
+					placeholder="请输入开户单位" autocomplete="off" class="layui-input" style="width:400px">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">开户日期</label>
+			<div class="layui-input-inline">
+				<input type="text" class="layui-input" id="date1"
+					lay-verify="" name="opAcctDate" placeholder="yyyyMMdd">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">资金性质</label>
+			<div class="layui-input-inline">
+				<input type="text" name="capitalNature" 
+					placeholder="请输入资金性质" autocomplete="off" class="layui-input" style="width:500px">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">账户用途</label>
+			<div class="layui-input-inline">
+				<input type="text" name="acctUse" 
+					placeholder="请输入账户用途" autocomplete="off" class="layui-input" style="width:500px">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">资金渠道</label>
+			<div class="layui-input-inline">
+				<select name="capitalChannel" lay-verify=""></select>
 			</div>
 		</div>
 		<div class="layui-form-item layui-hide">
@@ -57,6 +118,16 @@ body {
 		layui.config({
 			base : '../../src/js/'
 		}).use('acct/form');
+		layui.use('laydate', function() {
+			var laydate = layui.laydate;
+
+			//常规用法
+			laydate.render({
+				elem : '#date1',
+				format : 'yyyyMMdd'
+			});
+
+		});
 	</script>
 </body>
 </html>

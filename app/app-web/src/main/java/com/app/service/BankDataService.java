@@ -1,10 +1,6 @@
 package com.app.service;
 
-import java.util.List;
-
-import com.app.bankbean.qaccbal.BankBeanQaccbalOutRd;
-import com.app.bankbean.qhisd.BankBeanQhisdOutRd;
-import com.app.bankbean.qpd.BankBeanQpdOutRd;
+import java.util.Map;
 
 /**
  * 银行数据接口 . <br>
@@ -16,22 +12,31 @@ public interface BankDataService {
 	/**
 	 * 从银行下载历史交易数据
 	 * 
+	 * @param result
 	 * @param acctNo
 	 * @param beginDate
 	 * @param endDate
 	 * @return
 	 */
-	List<BankBeanQhisdOutRd> downloadHistDayBankData(String acctNo, String beginDate, String endDate);
+	boolean downloadHistDayBankData(Map<String, Object> result, String acctNo, String beginDate, String endDate);
 
 	/**
-	 * 从银行下载 当日交易数据
+	 * 从银行下载当日交易数据
 	 * 
+	 * @param result
 	 * @param acctNo
 	 * @param beginTime
 	 * @param endTime
 	 * @return
 	 */
-	List<BankBeanQpdOutRd> downloadNowDayBankData(String acctNo, String beginTime, String endTime);
+	boolean downloadNowDayBankData(Map<String, Object> result, String acctNo, String beginTime, String endTime);
 
-	List<BankBeanQaccbalOutRd> queryAcctBal(String acctNo);
+	/**
+	 * 从银行下载账户余额
+	 * 
+	 * @param result
+	 * @param acctNo
+	 * @return
+	 */
+	boolean downloadAcctBal(Map<String, Object> result, String acctNo);
 }

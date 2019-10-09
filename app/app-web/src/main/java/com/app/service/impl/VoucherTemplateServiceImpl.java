@@ -58,7 +58,7 @@ public class VoucherTemplateServiceImpl implements VoucherTemplateService {
 		return voucherTemplate;
 	}
 
-	@Transactional(value = "transactionManager", rollbackFor = Exception.class)
+	@Transactional(value = "transactionManagerLocal", rollbackFor = { Exception.class })
 	@Override
 	public Long insertTemplateInfo(VoucherTemplate voucherTemplate) {
 		// TODO Auto-generated method stub
@@ -72,7 +72,7 @@ public class VoucherTemplateServiceImpl implements VoucherTemplateService {
 		return voucherTemplateDAO.insert(voucherTemplate);
 	}
 
-	@Transactional(value = "transactionManager", rollbackFor = Exception.class)
+	@Transactional(value = "transactionManagerLocal", rollbackFor = { Exception.class })
 	@Override
 	public void updateTemplateInfo(VoucherTemplate voucherTemplate) {
 		// TODO Auto-generated method stub

@@ -20,6 +20,8 @@ layui.define(['common'], function(exports){
   ////////////end
 
   var searchFormObj = $(".layui-form");
+  common.initSelect(searchFormObj.find("select[name='acctNo']"),common.getSysRefDef(common.Constants.AcctNo,'1'),null);
+  form.render(); //更新
   
   var nowDate = new Date();
 
@@ -116,7 +118,7 @@ layui.define(['common'], function(exports){
 			  var url = config.appBase+'/export/acct_in_out_hist?';
 			  if(searchData){
 				  for(var i in searchData){
-					  url += (i + "=" + searchData[i] + "&");
+					  url += (i + "=" + (searchData[i]?searchData[i]:"") + "&");
 				  }
 			  }
 			  window.location.href = url;

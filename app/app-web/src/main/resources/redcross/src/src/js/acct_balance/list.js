@@ -39,6 +39,9 @@ layui.define(['common'], function(exports){
     	{field: 'balance', title: '余额(元)', width: 120, totalRow: true},
     	{field: 'queryTime', title: '查询时间', width: 150, templet: function(d){
     		return d.queryTime ? d.queryTime.substring(0,14) : "";
+    	}},
+    	{field:'downType',title:'下载方式',width:100, templet: function(d){
+    		return common.getRefDesc(common.Constants.DownType, d.downType);
     	}}
     ]],
     done:function(res, curr, count){    //res 接口返回的信息

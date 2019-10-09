@@ -45,4 +45,6 @@ public interface SysUserService {
 	 */
 	List<SysUser> selectSysUserList(SysUser sysUser);
 
+	Long updateAcctPermissionByUserId(SysUser sysUser);
+
 }

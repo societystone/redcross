@@ -3,11 +3,26 @@
 <mapper namespace="com.app.dao.local.AccountDAO">
 	<resultMap id="BaseResultMap" type="Account">
 		<id column="id" property="id" jdbcType="BIGINT" />
-		<result column="id" property="id" jdbcType="BIGINT" />
 		<result column="acct_no" property="acctNo" jdbcType="VARCHAR" />
 		<result column="acct_name" property="acctName"
 			jdbcType="VARCHAR" />
+		<result column="bank_no" property="bankNo" jdbcType="VARCHAR" />
 		<result column="bank_name" property="bankName"
+			jdbcType="VARCHAR" />
+		<result column="bank_short_name" property="bankShortName"
+			jdbcType="VARCHAR" />
+		<result column="bank_adds" property="bankAdds"
+			jdbcType="VARCHAR" />
+		<result column="op_acct_company" property="opAcctCompany"
+			jdbcType="VARCHAR" />
+		<result column="op_acct_date" property="opAcctDate"
+			jdbcType="VARCHAR" />
+		<result column="acct_type" property="acctType"
+			jdbcType="VARCHAR" />
+		<result column="capital_nature" property="capitalNature"
+			jdbcType="VARCHAR" />
+		<result column="acct_use" property="acctUse" jdbcType="VARCHAR" />
+		<result column="capital_channel" property="capitalChannel"
 			jdbcType="VARCHAR" />
 		<result column="status" property="status" jdbcType="VARCHAR" />
 		<result column="create_date" property="createDate"
@@ -25,22 +40,59 @@
 	</resultMap>
 	<!-- 数据库列列表 -->
 	<sql id="Base_Column_List">
-		id,acct_no,acct_name,bank_name,status,create_date,modify_date,user_code,user_name,user_code_last_modify,user_name_last_modify
+		id,acct_no,acct_name,bank_no ,bank_name ,bank_short_name
+		,bank_adds ,op_acct_company ,op_acct_date ,acct_type ,capital_nature
+		,acct_use
+		,capital_channel,status,create_date,modify_date,user_code,user_name,user_code_last_modify,user_name_last_modify
+	</sql>
+	<!-- 数据库列列表 -->
+	<sql id="Base_Column_List_a">
+		a.id,a.acct_no,a.acct_name,a.bank_no,a.bank_name,a.bank_short_name,a.bank_adds,a.op_acct_company,a.op_acct_date,a.acct_type,a.capital_nature,a.acct_use,a.capital_channel,a.status,a.create_date,a.modify_date,a.user_code,a.user_name,a.user_code_last_modify,a.user_name_last_modify
 	</sql>
 	<!-- 插入account到数据库 -->
-	<insert id="addAcct" parameterType="com.app.entity.Account">
+	<insert id="insert" parameterType="Account" keyProperty="id">
 		insert
 		into
-		acct_info(acct_no,acct_name,bank_name,status,create_date,modify_date,user_code,user_name,user_code_last_modify,user_name_last_modify)
+		acct_info(acct_no,acct_name,bank_no ,bank_name
+		,bank_short_name
+		,bank_adds ,op_acct_company ,op_acct_date ,acct_type
+		,capital_nature
+		,acct_use
+		,capital_channel,status,create_date,modify_date,user_code,user_name,user_code_last_modify,user_name_last_modify)
 		values
-		(#{acctNo},#{acctName},#{bankName},#{status},#{createDate},#{modifyDate},#{userCode},#{userName},#{userCodeLastModify},#{userNameLastModify})
+		(#{acctNo},#{acctName},#{bankNo,jdbcType=VARCHAR},
+		#{bankName,jdbcType=VARCHAR},
+		#{bankShortName,jdbcType=VARCHAR},
+		#{bankAdds,jdbcType=VARCHAR},
+		#{opAcctCompany,jdbcType=VARCHAR},
+		#{opAcctDate,jdbcType=VARCHAR},
+		#{acctType,jdbcType=VARCHAR},
+		#{capitalNature,jdbcType=VARCHAR},
+		#{acctUse,jdbcType=VARCHAR},
+		#{capitalChannel,jdbcType=VARCHAR},#{status},#{createDate},#{modifyDate},#{userCode},#{userName},#{userCodeLastModify},#{userNameLastModify})
+		<selectKey resultType="java.lang.Long" keyProperty="id"
+			order="AFTER">
+			SELECT IDENT_CURRENT('acct_info')
+		</selectKey>
 	</insert>
 
 	<!-- 修改account到数据库 -->
 	<update id="updateAcct" parameterType="com.app.entity.Account">
 		update
-		acct_info SET acct_name = #{acctName} ,bank_name = #{bankName} ,
-		modify_date =#{modifyDate} ,
+		acct_info SET
+		acct_name = #{acctName} ,
+		bank_no=#{bankNo,jdbcType=VARCHAR},
+		bank_name=#{bankName,jdbcType=VARCHAR},
+		bank_short_name=#{bankShortName,jdbcType=VARCHAR},
+		bank_adds=#{bankAdds,jdbcType=VARCHAR},
+		op_acct_company=#{opAcctCompany,jdbcType=VARCHAR},
+		op_acct_date=#{opAcctDate,jdbcType=VARCHAR},
+		acct_type=#{acctType,jdbcType=VARCHAR},
+		capital_nature=#{capitalNature,jdbcType=VARCHAR},
+		acct_use=#{acctUse,jdbcType=VARCHAR},
+		capital_channel=#{capitalChannel,jdbcType=VARCHAR},
+		modify_date
+		=#{modifyDate} ,
 		user_code_last_modify=#{userCodeLastModify},user_name_last_modify =
 		#{userNameLastModify}
 		where id = #{id}
@@ -49,7 +101,8 @@
 	<update id="stopOrStartAcct"
 		parameterType="com.app.entity.Account">
 		update
-		acct_info SET status = #{status}, modify_date =#{modifyDate} ,
+		acct_info SET status = #{status}, modify_date
+		=#{modifyDate} ,
 		user_code_last_modify=#{userCodeLastModify},user_name_last_modify =
 		#{userNameLastModify}
 		where id = #{id}
@@ -65,20 +118,25 @@
 	<select id="selectList" parameterType="com.app.entity.Account"
 		resultMap="BaseResultMap">
 		select
-		<include refid="Base_Column_List" />
-		from acct_info
-		where status != '9'
+		<include refid="Base_Column_List_a" />
+		from acct_info a,sys_role_relation srr
+		where a.id = srr.relation_id
+		and srr.type='UA' and
+		srr.role_id=#{userId}
+		and a.status != '9'
 		<if test="id != null and id !='' ">
-			and id=#{id}
+			and a.id=#{id}
 		</if>
-
 		<if test="acctNo != null and acctNo !='' ">
 			<bind name="pattern" value="'%' + acctNo + '%'" />
-			and acct_no like #{pattern}
+			and a.acct_no like #{pattern}
 		</if>
 		<if test="acctName != null and acctName !='' ">
 			<bind name="pattern" value="'%' + acctName + '%'" />
-			and acct_name like #{pattern}
+			and a.acct_name like #{pattern}
+		</if>
+		<if test="status != null and status != ''">
+			and a.status = #{status}
 		</if>
 
 	</select>
@@ -99,6 +157,23 @@
 		<include refid="Base_Column_List" />
 		from acct_info
 		where acct_no = #{acctNo}
+	</select>
+	<select id="getAcctByUserId" resultMap="BaseResultMap">
+		select
+		acct_no,acct_name
+		from acct_info a,sys_role_relation srr
+		where a.id = srr.relation_id
+		and
+		srr.type='UA' and
+		srr.role_id=#{userId}
+	</select>
+
+	<select id="selectByPrimaryKey" parameterType="long"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from acct_info
+		where id=#{id}
 	</select>
 
 

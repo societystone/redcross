@@ -1,8 +1,13 @@
 package com.app.controller;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,20 +18,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.app.aspect.annotation.Log;
 import com.app.bean.PageResultBean;
 import com.app.bean.ResultBean;
 import com.app.common.Constants;
 import com.app.config.Config;
 import com.app.dto.AcctBalanceDTO;
+import com.app.dto.AcctDTO;
 import com.app.dto.AcctInOutDTO;
 import com.app.entity.Account;
 import com.app.entity.AcctQueryHist;
 import com.app.entity.AcctTranHist;
+import com.app.entity.SysUser;
 import com.app.service.AccountService;
 import com.app.service.AcctDataService;
 import com.app.util.DateUtils;
 import com.app.util.Emptys;
 import com.app.util.ExceptionUtil;
+import com.app.util.UserUtils;
 
 @RestController
 public class AccountController {
@@ -34,6 +43,8 @@ public class AccountController {
 	 * 日志对象
 	 */
 	private static final Logger log = LoggerFactory.getLogger(AccountController.class);
+	@Autowired
+	private HttpSession session;
 
 	@Autowired
 	private AccountService accountService;
@@ -47,6 +58,7 @@ public class AccountController {
 	 * @param acct
 	 * @return
 	 */
+	@Log("添加账户")
 	@RequestMapping("acct/add")
 	@ResponseBody
 	public ResultBean<Account> addAccount(@RequestBody Account acct) {
@@ -60,7 +72,6 @@ public class AccountController {
 			accountService.addAcct(acct);
 		} catch (Exception e) {
 			ExceptionUtil.throwCheckException("账户添加失败");
-
 		}
 
 		return new ResultBean<Account>(null);
@@ -72,6 +83,7 @@ public class AccountController {
 	 * @param id
 	 * @return
 	 */
+	@Log("删除账户")
 	@RequestMapping("acct/delete/{id}")
 	@ResponseBody
 	public ResultBean<Account> deleteAccount(@PathVariable("id") Long id) {
@@ -108,11 +120,12 @@ public class AccountController {
 	}
 
 	/**
-	 * 跟新账户信息
+	 * 更新账户信息
 	 * 
 	 * @param acct
 	 * @return
 	 */
+	@Log("更新账户")
 	@RequestMapping("acct/update")
 	@ResponseBody
 	public ResultBean<Account> updateAccount(@RequestBody Account acct) {
@@ -129,6 +142,7 @@ public class AccountController {
 	 * @param acct
 	 * @return
 	 */
+	@Log("启停账户")
 	@RequestMapping("acct/stopOrStartAcct/{id}/{status}")
 	@ResponseBody
 	public ResultBean<Account> stopOrStartAccount(@PathVariable("id") Long id, @PathVariable("status") String status) {
@@ -173,6 +187,7 @@ public class AccountController {
 	 * @param acct
 	 * @return
 	 */
+	@Log("从银行下载账户数据")
 	@RequestMapping("acct_hist/download")
 	public ResultBean<Boolean> download(@RequestBody HashMap<String, Object> queryMap) {
 		String beginDate = (String) queryMap.get("beginDate");
@@ -184,19 +199,15 @@ public class AccountController {
 			if (!accountService.getAcctByAcctNo(acctNo)) {
 				ExceptionUtil.throwCheckException("账户不存在或者未启用");
 			}
-			acctDataService.loadAcctBalanceHist(acctNo);
-			acctDataService.loadAcctTranHist(acctNo, beginDate, endDate);
+			acctDataService.loadAcctBalanceHist(acctNo,"2");
+			acctDataService.loadAcctTranHist(acctNo, beginDate, endDate,"2");
 		} else {
-			List<Account> accounts = accountService.getAllValidAcct();
+			List<Account> accounts = accountService.getValidAcctLoginUser();
 			if (Emptys.isNotEmpty(accounts)) {
 				for (Account account : accounts) {
-					try {
-						log.info("执行账号：" + account.getAcctNo());
-						acctDataService.loadAcctBalanceHist(account.getAcctNo());
-						acctDataService.loadAcctTranHist(account.getAcctNo(), beginDate, endDate);
-					} catch (Exception e) {
-						log.error("下载账户【{}】交易数据异常：", account.getAcctNo(), e);
-					}
+					log.info("执行账号：" + account.getAcctNo());
+					acctDataService.loadAcctBalanceHist(account.getAcctNo(),"2");
+					acctDataService.loadAcctTranHist(account.getAcctNo(), beginDate, endDate,"2");
 				}
 			}
 		}
@@ -209,12 +220,12 @@ public class AccountController {
 		if (!accountService.getAcctByAcctNo(acctNo)) {
 			ExceptionUtil.throwCheckException("账户不存在或者未启用");
 		}
-		acctDataService.loadAcctBalanceHist(acctNo);
+		acctDataService.loadAcctBalanceHist(acctNo,"2");
 		String systemTranDate = Config.systemTranDate;
 		if (Config.isEnableSystemTranDate) {
 			systemTranDate = DateUtils.formatYYYYMMDD(new Date());
 		}
-		acctDataService.loadAcctTranHist(acctNo, systemTranDate, systemTranDate);
+		acctDataService.loadAcctTranHist(acctNo, systemTranDate, systemTranDate,"2");
 		return new ResultBean<Boolean>(true);
 	}
 
@@ -253,6 +264,46 @@ public class AccountController {
 	public ResultBean<PageResultBean<AcctQueryHist>> selectAcctQueryHistList(
 			@RequestBody HashMap<String, Object> queryMap) {
 		return new ResultBean<PageResultBean<AcctQueryHist>>(acctDataService.queryAcctQueryHistListPage(queryMap));
+	}
+
+	/**
+	 * 查询登录用户可操作的账户
+	 * 
+	 * @param acct
+	 * @return
+	 */
+	@RequestMapping("user/acctNo/list")
+	public ResultBean<List<AcctDTO>> selectUserAcctList() {
+		SysUser su = (SysUser) session.getAttribute(UserUtils.KEY_USER);
+		return new ResultBean<List<AcctDTO>>(accountService.getAcctByUser(su.getId()));
+	}
+
+	/**
+	 * 查询账户权限集合
+	 * 
+	 * @param acct
+	 * @return
+	 */
+	@RequestMapping("user/acctNo/list/{id}")
+	public ResultBean<List<AcctDTO>> selectUserAcctListByUcctId(@PathVariable("id") Long userId) {
+		List<AcctDTO> results = new ArrayList<>();
+		List<Account> accounts = accountService.getAllValidAcct();
+		if (Emptys.isNotEmpty(accounts)) {
+			List<AcctDTO> accts = accountService.getAcctByUser(userId);
+			Set<String> acctNoSet = new HashSet<>();
+			for (AcctDTO acct : accts) {
+				acctNoSet.add(acct.getAcctNo());
+			}
+			for (Account account : accounts) {
+				AcctDTO acct = new AcctDTO();
+				acct.setId(account.getId());
+				acct.setAcctNo(account.getAcctNo());
+				acct.setAcctName(account.getAcctName());
+				acct.setFlag(acctNoSet.contains(account.getAcctNo()) ? true : false);
+				results.add(acct);
+			}
+		}
+		return new ResultBean<List<AcctDTO>>(results);
 	}
 
 }

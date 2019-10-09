@@ -102,6 +102,8 @@
 		<result column="trxCurr" property="trxCurr" jdbcType="VARCHAR" />
 		<result column="currType" property="currType"
 			jdbcType="VARCHAR" />
+		<result column="down_type" property="downType"
+			jdbcType="VARCHAR" />
 		<result column="create_date" property="createDate"
 			jdbcType="TIMESTAMP" />
 	</resultMap>
@@ -116,8 +118,32 @@
 		tradeTime, tradeFee, tradeLocation, exRate, forCurrtype, enAbstract,
 		openBankNo, openBankBIC, openBankName, subAcctSeq, tHCurrency,
 		recipBkName1, recipBkNo1, tInfoNew, refundMsg, busTypNo, receiptInfo,
-		telNo, mDCARDNO, trxAmt, trxCurr, currType,
+		telNo, mDCARDNO, trxAmt, trxCurr, currType,down_type,
 		create_date
+	</sql>
+	<sql id="Base_Column_List_a">
+		ath.id, ath.acct_no, ath.drcrf, ath.vouhNo,
+		ath.debitAmount, ath.creditAmount,
+		ath.balance, ath.recipBkNo,
+		ath.recipBkName, ath.recipAccNo, ath.recipName, ath.summary,
+		ath.useCN, ath.postScript, ath.busCode, ath.date, ath.time, ath.ref,
+		ath.oref, ath.enSummary, ath.busType,
+		ath.vouhType, ath.addInfo,
+		ath.toutfo, ath.onlySequence, ath.agentAcctName, ath.agentAcctNo,
+		ath.upDtranf, ath.valueDate, ath.trxCode, ath.ref1, ath.oref1,
+		ath.cASHF, ath.busiDate, ath.busiTime,
+		ath.seqNo, ath.mgNo,
+		ath.mgAccNo, ath.mgCurrType, ath.cashExf, ath.detailNo, ath.remark,
+		ath.tradeTime, ath.tradeFee, ath.tradeLocation, ath.exRate,
+		ath.forCurrtype, ath.enAbstract,
+		ath.openBankNo, ath.openBankBIC,
+		ath.openBankName, ath.subAcctSeq, ath.tHCurrency,
+		ath.recipBkName1,
+		ath.recipBkNo1, ath.tInfoNew, ath.refundMsg, ath.busTypNo,
+		ath.receiptInfo,
+		ath.telNo, ath.mDCARDNO, ath.trxAmt, ath.trxCurr,
+		ath.currType,ath.down_type,
+		ath.create_date
 	</sql>
 	<!-- 插入DataMoveTemplate到数据库 -->
 	<insert id="insert" parameterType="AcctTranHist"
@@ -141,7 +167,8 @@
 		subAcctSeq, tHCurrency,
 		recipBkName1, recipBkNo1, tInfoNew, refundMsg,
 		busTypNo, receiptInfo,
-		telNo, mDCARDNO, trxAmt, trxCurr, currType,
+		telNo, mDCARDNO, trxAmt, trxCurr,
+		currType,down_type,
 		create_date)
 		values(#{acctNo,jdbcType=VARCHAR},
 		#{drcrf,jdbcType=VARCHAR}, #{vouhNo,jdbcType=VARCHAR},
@@ -175,7 +202,7 @@
 		#{receiptInfo,jdbcType=VARCHAR}, #{telNo,jdbcType=VARCHAR},
 		#{mDCARDNO,jdbcType=VARCHAR}, #{trxAmt,jdbcType=VARCHAR},
 		#{trxCurr,jdbcType=VARCHAR}, #{currType,jdbcType=VARCHAR},
-		#{createDate,jdbcType=TIMESTAMP})
+		#{downType,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP})
 	</insert>
 	<!-- 批量插入到数据库 -->
 	<insert id="insertBatch">
@@ -203,7 +230,7 @@
 		subAcctSeq, tHCurrency,
 		recipBkName1, recipBkNo1, tInfoNew, refundMsg,
 		busTypNo, receiptInfo,
-		telNo, mDCARDNO, trxAmt, trxCurr, currType,
+		telNo, mDCARDNO, trxAmt, trxCurr, currType,down_type,
 		create_date)
 		values
 		<foreach collection="lists" index="index" item="item"
@@ -254,6 +281,7 @@
 			#{item.receiptInfo,jdbcType=VARCHAR}, #{item.telNo,jdbcType=VARCHAR},
 			#{item.mDCARDNO,jdbcType=VARCHAR}, #{item.trxAmt,jdbcType=VARCHAR},
 			#{item.trxCurr,jdbcType=VARCHAR}, #{item.currType,jdbcType=VARCHAR},
+			#{item.downType,jdbcType=VARCHAR},
 			#{item.createDate,jdbcType=TIMESTAMP})
 		</foreach>
 	</insert>
@@ -282,23 +310,25 @@
 	<select id="selectList" parameterType="java.util.HashMap"
 		resultMap="BaseResultMap">
 		select
-		<include refid="Base_Column_List" />
-		from acct_tran_hist
-		<where>
-			<if test="acctNo != null and acctNo !='' ">
-				and acct_No = #{acctNo}
-			</if>
-			<if test="beginDate != null and beginDate !='' ">
+		<include refid="Base_Column_List_a" />
+		from acct_tran_hist ath, acct_info a,sys_role_relation srr
+		where a.id =
+		srr.relation_id
+		and srr.type='UA' and srr.role_id=#{userId} and
+		a.acct_no=ath.acct_no
+		<if test="acctNo != null and acctNo !='' ">
+			and ath.acct_No = #{acctNo}
+		</if>
+		<if test="beginDate != null and beginDate !='' ">
 				<![CDATA[ 
-					and date >= #{beginDate}
+					and ath.date >= #{beginDate}
 				]]>
-			</if>
-			<if test="endDate != null and endDate !='' ">
+		</if>
+		<if test="endDate != null and endDate !='' ">
 				<![CDATA[ 
-					and date <= #{endDate}
+					and ath.date <= #{endDate}
 				]]>
-			</if>
-		</where>
+		</if>
 	</select>
 
 	<select id="selectByPrimaryKey" parameterType="long"
@@ -338,8 +368,10 @@
 	<select id="selectSumAmountByDate"
 		parameterType="java.util.HashMap" resultMap="BaseResultMap">
 		<if test='type == "1"'>
-			select date, sum(cast(debitAmount as decimal(20))) as debitAmount, sum(cast(creditAmount as decimal(20))) as creditAmount
-			from acct_tran_hist
+			select date, sum(cast(debitAmount as decimal(20))) as debitAmount,
+			sum(cast(creditAmount as decimal(20))) as creditAmount
+			from
+			acct_tran_hist
 			where date between #{beginDate} and #{endDate}
 			<if test="acctNo != null and acctNo !='' ">
 				and acct_no = #{acctNo}
@@ -347,13 +379,16 @@
 			group by date
 		</if>
 		<if test='type == "2"'>
-			select substr(date, 1, 6) as date, sum(cast(debitAmount as decimal(20))) as debitAmount, sum(cast(creditAmount as decimal(20))) as creditAmount
+			select substring(date, 1, 6) as date, sum(cast(debitAmount as
+			decimal(20))) as debitAmount, sum(cast(creditAmount as decimal(20)))
+			as creditAmount
 			from acct_tran_hist
-			where date between #{beginDate} and #{endDate}
+			where date between #{beginDate} and
+			#{endDate}
 			<if test="acctNo != null and acctNo !='' ">
 				and acct_no = #{acctNo}
 			</if>
-			group by substr(date, 1, 6)
+			group by substring(date, 1, 6)
 		</if>
 	</select>
 </mapper>

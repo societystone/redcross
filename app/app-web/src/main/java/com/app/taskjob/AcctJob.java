@@ -34,14 +34,14 @@ public class AcctJob {
 	private void downloadAcctBankData() {
 		log.info("自动任务开始...........");
 		Date nowDate = new Date();
-		String yesterday = DateUtils.formatDate(DateUtils.addDay(nowDate, -1));
+		String yesterday = DateUtils.formatYYYYMMDD(DateUtils.addDay(nowDate, -1));
 		List<Account> accounts = accountService.getAllValidAcct();
 		if (Emptys.isNotEmpty(accounts)) {
 			for (Account account : accounts) {
 				try {
 					log.info("执行账号：" + account.getAcctNo());
-					acctDataService.loadAcctBalanceHist(account.getAcctNo());
-					acctDataService.loadAcctTranHist(account.getAcctNo(), yesterday, DateUtils.formatDate(nowDate));
+					acctDataService.loadAcctBalanceHist(account.getAcctNo(),"1");
+					acctDataService.loadAcctTranHist(account.getAcctNo(), yesterday, DateUtils.formatYYYYMMDD(nowDate),"1");
 				} catch (Exception e) {
 					log.error("下载账户【{}】交易数据异常：", account.getAcctNo(), e);
 				}

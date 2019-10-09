@@ -45,11 +45,24 @@ layui.define(['common'], function(exports){
     where: searchData,
     cols: [[
     	{type:'id', title: '账户id', hide:true},
-    	{field: 'bankName', title: '银行名称', width: 120},
     	{field: 'acctNo', title: '账号', width: 200},
     	{field: 'acctName', title: '账户名称', width: 200},
     	{field: 'status', title: '账户状态', width: 100, templet: function(d){
     		return common.getRefDesc(common.Constants.Status, d.status);
+    	}},
+    	{field:'acctType',title:'账户类型',width:100, templet: function(d){
+    		return common.getRefDesc(common.Constants.AcctType, d.acctType);
+    	}},
+    	{field:'bankNo',title:'行号',width:100},
+    	{field:'bankName',title:'开户行名称',width:100},
+    	{field:'bankShortName',title:'开户行简称',width:100},
+    	{field:'bankAdds',title:'开户行地址',width:100},
+    	{field:'opAcctCompany',title:'开户单位',width:100},
+    	{field:'opAcctDate',title:'开户日期',width:100},
+    	{field:'capitalNature',title:'资金性质',width:100},
+    	{field:'acctUse',title:'账户用途',width:100},
+    	{field:'capitalChannel',title:'资金渠道',width:100, templet: function(d){
+    		return common.getRefDesc(common.Constants.Channel, d.capitalChannel);
     	}},
     	{field: 'createDate', title: '账户创建时间', width: 150},
     	{field: 'userName', title: '账户创建人', width: 150},
@@ -57,7 +70,7 @@ layui.define(['common'], function(exports){
     	{field: 'userNameLastModify', title: '账户最后修改人', width: 150},
     	{title: '操作', width: 200, align: 'center', fixed: 'right', templet: function(d){
     		var str = '<div>';
-			if(d.status!='9'){//未删除状态
+			if(d.status!='9' && common.isHasPermission(common.Constants.PermissionType1)){//未删除状态
 				if(d.status=='1'){
 					str += '<a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="stop"><i class="layui-icon layui-icon-pause"></i>停用</a>';
 				}else{
@@ -65,7 +78,6 @@ layui.define(['common'], function(exports){
 				}
 				str += '<a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>编辑</a>';
 	    		str += '<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i class="layui-icon layui-icon-delete"></i>删除</a>';
-				
 			}
 		
     		str += '</div>';
@@ -108,7 +120,7 @@ layui.define(['common'], function(exports){
 		          maxmin: false,
 		          area: ['500px', '300px'],
 		          success: function(layero, index){
-//		        	  layer.full(index);
+		        	  layer.full(index);
 		          },
 		          btn: ['确定', '取消'],
 		          yes: function(index, layero){
@@ -134,7 +146,7 @@ layui.define(['common'], function(exports){
 		    		              table.reload('table-data'); //数据刷新
 		    		              layer.close(index); //关闭弹层
 		              		  }else{
-		              			layer.msg("添加账户失败！");
+		              			layer.msg(res.msg);
 		              			  common.disabledButton(submit,false);
 		              		  }
 		                  }
@@ -152,7 +164,7 @@ layui.define(['common'], function(exports){
 		          maxmin: false,
 		          area: ['500px', '300px'],
 		          success: function(layero, index){
-//		        	  layer.full(index);
+		        	  layer.full(index);
 		        	  var iframeContent = layero.find('iframe').contents();
 		        	  iframeContent.find("input[name='id']").val(id);
 		        	  iframeContent.find("input[name='acctNo']").attr("disabled",true);
@@ -259,6 +271,10 @@ layui.define(['common'], function(exports){
   table.on('toolbar(table-data)', function(obj){
     switch(obj.event){
       case 'add':
+    	  if(!common.isHasPermission(common.Constants.PermissionType1)){
+    		  layer.msg("无操作权限！");
+    		  return;
+    	  }
     	  active.add();
     	  break;
     };

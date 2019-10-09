@@ -73,7 +73,7 @@
 		<include refid="Base_Column_List" />
 		from acct_query_hist
 		where 1=1
-		<if test="acctNo != null">
+		<if test="acctNo != null and acctNo!=''">
 			and acct_no = #{acctNo}
 		</if>
 		<if test="beginDate != null and beginDate != ''">

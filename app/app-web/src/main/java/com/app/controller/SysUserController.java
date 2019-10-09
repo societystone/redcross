@@ -114,4 +114,16 @@ public class SysUserController {
 		return new ResultBean<List<SysUser>>(sysUserService.selectSysUserList(sysUser));
 	}
 
+	/**
+	 * 编辑用户账户权限
+	 * 
+	 * @param id
+	 * @return
+	 */
+	@Log("设置用户账户权限")
+	@PostMapping("/sys/user/acct")
+	public ResultBean<Long> updatePermissionByRoleId(@RequestBody SysUser sysUser) {
+		return new ResultBean<Long>(sysUserService.updateAcctPermissionByUserId(sysUser));
+	}
+
 }

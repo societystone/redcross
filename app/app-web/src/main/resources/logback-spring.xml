@@ -2,7 +2,7 @@
 <!DOCTYPE xml>
 <configuration debug="false">
 	<!--定义日志文件的存储地址: 不要在logback的配置中使用相对路径 -->
-	<property name="LOG_HOME" value="E:\\logs\\app" />
+	<property name="LOG_HOME" value="D:\\apache-tomcat-7.0.68\\logs\\app" />
 	<!-- 控制台输出 -->
 	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
 		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">

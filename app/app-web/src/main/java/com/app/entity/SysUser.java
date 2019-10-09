@@ -30,5 +30,6 @@ public class SysUser extends BaseEntity implements Serializable {
 	private List<SysRole> roles;// 用户角色
 
 	private Set<String> permissions;// 用户权限
+	private List<Account> accts;// 账户权限
 
 }

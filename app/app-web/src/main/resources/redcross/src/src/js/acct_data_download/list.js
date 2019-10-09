@@ -20,6 +20,8 @@ layui.define(['common'], function(exports){
   ////////////end
 
   var searchFormObj = $(".layui-form");
+  common.initSelect(searchFormObj.find("select[name='acctNo']"),common.getSysRefDef(common.Constants.AcctNo,'1'),null);
+  form.render(); //更新
 
   var searchData = {
 		  "acctNo":searchFormObj.find("input[name='acctNo']").val(),
@@ -135,7 +137,8 @@ layui.define(['common'], function(exports){
 		              	  url: config.appBase+'/acct_hist/download', 
 		              	  data: JSON.stringify(field),
 		              	  dataType:'json',
-		              	  success: function(res){
+		              	  async:true
+		              	  /*success: function(res){
 		              		  if(res.code==0){
 		              			  layer.msg("下载数据成功！");
 		    		              table.reload('table-data'); //数据刷新
@@ -144,8 +147,11 @@ layui.define(['common'], function(exports){
 		              			  layer.msg(res.msg);
 		              			  common.disabledButton(submit,false);
 		              		  }
-		                  }
+		                  }*/
 		                });
+		              layer.msg("下载数据指令已发送，请稍后查询结果！");
+		              table.reload('table-data'); //数据刷新
+		              layer.close(index); //关闭弹层
 		            });  
 		            submit.trigger('click');
 		          }
@@ -157,6 +163,10 @@ layui.define(['common'], function(exports){
   table.on('toolbar(table-data)', function(obj){
     switch(obj.event){
       case 'download':
+    	  if(!common.isHasPermission(common.Constants.PermissionType1)){
+    		  layer.msg("无操作权限！");
+    		  return;
+    	  }
     	  active.download();
     	  break;
     };

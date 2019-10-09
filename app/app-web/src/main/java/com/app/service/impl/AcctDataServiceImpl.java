@@ -28,13 +28,16 @@ import com.app.entity.Account;
 import com.app.entity.AcctBalanceHist;
 import com.app.entity.AcctQueryHist;
 import com.app.entity.AcctTranHist;
+import com.app.entity.SysUser;
 import com.app.service.AccountService;
 import com.app.service.AcctDataService;
 import com.app.service.BankDataService;
 import com.app.util.DateUtils;
 import com.app.util.DigitUtils;
 import com.app.util.Emptys;
+import com.app.util.ExceptionUtil;
 import com.app.util.PageUtils;
+import com.app.util.UserUtils;
 import com.github.pagehelper.PageHelper;
 
 /**
@@ -63,18 +66,15 @@ public class AcctDataServiceImpl implements AcctDataService {
 	@Autowired
 	private AccountService accountService;
 
-	@Transactional(value = "transactionManager", rollbackFor = Exception.class)
+	@Transactional(value = "transactionManagerLocal", rollbackFor = { Exception.class })
 	@Override
-	public void loadAcctBalanceHist(String acctNo) {
+	public void loadAcctBalanceHist(String acctNo,String downType) {
 		// TODO Auto-generated method stub
 		log.info("查询账户余额开始：{}", acctNo);
-		try {
-			List<BankBeanQaccbalOutRd> rds = bankDataService.queryAcctBal(acctNo);
-			if (Emptys.isEmpty(rds)) {
-				log.error("查询余额异常：{}", acctNo);
-				return;
-			}
-			for (BankBeanQaccbalOutRd rd : rds) {
+		Map<String, Object> result = new HashMap<>();
+		if (bankDataService.downloadAcctBal(result, acctNo)) {
+			try {
+				BankBeanQaccbalOutRd rd = (BankBeanQaccbalOutRd) result.get("data");
 				String queryTime = rd.getQueryTime();// 查询时间
 				String queryDate = queryTime.substring(0, 8);// 查询日期
 				HashMap<String, Object> queryMap = new HashMap<String, Object>();
@@ -85,6 +85,7 @@ public class AcctDataServiceImpl implements AcctDataService {
 					AcctBalanceHist acctBalanceHist = abhs.get(0);
 					acctBalanceHist.setBalance(rd.getBalance());// 更新余额
 					acctBalanceHist.setQueryTime(queryTime);
+					acctBalanceHist.setDownType(downType);
 					acctBalanceHist.setModifyDate(new Date());
 					acctBalanceHistDAO.update(acctBalanceHist);
 				} else {
@@ -92,41 +93,45 @@ public class AcctDataServiceImpl implements AcctDataService {
 					BeanUtils.copyProperties(acctBalanceHist, rd);
 					acctBalanceHist.setAcctNo(acctNo);
 					acctBalanceHist.setDate(queryDate);
+					acctBalanceHist.setDownType(downType);
 					acctBalanceHist.setCreateDate(new Date());
 					acctBalanceHistDAO.insert(acctBalanceHist);
 				}
-				if ("01".equals(queryDate.substring(6, 8))) {// 月初第一天
-					String yesterDate = DateUtils
-							.formatYYYYMMDD(DateUtils.addDay(DateUtils.parseYYYYMMDD(queryDate), -1));
-					queryMap.put("date", yesterDate);
-					abhs = acctBalanceHistDAO.selectList(queryMap);
-					if (abhs != null && !abhs.isEmpty()) {
-						AcctBalanceHist acctBalanceHist = abhs.get(0);
-						acctBalanceHist.setBalance(rd.getAccBalance());// 更新余额
-						acctBalanceHist.setQueryTime(queryTime);
-						acctBalanceHist.setModifyDate(new Date());
-						acctBalanceHistDAO.update(acctBalanceHist);
-					} else {
-						AcctBalanceHist acctBalanceHist = new AcctBalanceHist();
-						BeanUtils.copyProperties(acctBalanceHist, rd);
-						acctBalanceHist.setAccBalance(null);
-						acctBalanceHist.setBalance(rd.getAccBalance());// 更新余额
-						acctBalanceHist.setAcctNo(acctNo);
-						acctBalanceHist.setDate(yesterDate);
-						acctBalanceHist.setCreateDate(new Date());
-						acctBalanceHistDAO.insert(acctBalanceHist);
-					}
+				String yesterDate = DateUtils.formatYYYYMMDD(DateUtils.addDay(DateUtils.parseYYYYMMDD(queryDate), -1));
+				queryMap.put("date", yesterDate);
+				abhs = acctBalanceHistDAO.selectList(queryMap);
+				if (abhs != null && !abhs.isEmpty()) {
+					AcctBalanceHist acctBalanceHist = abhs.get(0);
+					acctBalanceHist.setBalance(rd.getAccBalance());// 更新余额
+					acctBalanceHist.setQueryTime(queryTime);
+					acctBalanceHist.setDownType(downType);
+					acctBalanceHist.setModifyDate(new Date());
+					acctBalanceHistDAO.update(acctBalanceHist);
+				} else {
+					AcctBalanceHist acctBalanceHist = new AcctBalanceHist();
+					BeanUtils.copyProperties(acctBalanceHist, rd);
+					acctBalanceHist.setAccBalance(null);
+					acctBalanceHist.setBalance(rd.getAccBalance());// 更新余额
+					acctBalanceHist.setAcctNo(acctNo);
+					acctBalanceHist.setDate(yesterDate);
+					acctBalanceHist.setDownType(downType);
+					acctBalanceHist.setCreateDate(new Date());
+					acctBalanceHistDAO.insert(acctBalanceHist);
 				}
+			} catch (Exception e) {
+				log.error("查询账户余额异常：", e);
+				ExceptionUtil.throwCheckException("查询账户余额失败");
 			}
-		} catch (Exception e) {
-			log.error("查询账户【{}】余额异常：", acctNo, e);
+		} else {
+			String retMsg = (String) result.get("retMsg");
+			ExceptionUtil.throwCheckException("查询账户余额失败" + (Emptys.isNotEmpty(retMsg) ? "：" + retMsg : ""));
 		}
 		log.info("查询账户余额结束");
 	}
 
-	@Transactional(value = "transactionManager", rollbackFor = Exception.class)
+	@Transactional(value = "transactionManagerLocal", rollbackFor = { Exception.class })
 	@Override
-	public void loadAcctTranHist(String acctNo, String beginDate, String endDate) {
+	public void loadAcctTranHist(String acctNo, String beginDate, String endDate,String downType) {
 		// TODO Auto-generated method stub
 		log.info("查询账户交易流水开始：{}--{}--{}", acctNo, beginDate, endDate);
 		String systemTranDate = Config.systemTranDate;
@@ -142,97 +147,98 @@ public class AcctDataServiceImpl implements AcctDataService {
 		if (Emptys.isEmpty(timeRegionList)) {
 			return;
 		}
-		for (Map<String, String> timeRegion : timeRegionList) {
-			try {
+		try {
+			for (Map<String, String> timeRegion : timeRegionList) {
 				String beginQueryDate = timeRegion.get("beginDate");
 				String endQueryDate = timeRegion.get("endDate");
-				List<BankBeanQhisdOutRd> rds = bankDataService.downloadHistDayBankData(acctNo, beginQueryDate,
-						endQueryDate);
-				HashMap<String, Object> queryMap = new HashMap<String, Object>();
-				queryMap.put("acctNo", acctNo);
-				queryMap.put("beginDate", beginQueryDate);
-				queryMap.put("endDate", endQueryDate);
-				List<AcctQueryHist> acctQueryHistList = acctQueryHistDAO.selectList(queryMap);
-				if (Emptys.isNotEmpty(rds)) {
-					Set<String> tranNoExistsSet = new HashSet<>();// 本地已经存在的流水号集合
-					if (acctQueryHistList != null && !acctQueryHistList.isEmpty()) {// 该段日期区间已经下载过
-						List<AcctTranHist> aths = acctTranHistDAO.selectListByDate(queryMap);
-						if (aths != null && !aths.isEmpty()) {
-							for (AcctTranHist ath : aths) {
-								tranNoExistsSet.add(ath.getOnlySequence());// 缓存本机已经存在的流水号
+				Map<String, Object> result = new HashMap<>();
+				if (bankDataService.downloadHistDayBankData(result, acctNo, beginQueryDate, endQueryDate)) {
+					List<BankBeanQhisdOutRd> rds = (List<BankBeanQhisdOutRd>) result.get("data");
+					HashMap<String, Object> queryMap = new HashMap<String, Object>();
+					queryMap.put("acctNo", acctNo);
+					queryMap.put("beginDate", beginQueryDate);
+					queryMap.put("endDate", endQueryDate);
+					List<AcctQueryHist> acctQueryHistList = acctQueryHistDAO.selectList(queryMap);
+					if (Emptys.isNotEmpty(rds)) {
+						Set<String> tranNoExistsSet = new HashSet<>();// 本地已经存在的流水号集合
+						if (acctQueryHistList != null && !acctQueryHistList.isEmpty()) {// 该段日期区间已经下载过
+							List<AcctTranHist> aths = acctTranHistDAO.selectListByDate(queryMap);
+							if (aths != null && !aths.isEmpty()) {
+								for (AcctTranHist ath : aths) {
+									tranNoExistsSet.add(ath.getOnlySequence());// 缓存本机已经存在的流水号
+								}
+							}
+						}
+						List<AcctTranHist> acctTranHists = new ArrayList<AcctTranHist>();
+						int index = 0;
+						for (BankBeanQhisdOutRd rd : rds) {
+							String onlySequence = rd.getOnlySequence();// 银行交易流水号
+							if (tranNoExistsSet.contains(onlySequence)) {// 本地已经存在，不再保存，保证增量保存
+								continue;
+							}
+							AcctTranHist acctTranHist = new AcctTranHist();
+							acctTranHist.setAcctNo(acctNo);
+							BeanUtils.copyProperties(acctTranHist, rd);
+							acctTranHist.setDownType(downType);
+							acctTranHist.setCreateDate(new Date());
+							acctTranHists.add(acctTranHist);
+							index++;
+							if (index % Config.batchTotalCount == 0 || index == rds.size()) {
+								acctTranHistDAO.insertBatch(acctTranHists);// 批量保存交易流水
+								acctTranHists.clear();
 							}
 						}
 					}
-					List<AcctTranHist> acctTranHists = new ArrayList<AcctTranHist>();
+
+					// 保存更新查询记录
 					int index = 0;
-					for (BankBeanQhisdOutRd rd : rds) {
-						String onlySequence = rd.getOnlySequence();// 银行交易流水号
-						if (tranNoExistsSet.contains(onlySequence)) {// 本地已经存在，不再保存，保证增量保存
-							continue;
-						}
-						AcctTranHist acctTranHist = new AcctTranHist();
-						acctTranHist.setAcctNo(acctNo);
-						BeanUtils.copyProperties(acctTranHist, rd);
-//						acctTranHist.setDebitAmount(Emptys.isNotEmpty(rd.getDebitAmount()) ? Double.parseDouble(DigitUtils.divide(rd.getDebitAmount(), "100")) : null);
-//						acctTranHist.setCreditAmount(Emptys.isNotEmpty(rd.getCreditAmount()) ? Double.parseDouble(DigitUtils.divide(rd.getCreditAmount(), "100")) : null);
-//						acctTranHist.setBalance(Emptys.isNotEmpty(rd.getBalance()) ? Double.parseDouble(DigitUtils.divide(rd.getBalance(), "100")) : null);
-//						acctTranHist.setTradeFee(Emptys.isNotEmpty(rd.getTradeFee()) ? Double.parseDouble(DigitUtils.divide(rd.getTradeFee(), "100")) : null);
-//						acctTranHist.setTrxAmt(Emptys.isNotEmpty(rd.getTrxAmt()) ? Double.parseDouble(DigitUtils.divide(rd.getTrxAmt(), "100")) : null);
-						acctTranHist.setCreateDate(new Date());
-//						acctTranHistDAO.insert(acctTranHist);
-						acctTranHists.add(acctTranHist);
-						index++;
-						if (index % Config.batchTotalCount == 0 || index == rds.size()) {
-							acctTranHistDAO.insertBatch(acctTranHists);// 批量保存交易流水
-							acctTranHists.clear();
-						}
-					}
-				}
-
-				// 保存更新查询记录
-				int index = 0;
-				List<AcctQueryHist> acctQueryHists = new ArrayList<AcctQueryHist>();
-				do {
-					boolean flag = false;
-					for (AcctQueryHist acctQueryHist : acctQueryHistList) {
-						if (beginQueryDate.equals(acctQueryHist.getQueryDate())) {
-							if (!beginQueryDate.equals(systemTranDate)
-									&& "N".equals(acctQueryHist.getIsNotDownload())) {
-								acctQueryHist.setIsNotDownload("Y");
-								acctQueryHist.setModifyDate(new Date());
-								acctQueryHistDAO.update(acctQueryHist);
+					List<AcctQueryHist> acctQueryHists = new ArrayList<AcctQueryHist>();
+					do {
+						boolean flag = false;
+						for (AcctQueryHist acctQueryHist : acctQueryHistList) {
+							if (beginQueryDate.equals(acctQueryHist.getQueryDate())) {
+								if (!beginQueryDate.equals(systemTranDate)
+										&& "N".equals(acctQueryHist.getIsNotDownload())) {
+									acctQueryHist.setIsNotDownload("Y");
+									acctQueryHist.setModifyDate(new Date());
+									acctQueryHistDAO.update(acctQueryHist);
+								}
+								flag = true;
+								break;
 							}
-							flag = true;
-							break;
 						}
-					}
-					if (!flag) {
-						AcctQueryHist acctQueryHist = new AcctQueryHist();
-						acctQueryHist.setAcctNo(acctNo);
-						acctQueryHist.setQueryDate(beginQueryDate);
-						if (beginQueryDate.equals(systemTranDate)) {
-							acctQueryHist.setIsNotDownload("N");// 当天交易日期未完全下载
-						} else {
-							acctQueryHist.setIsNotDownload("Y");// 历史交易日期未完全下载
+						if (!flag) {
+							AcctQueryHist acctQueryHist = new AcctQueryHist();
+							acctQueryHist.setAcctNo(acctNo);
+							acctQueryHist.setQueryDate(beginQueryDate);
+							if (beginQueryDate.equals(systemTranDate)) {
+								acctQueryHist.setIsNotDownload("N");// 当天交易日期未完全下载
+							} else {
+								acctQueryHist.setIsNotDownload("Y");// 历史交易日期未完全下载
+							}
+							acctQueryHist.setCreateDate(new Date());
+							acctQueryHists.add(acctQueryHist);
+							index++;
+							if (index % Config.batchTotalCount == 0) {
+								acctQueryHistDAO.insertBatch(acctQueryHists);
+								acctQueryHists.clear();
+							}
 						}
-						acctQueryHist.setCreateDate(new Date());
-						acctQueryHists.add(acctQueryHist);
-						index++;
-						if (index % Config.batchTotalCount == 0) {
-							acctQueryHistDAO.insertBatch(acctQueryHists);
-							acctQueryHists.clear();
-						}
-					}
-					beginQueryDate = DateUtils
-							.formatYYYYMMDD(DateUtils.addDay(DateUtils.parseYYYYMMDD(beginQueryDate), 1));
-				} while (beginQueryDate.compareTo(endQueryDate) <= 0);
+						beginQueryDate = DateUtils
+								.formatYYYYMMDD(DateUtils.addDay(DateUtils.parseYYYYMMDD(beginQueryDate), 1));
+					} while (beginQueryDate.compareTo(endQueryDate) <= 0);
 
-				if (!acctQueryHists.isEmpty()) {
-					acctQueryHistDAO.insertBatch(acctQueryHists);
+					if (!acctQueryHists.isEmpty()) {
+						acctQueryHistDAO.insertBatch(acctQueryHists);
+					}
+				} else {
+					String retMsg = (String) result.get("retMsg");
+					ExceptionUtil.throwCheckException("查询账户交易流水失败" + (Emptys.isNotEmpty(retMsg) ? "：" + retMsg : ""));
 				}
-			} catch (Exception e) {
-				log.error("下载流水异常：", e);
 			}
+		} catch (Exception e) {
+			log.error("查询账户交易流水异常：", e);
+			ExceptionUtil.throwCheckException("查询账户交易流水失败");
 		}
 		log.info("查询账户交易流水结束");
 	}
@@ -242,7 +248,9 @@ public class AcctDataServiceImpl implements AcctDataService {
 		// TODO Auto-generated method stub
 		PageResultBean<AcctBalanceDTO> resultPages = null;
 		List<AcctBalanceDTO> result = new ArrayList<AcctBalanceDTO>();
-		PageResultBean<Account> pages = accountService.selectListByPage(null);// 查询账户
+		Account queryAccount = new Account();
+		queryAccount.setUserId(((SysUser)UserUtils.getUserIfLogin()).getId());
+		PageResultBean<Account> pages = accountService.selectListByPage(queryAccount);// 查询账户
 		List<Account> accounts = pages.getRows();
 		if (Emptys.isEmpty(accounts)) {
 			return resultPages;
@@ -288,7 +296,9 @@ public class AcctDataServiceImpl implements AcctDataService {
 	public List<AcctBalanceDTO> queryAcctBalanceList() {
 		// TODO Auto-generated method stub
 		List<AcctBalanceDTO> result = new ArrayList<AcctBalanceDTO>();
-		List<Account> accounts = accountService.selectList(null);// 查询账户
+		Account queryAccount = new Account();
+		queryAccount.setUserId(((SysUser)UserUtils.getUserIfLogin()).getId());
+		List<Account> accounts = accountService.selectList(queryAccount);// 查询账户
 		for (Account account : accounts) {
 			String acctNo = account.getAcctNo();
 			AcctBalanceDTO dto = new AcctBalanceDTO();
@@ -336,6 +346,7 @@ public class AcctDataServiceImpl implements AcctDataService {
 			queryMap.put("endDate", endDate + "31");
 		}
 		PageHelper.startPage(PageUtils.getPageNum(), PageUtils.getPageSize());
+		queryMap.put("userId", ((SysUser)UserUtils.getUserIfLogin()).getId());
 		PageResultBean<AcctBalanceHist> pages = new PageResultBean<AcctBalanceHist>(
 				acctBalanceHistDAO.selectBalanceHist(queryMap));// 查询余额
 		List<AcctBalanceHist> abhs = pages.getRows();
@@ -385,6 +396,7 @@ public class AcctDataServiceImpl implements AcctDataService {
 			queryMap.put("beginDate", beginDate + "00");
 			queryMap.put("endDate", endDate + "31");
 		}
+		queryMap.put("userId", ((SysUser)UserUtils.getUserIfLogin()).getId());
 		List<AcctBalanceHist> abhs = acctBalanceHistDAO.selectBalanceHist(queryMap);// 查询余额
 		// 分账户查询收支信息
 		Set<String> acctNoSet = new HashSet<String>();
@@ -413,6 +425,7 @@ public class AcctDataServiceImpl implements AcctDataService {
 	public PageResultBean<AcctTranHist> queryAcctTranHistListPage(HashMap<String, Object> queryMap) {
 		// TODO Auto-generated method stub
 		PageHelper.startPage(PageUtils.getPageNum(), PageUtils.getPageSize());
+		queryMap.put("userId", ((SysUser)UserUtils.getUserIfLogin()).getId());
 		PageResultBean<AcctTranHist> pages = new PageResultBean<AcctTranHist>(acctTranHistDAO.selectList(queryMap));
 		List<AcctTranHist> aths = pages.getRows();
 		if (Emptys.isNotEmpty(aths)) {
@@ -433,6 +446,7 @@ public class AcctDataServiceImpl implements AcctDataService {
 	@Override
 	public List<AcctTranHist> queryAcctTranHistList(HashMap<String, Object> queryMap) {
 		// TODO Auto-generated method stub
+		queryMap.put("userId", ((SysUser)UserUtils.getUserIfLogin()).getId());
 		List<AcctTranHist> aths = acctTranHistDAO.selectList(queryMap);
 		if (Emptys.isNotEmpty(aths)) {
 			for (AcctTranHist ath : aths) {

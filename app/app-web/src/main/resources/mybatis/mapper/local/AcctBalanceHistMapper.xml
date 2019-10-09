@@ -36,6 +36,8 @@
 		<result column="acctSeq" property="acctSeq" jdbcType="VARCHAR" />
 		<result column="mainAcctNo" property="mainAcctNo"
 			jdbcType="VARCHAR" />
+		<result column="down_type" property="downType"
+			jdbcType="VARCHAR" />
 		<result column="create_date" property="createDate"
 			jdbcType="TIMESTAMP" />
 		<result column="modify_date" property="modifyDate"
@@ -46,7 +48,7 @@
 		id, acct_no, date ,currType ,cashExf ,acctProperty
 		,accBalance ,balance ,usableBalance ,frzAmt ,queryTime ,iRetCode
 		,iRetMsg ,repReserved3 ,accName ,holdAmt ,lastIntrDate ,lastTranDate
-		,interDeposit ,interWithdrawal ,acctSeq , mainAcctNo,
+		,interDeposit ,interWithdrawal ,acctSeq , mainAcctNo,down_type,
 		create_date,
 		modify_date
 	</sql>
@@ -63,7 +65,7 @@
 		,iRetMsg ,repReserved3 ,accName ,holdAmt
 		,lastIntrDate ,lastTranDate
 		,interDeposit ,interWithdrawal ,acctSeq ,
-		mainAcctNo,
+		mainAcctNo,down_type,
 		create_date)
 		values(#{acctNo,jdbcType=VARCHAR},
 		#{date,jdbcType=VARCHAR},
@@ -86,6 +88,7 @@
 		#{interWithdrawal,jdbcType=VARCHAR},
 		#{acctSeq,jdbcType=VARCHAR},
 		#{mainAcctNo,jdbcType=VARCHAR},
+		#{downType,jdbcType=VARCHAR},
 		#{createDate,jdbcType=TIMESTAMP})
 	</insert>
 
@@ -100,6 +103,9 @@
 		</if>
 		<if test="queryTime != null and queryTime != ''">
 			, queryTime = #{queryTime}
+		</if>
+		<if test="downType != null and downType != ''">
+			, down_type = #{downType}
 		</if>
 		where id=#{id}
 	</update>
@@ -153,22 +159,26 @@
 	<select id="selectBalanceHist" parameterType="java.util.HashMap"
 		resultMap="BaseResultMap">
 		<if test='type == "1"'>
-			select acct_no,date,balance
-			from acct_balance_hist
-			where date between
-			#{beginDate} and #{endDate}
+			select abh.acct_no,abh.date,abh.balance
+			from acct_balance_hist abh, acct_info a,sys_role_relation srr
+			where a.id = srr.relation_id
+			and srr.type='UA' and srr.role_id=#{userId} and a.acct_no=abh.acct_no
+			and abh.date between #{beginDate} and #{endDate}
 			<if test="acctNo != null and acctNo !='' ">
-				and acct_no = #{acctNo}
+				and abh.acct_no = #{acctNo}
 			</if>
-			order by acct_no,date
+			order by abh.acct_no,abh.date
 		</if>
 		<if test='type == "2"'>
-			select t1.acct_no,substr(t1.date,1,6) as date,t1.balance
+			select t1.acct_no,substring(t1.date,1,6) as date,t1.balance
 			from (
-			select acct_no,date,balance from acct_balance_hist
-			where date between #{beginDate} and #{endDate}
+			select abh.acct_no,abh.date,abh.balance
+			from acct_balance_hist abh, acct_info a,sys_role_relation srr
+			where a.id = srr.relation_id
+			and srr.type='UA' and srr.role_id=#{userId} and a.acct_no=abh.acct_no
+			and abh.date between #{beginDate} and #{endDate}
 			<if test="acctNo != null and acctNo !='' ">
-				and acct_no = #{acctNo}
+				and abh.acct_no = #{acctNo}
 			</if>
 			) t1
 			left join (
@@ -179,7 +189,7 @@
 			</if>
 			) t2 
 				<![CDATA[ 
-				on t1.acct_no=t2.acct_no and substr(t1.date,1,6)=substr(t2.date,1,6) and t1.date<t2.date 
+				on t1.acct_no=t2.acct_no and substring(t1.date,1,6)=substring(t2.date,1,6) and t1.date<t2.date 
 			where t2.date is null
 				]]>
 		</if>

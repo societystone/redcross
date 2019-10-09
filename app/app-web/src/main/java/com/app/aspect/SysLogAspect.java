@@ -80,7 +80,7 @@ public class SysLogAspect {
 		}
 		// 获取用户名
 		SysUser sysUser = (SysUser) SecurityUtils.getSubject().getPrincipal();
-		sysLog.setUsername(sysUser.getUsername());
+		sysLog.setUsername(Emptys.isNotEmpty(sysUser.getRealName()) ? sysUser.getRealName() : sysUser.getUsername());
 		// 获取用户ip地址
 		RequestAttributes ra = RequestContextHolder.getRequestAttributes();
 		ServletRequestAttributes sra = (ServletRequestAttributes) ra;

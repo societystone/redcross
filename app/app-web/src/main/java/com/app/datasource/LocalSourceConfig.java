@@ -8,8 +8,8 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.jta.atomikos.AtomikosDataSourceBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -28,7 +28,8 @@ public class LocalSourceConfig {
 	@Bean(name = "localDataSource", destroyMethod = "close")
 	@ConfigurationProperties(prefix = "spring.datasource.local")
 	public DataSource dataSource() {
-		return new AtomikosDataSourceBean();
+//		return new AtomikosDataSourceBean();
+		return DataSourceBuilder.create().build();
 	}
 
 	@Primary

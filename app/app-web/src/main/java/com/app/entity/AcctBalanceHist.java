@@ -41,5 +41,6 @@ public class AcctBalanceHist extends BaseEntity implements Serializable {
 	private String interWithdrawal;// 通兑标志
 	private String acctSeq;// 账号序号
 	private String mainAcctNo;// 安心托管主账户
+	private String downType;//下载方式
 
 }

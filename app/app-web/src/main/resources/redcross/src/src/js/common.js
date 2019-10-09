@@ -14,7 +14,7 @@ layui.define([ 'laytpl', 'layer', 'element', 'util', 'form', 'table', 'config',
 		 * 常量
 		 */
 		Constants : {
-			Status : 'S',// 状态
+			Status : 'Status',// 状态
 			YNFlag : 'Y',// 是否标识
 			User : 'User',// 用户
 			Permission : 'P',// 权限
@@ -25,7 +25,11 @@ layui.define([ 'laytpl', 'layer', 'element', 'util', 'form', 'table', 'config',
 			RemoteTableColumn : 'RTC_',// 远程表字段
 			PermissionType1 : '1',// 权限类型1
 			drcrf : 'drcrf',// 借贷标志
-			Download : 'Download'// 下载类型
+			Download : 'Download',// 下载类型
+			AcctNo : 'AcctNo',// 账号
+			AcctType : 'AcctType',// 账户类型
+			Channel : 'Channel',// 资金渠道
+			DownType : 'DownType'// 下载方式
 		},
 		/**
 		 * 加载本地码值存储 refType 码值类型
@@ -85,6 +89,33 @@ layui.define([ 'laytpl', 'layer', 'element', 'util', 'form', 'table', 'config',
 								key : key,
 								value : sysRefData
 							});
+						}
+					}
+				});
+			} else if (refType == this.Constants.AcctNo) {
+				$.ajax({
+					method : "POST",
+					contentType : 'application/json',
+					url : config.appBase + '/user/acctNo/list',
+					async : false,
+					data : JSON.stringify({}),
+					dataType : "json",
+					success : function(res) {
+						if (res.code == 0 && res.data != null
+								&& res.data.length > 0) {
+							sysRefData = new Array();
+							for (var i = 0; i < res.data.length; i++) {
+								var r = res.data[i];
+								sysRefData.push({
+									value : r.acctNo,
+									title : r.acctNo+"-"+r.acctName,
+									status : '1'
+								});
+							}
+							/*layui.data(config.tableName, {
+								key : key,
+								value : sysRefData
+							});*/
 						}
 					}
 				});

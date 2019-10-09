@@ -20,6 +20,8 @@ layui.define(['common'], function(exports){
   ////////////end
 
   var searchFormObj = $(".layui-form");
+  common.initSelect(searchFormObj.find("select[name='acctNo']"),common.getSysRefDef(common.Constants.AcctNo,'1'),null);
+  form.render(); //更新
 
   var searchData = {
 		  "acctNo":searchFormObj.find("input[name='acctNo']").val(),
@@ -62,14 +64,71 @@ layui.define(['common'], function(exports){
     	{type:'id', title: '账户流水id', hide:true},
     	{field: 'acctNo', title: '账户号', width: 200},
     	{field: 'acctName', title: '账户名', width: 200},
-    	{field: 'vouhNo', title: '凭证号', width: 120},
-    	{field: 'date', title: '交易日期', width: 100},
-    	{field: 'tradeTime', title: '交易时间', width: 150},
-    	{field: 'drcrf', title: '借贷方向', width: 100, templet: function(d){
-    		return common.getRefDesc(common.Constants.drcrf, d.drcrf);
+    	{field:'drcrf',title:'drcrf',width:100},
+    	{field:'vouhNo',title:'vouhNo',width:100},
+    	{field:'debitAmount',title:'debitAmount',width:100},
+    	{field:'creditAmount',title:'creditAmount',width:100},
+    	{field:'balance',title:'balance',width:100},
+    	{field:'recipBkNo',title:'recipBkNo',width:100},
+    	{field:'recipBkName',title:'recipBkName',width:100},
+    	{field:'recipAccNo',title:'recipAccNo',width:100},
+    	{field:'recipName',title:'recipName',width:100},
+    	{field:'summary',title:'summary',width:100},
+    	{field:'useCN',title:'useCN',width:100},
+    	{field:'postScript',title:'postScript',width:100},
+    	{field:'busCode',title:'busCode',width:100},
+    	{field:'date',title:'date',width:100},
+    	{field:'time',title:'time',width:100},
+    	{field:'ref',title:'ref',width:100},
+    	{field:'oref',title:'oref',width:100},
+    	{field:'enSummary',title:'enSummary',width:100},
+    	{field:'busType',title:'busType',width:100},
+    	{field:'vouhType',title:'vouhType',width:100},
+    	{field:'addInfo',title:'addInfo',width:100},
+    	{field:'toutfo',title:'toutfo',width:100},
+    	{field:'onlySequence',title:'onlySequence',width:100},
+    	{field:'agentAcctName',title:'agentAcctName',width:100},
+    	{field:'agentAcctNo',title:'agentAcctNo',width:100},
+    	{field:'upDtranf',title:'upDtranf',width:100},
+    	{field:'valueDate',title:'valueDate',width:100},
+    	{field:'trxCode',title:'trxCode',width:100},
+    	{field:'ref1',title:'ref1',width:100},
+    	{field:'oref1',title:'oref1',width:100},
+    	{field:'cASHF',title:'cASHF',width:100},
+    	{field:'busiDate',title:'busiDate',width:100},
+    	{field:'busiTime',title:'busiTime',width:100},
+    	{field:'seqNo',title:'seqNo',width:100},
+    	{field:'mgNo',title:'mgNo',width:100},
+    	{field:'mgAccNo',title:'mgAccNo',width:100},
+    	{field:'mgCurrType',title:'mgCurrType',width:100},
+    	{field:'cashExf',title:'cashExf',width:100},
+    	{field:'detailNo',title:'detailNo',width:100},
+    	{field:'remark',title:'remark',width:100},
+    	{field:'tradeTime',title:'tradeTime',width:100},
+    	{field:'tradeFee',title:'tradeFee',width:100},
+    	{field:'tradeLocation',title:'tradeLocation',width:100},
+    	{field:'exRate',title:'exRate',width:100},
+    	{field:'forCurrtype',title:'forCurrtype',width:100},
+    	{field:'enAbstract',title:'enAbstract',width:100},
+    	{field:'openBankNo',title:'openBankNo',width:100},
+    	{field:'openBankBIC',title:'openBankBIC',width:100},
+    	{field:'openBankName',title:'openBankName',width:100},
+    	{field:'subAcctSeq',title:'subAcctSeq',width:100},
+    	{field:'tHCurrency',title:'tHCurrency',width:100},
+    	{field:'recipBkName1',title:'recipBkName1',width:100},
+    	{field:'recipBkNo1',title:'recipBkNo1',width:100},
+    	{field:'tInfoNew',title:'tInfoNew',width:100},
+    	{field:'refundMsg',title:'refundMsg',width:100},
+    	{field:'busTypNo',title:'busTypNo',width:100},
+    	{field:'receiptInfo',title:'receiptInfo',width:100},
+    	{field:'telNo',title:'telNo',width:100},
+    	{field:'mDCARDNO',title:'mDCARDNO',width:100},
+    	{field:'trxAmt',title:'trxAmt',width:100},
+    	{field:'trxCurr',title:'trxCurr',width:100},
+    	{field:'currType',title:'currType',width:100},
+    	{field:'downType',title:'下载方式',width:100, templet: function(d){
+    		return common.getRefDesc(common.Constants.DownType, d.downType);
     	}},
-    	{field: 'trxAmt', title: '交易金额', width: 120},
-    	{field: 'trxCurr', title: '交易币种', width: 150},
     	{title: '操作', width: 80, align: 'center', fixed: 'right', templet: function(d){
     		var str = '<div>';
 			str += '<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="datial"><i class="layui-icon layui-icon-edit"></i>详情</a>';
@@ -139,7 +198,7 @@ layui.define(['common'], function(exports){
 			  var url = config.appBase+'/export/acct_tran_hist?';
 			  if(searchData){
 				  for(var i in searchData){
-					  url += (i + "=" + searchData[i] + "&");
+					  url += (i + "=" + (searchData[i]?searchData[i]:"") + "&");
 				  }
 			  }
 			  window.location.href = url;

@@ -3,6 +3,7 @@ encoding//src/main/java=UTF-8
 encoding//src/main/java/icbc/api/NCExample.java=UTF-8
 encoding//src/main/resources=UTF-8
 encoding//src/main/resources/application-local.properties=UTF-8
+encoding//src/main/resources/application-prd.properties=UTF-8
 encoding//src/main/resources/application.properties=UTF-8
 encoding//src/main/resources/report.properties=UTF-8
 encoding//src/test/java=UTF-8

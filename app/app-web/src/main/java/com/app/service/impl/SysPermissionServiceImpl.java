@@ -47,7 +47,7 @@ public class SysPermissionServiceImpl implements SysPermissionService {
 		return sysRefDefDAO.selectPermissionByRoleId(roleId);
 	}
 
-	@Transactional(value = "transactionManager", rollbackFor = Exception.class)
+	@Transactional(value = "transactionManagerLocal", rollbackFor = { Exception.class })
 	@Override
 	public Long updatePermissionByRoleId(SysRole sysRole) {
 		// TODO Auto-generated method stub

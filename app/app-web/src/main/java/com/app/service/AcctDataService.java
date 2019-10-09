@@ -20,7 +20,7 @@ public interface AcctDataService {
 	 * 
 	 * @param acctNo
 	 */
-	void loadAcctBalanceHist(String acctNo);
+	void loadAcctBalanceHist(String acctNo,String downType);
 
 	/**
 	 * 导入指定账户在一段时间内的交易流水
@@ -29,7 +29,7 @@ public interface AcctDataService {
 	 * @param beginDate
 	 * @param endDate
 	 */
-	void loadAcctTranHist(String acctNo, String beginDate, String endDate);
+	void loadAcctTranHist(String acctNo, String beginDate, String endDate,String downType);
 
 	/**
 	 * 分页查询账户余额信息

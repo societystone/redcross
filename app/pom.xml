@@ -31,7 +31,7 @@
 		<skipTests>true</skipTests>
 		<pagehelper.version>1.2.3</pagehelper.version>
 		<druid.version>1.0.29</druid.version>
-		<fastjson.version>1.2.31</fastjson.version>
+		<fastjson.version>1.2.83</fastjson.version>
 		<lombok.version>1.16.20</lombok.version>
 		<servlet.version>3.1.0</servlet.version>
 		<slf4j.version>1.7.25</slf4j.version>
